@@ -12,7 +12,7 @@
         <Root level="debug">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger name="org.gkh.sample.git.simplewebapp.SimpleMain" level="info" additivity="false">
+        <Logger name="org.gkh.sample.git.simplewebapp.SimpleMain" level="info" additivity="true">
             <AppenderRef ref="Main" />
         </Logger>
     </Loggers>
