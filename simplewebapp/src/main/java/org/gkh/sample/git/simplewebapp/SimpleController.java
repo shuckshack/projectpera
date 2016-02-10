@@ -12,20 +12,14 @@ import org.apache.logging.log4j.Logger;
  *
  * @author hepgk
  */
-public class SimpleMain {
+public class SimpleController {
     
-    static final Logger logger = LogManager.getLogger(SimpleMain.class.getName());
-    
-    public static void main(String[] args) {
-        System.err.println("Starting...");
-        new SimpleMain().start();
-    }
+    static final Logger logger = LogManager.getLogger(SimpleController.class.getName());
     
     public void start() {
-        logger.entry();
         logger.debug("Debug!");
         logger.info("Info!");
         logger.error("Error!");
-        new SimpleController().start();
     }
+    
 }

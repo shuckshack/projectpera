@@ -2,18 +2,22 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5level %logger{5} - %m%n"/>
         </Console>
-        <File name="Main" fileName="main.log" bufferedIO="false" >
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
+        <RollingFile name="Main" fileName="logs/main.log" filePattern="logs/$${date:yyyy-MM}/main-%d{yyyy-MM-dd}-%i.log.zip" >
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5level %logger{5} - %m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="Console"/>
-        </Root>
-        <Logger name="org.gkh.sample.git.simplewebapp.SimpleMain" level="info" additivity="true">
             <AppenderRef ref="Main" />
-        </Logger>
+        </Root>
     </Loggers>
 </Configuration>
