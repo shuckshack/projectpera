@@ -1,0 +1,10 @@
+2016-02-11T20:21:11,224 [main] DEBUG gkh.sample.git.simplewebapp.SimpleMain - Starting main...
+2016-02-11T20:21:15,691 [main] DEBUG gkh.sample.git.simplewebapp.SimpleMain - Run...
+2016-02-11T20:21:15,691 [main] DEBUG git.simplewebapp.service.impl.SimpleService - testRun()
+2016-02-11T20:21:15,691 [main] DEBUG git.simplewebapp.service.impl.SimpleService - createTestData()
+2016-02-11T20:21:15,691 [main] DEBUG git.simplewebapp.service.impl.SimpleService - insertTestData()
+2016-02-11T20:21:15,725 [main] DEBUG git.simplewebapp.service.impl.SimpleService - readTestData()
+2016-02-11T20:21:15,742 [main] DEBUG git.simplewebapp.service.impl.SimpleService - Customer[id=56bc7cbb579ff6676849824e, firstName='Gene', lastName='Heptonstall']
+2016-02-11T20:21:15,742 [main] DEBUG git.simplewebapp.service.impl.SimpleService - Customer[id=56bc7cbb579ff6676849824f, firstName='Elemelie', lastName='Heptonstall']
+2016-02-11T20:21:15,743 [main] DEBUG git.simplewebapp.service.impl.SimpleService - deleteTestData()
+2016-02-11T20:21:15,752 [main] DEBUG git.simplewebapp.service.impl.SimpleService - readTestData()

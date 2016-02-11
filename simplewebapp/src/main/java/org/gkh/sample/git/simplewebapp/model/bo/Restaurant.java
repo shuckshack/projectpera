@@ -17,6 +17,4 @@ public class Restaurant {
     
     @Id
     private String id;
-    
-    private Address address;
 }
