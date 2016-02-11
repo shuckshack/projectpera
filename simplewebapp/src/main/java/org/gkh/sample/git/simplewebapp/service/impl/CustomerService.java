@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
  * @author hepgk
  */
 @Component
-public class SimpleService implements Service {
+public class CustomerService implements Service {
 
-    static final Logger logger = LogManager.getLogger(SimpleService.class.getName());
+    static final Logger logger = LogManager.getLogger(CustomerService.class.getName());
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -35,7 +35,7 @@ public class SimpleService implements Service {
         deleteTestData(testCustomers);
         readTestData();
     }
-    
+
     public Customer[] createTestData() {
         logger.debug("createTestData()");
         Customer[] testCustomers = new Customer[2];
@@ -43,14 +43,14 @@ public class SimpleService implements Service {
         testCustomers[1] = new Customer("Elemelie", "Heptonstall");
         return testCustomers;
     }
-    
+
     public void insertTestData(Customer[] testCustomers) {
         logger.debug("insertTestData()");
         for (Customer cust : testCustomers) {
             customerRepository.insert(cust);
         }
     }
-    
+
     public void readTestData() {
         logger.debug("readTestData()");
         List<Customer> customerList = customerRepository.findAll();
@@ -58,14 +58,13 @@ public class SimpleService implements Service {
             logger.debug(customer);
         });
     }
-    
+
     public void deleteTestData(Customer[] testCustomers) {
         logger.debug("deleteTestData()");
         for (Customer cust : testCustomers) {
             customerRepository.delete(cust);
         }
     }
-        
 
     public CustomerRepository getCustomerRepository() {
         return customerRepository;

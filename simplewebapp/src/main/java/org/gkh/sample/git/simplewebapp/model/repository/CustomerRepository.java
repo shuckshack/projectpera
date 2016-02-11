@@ -14,7 +14,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author hepgk
  */
 public interface CustomerRepository extends MongoRepository<Customer, String> {
-    
+
     Customer findByFirstName(String firstName);
+
     List<Customer> findByLastName(String lastName);
 }
