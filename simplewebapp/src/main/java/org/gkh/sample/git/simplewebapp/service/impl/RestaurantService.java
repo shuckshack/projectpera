@@ -70,7 +70,7 @@ public class RestaurantService implements Service {
     public void readTestData(List<Restaurant> testRestaurants) {
         logger.debug("readTestData()");
         testRestaurants.stream().forEach((o) -> {
-            logger.debug(restaurantRepository.findByName(o.getName()));
+            logger.debug("Check if " + o.getName() + " exists: " + restaurantRepository.findByName(o.getName()));
         });
     }
 

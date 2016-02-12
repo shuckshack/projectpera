@@ -5,7 +5,6 @@
  */
 package org.gkh.sample.git.simplewebapp;
 
-import org.gkh.sample.git.simplewebapp.service.impl.CustomerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.gkh.sample.git.simplewebapp.service.Service;
