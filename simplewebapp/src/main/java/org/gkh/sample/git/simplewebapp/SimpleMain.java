@@ -7,7 +7,7 @@ package org.gkh.sample.git.simplewebapp;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gkh.sample.git.simplewebapp.service.Service;
+import org.gkh.sample.git.simplewebapp.service.SimpleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,10 +23,10 @@ public class SimpleMain implements CommandLineRunner {
     static final Logger logger = LogManager.getLogger(SimpleMain.class.getName());
 
     @Autowired
-    private Service customerService;
+    private SimpleService customerService;
     
     @Autowired
-    private Service restaurantService;
+    private SimpleService restaurantService;
     
     public static void main(String[] args) {
         logger.debug("Starting main...");
@@ -43,19 +43,19 @@ public class SimpleMain implements CommandLineRunner {
         
     }
 
-    public Service getCustomerService() {
+    public SimpleService getCustomerService() {
         return customerService;
     }
 
-    public void setCustomerService(Service customerService) {
+    public void setCustomerService(SimpleService customerService) {
         this.customerService = customerService;
     }
 
-    public Service getRestaurantService() {
+    public SimpleService getRestaurantService() {
         return restaurantService;
     }
 
-    public void setRestaurantService(Service restaurantService) {
+    public void setRestaurantService(SimpleService restaurantService) {
         this.restaurantService = restaurantService;
     }
     

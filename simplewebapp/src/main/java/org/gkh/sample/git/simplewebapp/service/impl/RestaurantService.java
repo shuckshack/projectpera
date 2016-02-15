@@ -9,20 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gkh.sample.git.simplewebapp.model.bo.Address;
 import org.gkh.sample.git.simplewebapp.model.bo.Restaurant;
 import org.gkh.sample.git.simplewebapp.model.factory.Factory;
+import org.gkh.sample.git.simplewebapp.model.factory.impl.RestaurantWithAddressAndGradeFactory;
+import org.gkh.sample.git.simplewebapp.model.factory.impl.RestaurantWithAddressFactory;
 import org.gkh.sample.git.simplewebapp.model.repository.RestaurantRepository;
-import org.gkh.sample.git.simplewebapp.service.Service;
+import org.gkh.sample.git.simplewebapp.service.SimpleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author hepgk
  */
-@Component
-public class RestaurantService implements Service {
+@Service
+public class RestaurantService implements SimpleService {
 
     static final Logger logger = LogManager.getLogger(RestaurantService.class.getName());
 
@@ -30,7 +32,12 @@ public class RestaurantService implements Service {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
+    @Qualifier(RestaurantWithAddressFactory.NAME)
     private Factory<Restaurant> restaurantFactory;
+    
+    @Autowired
+    @Qualifier(RestaurantWithAddressAndGradeFactory.NAME)
+    private Factory<Restaurant> restaurantWithGradeFactory;
 
     @Override
     public void testRun() {
@@ -50,7 +57,7 @@ public class RestaurantService implements Service {
         restaurant.setName("Dell's");
         restaurant.setCuisine("Filipino");
         testRestaurant.add(restaurant);
-        restaurant = restaurantFactory.createObject();
+        restaurant = restaurantWithGradeFactory.createObject();
         restaurant.setName("Kafe Krema");
         restaurant.setCuisine("Cafe");
         testRestaurant.add(restaurant);
@@ -70,7 +77,12 @@ public class RestaurantService implements Service {
     public void readTestData(List<Restaurant> testRestaurants) {
         logger.debug("readTestData()");
         testRestaurants.stream().forEach((o) -> {
-            logger.debug("Check if " + o.getName() + " exists: " + restaurantRepository.findByName(o.getName()));
+            Restaurant queriedRestaurant = restaurantRepository.findByName(o.getName());
+            if (queriedRestaurant != null) {
+                logger.debug(queriedRestaurant);
+            } else {
+                logger.debug("Restaurant with name: " + o.getName() + " not found.");
+            }
         });
     }
 
@@ -90,4 +102,13 @@ public class RestaurantService implements Service {
         this.restaurantFactory = restaurantFactory;
     }
 
+    public Factory<Restaurant> getRestaurantWithGradeFactory() {
+        return restaurantWithGradeFactory;
+    }
+
+    public void setRestaurantWithGradeFactory(Factory<Restaurant> restaurantWithGradeFactory) {
+        this.restaurantWithGradeFactory = restaurantWithGradeFactory;
+    }
+
+    
 }

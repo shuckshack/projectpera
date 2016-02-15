@@ -16,12 +16,14 @@ import org.springframework.stereotype.Component;
  *  Factory to create restaurant objects with default address.
  * @author hepgk
  */
-@Component
+@Component(RestaurantWithAddressFactory.NAME)
 public class RestaurantWithAddressFactory implements Factory<Restaurant> {
 
     static final Logger logger = LogManager.getLogger(RestaurantWithAddressFactory.class.getName());
     
     private static int defaultAddCtr = 10;
+    
+    public static final String NAME = "RestaurantWithAddressFactory";
     
     private Address createDefaultAddress() {
         Address address = new Address();

@@ -8,6 +8,7 @@ package org.gkh.sample.git.simplewebapp.model.factory;
 /**
  *
  * @author hepgk
+ * @param <T>
  */
 public interface Factory<T extends Object> {
     

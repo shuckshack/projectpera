@@ -9,7 +9,7 @@ package org.gkh.sample.git.simplewebapp.service;
  *
  * @author hepgk
  */
-public interface Service {
+public interface SimpleService {
     
     public void testRun();
 }

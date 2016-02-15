@@ -27,7 +27,16 @@ public class Restaurant {
     
     @Override
     public String toString() {
-        return String.format("Restaurant[id=%s, name=%s, cuisine=%s, street=%s]", id, name, cuisine, address.getStreet());
+        String stringVal;
+        if (grades != null && grades.length > 0) {
+            Grade grade = grades[grades.length - 1];
+            String gradeValue = grade.getGrade().toString();
+            double score = grade.getScore();
+            stringVal = String.format("Restaurant[id=%s, name=%s, cuisine=%s, street=%s, latestGrade=%s, latestScore=%s]", id, name, cuisine, address.getStreet(), gradeValue, score);
+        } else {
+            stringVal = String.format("Restaurant[id=%s, name=%s, cuisine=%s, street=%s]", id, name, cuisine, address.getStreet());
+        }
+        return stringVal;
     }
 
     public String getId() {

@@ -13,8 +13,8 @@ import java.util.Date;
  */
 public class Grade {
     private Date date;
-    private String grade;
-    private String score;
+    private GradeEnum grade;
+    private double score;
 
     public Date getDate() {
         return date;
@@ -24,19 +24,19 @@ public class Grade {
         this.date = date;
     }
 
-    public String getGrade() {
+    public GradeEnum getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(GradeEnum grade) {
         this.grade = grade;
     }
 
-    public String getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(double score) {
         this.score = score;
     }
     
