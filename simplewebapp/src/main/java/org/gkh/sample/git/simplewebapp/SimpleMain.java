@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SimpleMain implements CommandLineRunner {
 
-    static final Logger logger = LogManager.getLogger(SimpleMain.class.getName());
+    static final Logger LOG = LogManager.getLogger(SimpleMain.class.getName());
 
     @Autowired
     private SimpleService customerService;
@@ -29,15 +29,15 @@ public class SimpleMain implements CommandLineRunner {
     private SimpleService restaurantService;
     
     public static void main(String[] args) {
-        logger.debug("Starting main...");
+        LOG.debug("Starting main...");
         SpringApplication.run(SimpleMain.class, args);
-        logger.debug("Exiting main...");
+        LOG.debug("Exiting main...");
         System.exit(0);
     }
 
     @Override
     public void run(String... args) {
-        logger.debug("Run...");
+        LOG.debug("Run...");
         customerService.testRun();
         restaurantService.testRun();
         

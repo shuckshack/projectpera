@@ -21,14 +21,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerService implements SimpleService {
 
-    static final Logger logger = LogManager.getLogger(CustomerService.class.getName());
+    static final Logger LOG = LogManager.getLogger(CustomerService.class.getName());
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Override
     public void testRun() {
-        logger.debug("testRun()");
+        LOG.debug("testRun()");
         Customer[] testCustomers = createTestData();
         insertTestData(testCustomers);
         readTestData();
@@ -37,7 +37,7 @@ public class CustomerService implements SimpleService {
     }
 
     public Customer[] createTestData() {
-        logger.debug("createTestData()");
+        LOG.debug("createTestData()");
         Customer[] testCustomers = new Customer[2];
         testCustomers[0] = new Customer("Gene", "Heptonstall");
         testCustomers[1] = new Customer("Elemelie", "Heptonstall");
@@ -45,22 +45,22 @@ public class CustomerService implements SimpleService {
     }
 
     public void insertTestData(Customer[] testCustomers) {
-        logger.debug("insertTestData()");
+        LOG.debug("insertTestData()");
         for (Customer cust : testCustomers) {
             customerRepository.insert(cust);
         }
     }
 
     public void readTestData() {
-        logger.debug("readTestData()");
+        LOG.debug("readTestData()");
         List<Customer> customerList = customerRepository.findAll();
         customerList.stream().forEach((customer) -> {
-            logger.debug(customer);
+            LOG.debug(customer);
         });
     }
 
     public void deleteTestData(Customer[] testCustomers) {
-        logger.debug("deleteTestData()");
+        LOG.debug("deleteTestData()");
         for (Customer cust : testCustomers) {
             customerRepository.delete(cust);
         }

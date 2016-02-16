@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component(RestaurantWithAddressFactory.NAME)
 public class RestaurantWithAddressFactory implements Factory<Restaurant> {
 
-    static final Logger logger = LogManager.getLogger(RestaurantWithAddressFactory.class.getName());
+    static final Logger LOG = LogManager.getLogger(RestaurantWithAddressFactory.class.getName());
     
     private static int defaultAddCtr = 10;
     
@@ -37,7 +37,7 @@ public class RestaurantWithAddressFactory implements Factory<Restaurant> {
     @Override
     public Restaurant createObject() {
         Address defaultAddress = createDefaultAddress();
-        logger.debug("creating blank Restaurant object with default address:" + defaultAddress);
+        LOG.debug("creating blank Restaurant object with default address:" + defaultAddress);
         Restaurant restaurant = new Restaurant();
         restaurant.setAddress(defaultAddress);
         return restaurant;

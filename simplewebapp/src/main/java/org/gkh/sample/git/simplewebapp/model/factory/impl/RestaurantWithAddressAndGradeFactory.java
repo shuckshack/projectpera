@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component(RestaurantWithAddressAndGradeFactory.NAME)
 public class RestaurantWithAddressAndGradeFactory implements Factory<Restaurant> {
     
-    static final Logger logger = LogManager.getLogger(RestaurantWithAddressAndGradeFactory.class.getName());
+    static final Logger LOG = LogManager.getLogger(RestaurantWithAddressAndGradeFactory.class.getName());
     
     
     public static final String NAME = "RestaurantWithAddressAndGradeFactory";
@@ -32,7 +32,7 @@ public class RestaurantWithAddressAndGradeFactory implements Factory<Restaurant>
     public Restaurant createObject() {
         Restaurant restaurant = restaurantFactory.createObject();
         Grade grade = createDefaultGrade();
-        logger.debug("creating blank Restaurant object with default grade:" + grade);
+        LOG.debug("creating blank Restaurant object with default grade:" + grade);
         restaurant.setGrades(new Grade[] {grade});
         return restaurant;
     }

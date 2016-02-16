@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RestaurantService implements SimpleService {
 
-    static final Logger logger = LogManager.getLogger(RestaurantService.class.getName());
+    static final Logger LOG = LogManager.getLogger(RestaurantService.class.getName());
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -41,7 +41,7 @@ public class RestaurantService implements SimpleService {
 
     @Override
     public void testRun() {
-        logger.debug("testRun()");
+        LOG.debug("testRun()");
 //        restaurantRepository.deleteAll();
         List<Restaurant> testRestaurants = createTestData();
         insertTestData(testRestaurants);
@@ -51,7 +51,7 @@ public class RestaurantService implements SimpleService {
     }
 
     public List<Restaurant> createTestData() {
-        logger.debug("createTestData()");
+        LOG.debug("createTestData()");
         List<Restaurant> testRestaurant = new ArrayList<>();
         Restaurant restaurant = restaurantFactory.createObject();
         restaurant.setName("Dell's");
@@ -65,23 +65,23 @@ public class RestaurantService implements SimpleService {
     }
 
     public void insertTestData(List<Restaurant> testRestaurants) {
-        logger.debug("insertTestData()");
+        LOG.debug("insertTestData()");
         testRestaurants.stream().forEach(restaurantRepository::insert);
     }
 
     public void deleteTestData(List<Restaurant> testRestaurants) {
-        logger.debug("deleteTestData()");
+        LOG.debug("deleteTestData()");
         testRestaurants.stream().forEach(restaurantRepository::delete);
     }
 
     public void readTestData(List<Restaurant> testRestaurants) {
-        logger.debug("readTestData()");
+        LOG.debug("readTestData()");
         testRestaurants.stream().forEach((o) -> {
             Restaurant queriedRestaurant = restaurantRepository.findByName(o.getName());
             if (queriedRestaurant != null) {
-                logger.debug(queriedRestaurant);
+                LOG.debug(queriedRestaurant);
             } else {
-                logger.debug("Restaurant with name: " + o.getName() + " not found.");
+                LOG.debug("Restaurant with name: " + o.getName() + " not found.");
             }
         });
     }
