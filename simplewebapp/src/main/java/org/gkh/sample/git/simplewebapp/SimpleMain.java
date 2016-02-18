@@ -32,7 +32,7 @@ public class SimpleMain implements CommandLineRunner {
         LOG.debug("Starting main...");
         SpringApplication.run(SimpleMain.class, args);
         LOG.debug("Exiting main...");
-        System.exit(0);
+//        System.exit(0);
     }
 
     @Override

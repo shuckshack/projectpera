@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ISO8601} [%t] %-5level %logger{5} - %m%n"/>
         </Console>
-        <RollingFile name="Main" fileName="logs/main.log" filePattern="logs/$${date:yyyy-MM}/main-%d{yyyy-MM-dd}-%i.log.zip" >
+        <RollingFile name="Main" fileName="C:/bitbucket/myrepo/simplewebapp/logs/main.log" filePattern="logs/$${date:yyyy-MM}/main-%d{yyyy-MM-dd}-%i.log.zip" >
             <PatternLayout pattern="%d{ISO8601} [%t] %-5level %logger{5} - %m%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy />
