@@ -1,3 +1,4 @@
 /simplewebapp/target/
 /simplewebapp/*.log
 /simplewebapp/logs/main.log
+/mongodblearning/MongoDBLearning/target/

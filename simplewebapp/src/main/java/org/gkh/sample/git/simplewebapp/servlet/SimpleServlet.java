@@ -6,6 +6,7 @@
 package org.gkh.sample.git.simplewebapp.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +30,8 @@ public class SimpleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
         LOG.debug("Hello world!");
+        PrintWriter out = resp.getWriter();
+        out.println("<html><body><h1>HELLO WORLD</h1></body></html>");
     }
     
     
