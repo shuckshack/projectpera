@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Spark;
 
 /**
