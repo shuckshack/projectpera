@@ -2,3 +2,4 @@
 /simplewebapp/*.log
 /simplewebapp/logs/main.log
 /mongodblearning/MongoDBLearning/target/
+/mongodblearning/MongoDBLearning/nb-configuration.xml
