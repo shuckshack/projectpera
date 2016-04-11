@@ -8,6 +8,7 @@ package org.gkh.sample.mongodblearning;
 import com.mongodb.MongoClient;
 import com.mongodb.ReadPreference;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -20,6 +21,11 @@ import org.bson.json.JsonMode;
 import org.bson.json.JsonWriter;
 import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Indexes.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -29,11 +35,51 @@ public class HelloWorldMongoDB {
     public static void main(String[] args) {
         MongoClient client = new MongoClient("localhost", 27017);
         
-        MongoDatabase db = client.getDatabase("test").withReadPreference(ReadPreference.secondary());
+        MongoDatabase db = client.getDatabase("school").withReadPreference(ReadPreference.secondary());
         
-        MongoCollection<BsonDocument> coll = db.getCollection("test", BsonDocument.class);
+        MongoCollection<Document> coll = db.getCollection("students", Document.class);
         
-        new HelloWorldMongoDB().testDocument();
+        Bson filter = eq("scores.type","exam");
+        
+        List<Document> all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
+        all.forEach((doc) -> printJson(doc));
+//        MongoCursor<Document> cursor = coll.find(filter)
+//                                .sort(ascending("student_id", "scores.score")).iterator();
+        
+//        cursor.forEach((doc) -> printJson(doc));
+        
+        try (MongoCursor<Document> cursor = coll.find(filter)
+                                .sort(ascending("student_id")).iterator();) {
+            while (cursor.hasNext()) {
+                Document student = cursor.next();
+                List<Document> scores = student.get("scores", ArrayList.class);
+                List<Document> newScores = new ArrayList<Document>();
+                Document scoreTemp = null;
+                boolean isTempGreater = false;
+                for (Document score : scores) {
+                    if (score.get("type", String.class).equals("homework")) {
+                        if (scoreTemp == null) {
+                            scoreTemp = score;
+                        } else {
+                            isTempGreater = scoreTemp.get("score", Double.class).compareTo(score.get("score", Double.class)) >= 1;
+                            newScores.add((isTempGreater) ? scoreTemp : score);
+                        }
+                    } else {
+                        newScores.add(score);
+                    }
+                }
+                coll.updateOne(eq("_id",student.get("_id")), new Document("$set", new Document("scores", newScores)));
+                scoreTemp = null;
+            }
+        }
+        
+        all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
+        all.forEach((doc) -> printJson(doc));
+//        new HelloWorldMongoDB().testDocument();
+    }
+    
+    private static void updateScores(Document doc) {
+        
     }
     
     private static void printJson(Document doc) {
