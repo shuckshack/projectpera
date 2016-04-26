@@ -20,20 +20,16 @@ import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.Sorts;
 import static com.mongodb.client.model.Updates.inc;
-import java.util.ArrayList;
 import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import org.bson.BsonBoolean;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.bson.BsonString;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Indexes.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,22 +44,21 @@ public class HelloWorldMongoDB {
 
     public static void main(String[] args) {
         MongoClient client = new MongoClient("localhost", 27017);
-        
+
         MongoDatabase db = client.getDatabase("school").withReadPreference(ReadPreference.secondary());
-        
+
         MongoCollection<Document> coll = db.getCollection("students", Document.class);
-        
-        Bson filter = eq("scores.type","exam");
-        
+
+        Bson filter = eq("scores.type", "exam");
+
         List<Document> all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
         all.forEach((doc) -> printJson(doc));
 //        MongoCursor<Document> cursor = coll.find(filter)
 //                                .sort(ascending("student_id", "scores.score")).iterator();
-        
+
 //        cursor.forEach((doc) -> printJson(doc));
-        
         try (MongoCursor<Document> cursor = coll.find(filter)
-                                .sort(ascending("student_id")).iterator();) {
+                .sort(ascending("student_id")).iterator();) {
             while (cursor.hasNext()) {
                 Document student = cursor.next();
                 List<Document> scores = student.get("scores", ArrayList.class);
@@ -82,17 +77,17 @@ public class HelloWorldMongoDB {
                         newScores.add(score);
                     }
                 }
-                coll.updateOne(eq("_id",student.get("_id")), new Document("$set", new Document("scores", newScores)));
+                coll.updateOne(eq("_id", student.get("_id")), new Document("$set", new Document("scores", newScores)));
                 scoreTemp = null;
             }
         }
-        
+
         all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
         all.forEach((doc) -> printJson(doc));
 //        new HelloWorldMongoDB().testDocument();
 
-        MongoDatabase db = client.getDatabase("course").withReadPreference(ReadPreference.secondary());
-    List<BsonDocument> list;
+//        MongoDatabase db = client.getDatabase("course").withReadPreference(ReadPreference.secondary());
+        List<BsonDocument> list;
 //        insertTest(db);
         findTest(db);
         list = findWithFilterTest(db);
@@ -117,14 +112,13 @@ public class HelloWorldMongoDB {
         });
 //        new HelloWorldMongoDB().testDocument();
     }
-    
-    private static void updateScores(Document doc) {
-        
-    }
-    
-    private static void printJson(Document doc) {
-        JsonWriter jsonWriter = new JsonWriter(new StringWriter(), new JsonWriterSettings(JsonMode.SHELL, true));
 
+    private static void updateScores(Document doc) {
+
+    }
+
+//    private static void printJson(Document doc) {
+//        JsonWriter jsonWriter = new JsonWriter(new StringWriter(), new JsonWriterSettings(JsonMode.SHELL, true));
     private static void insertTest(MongoDatabase db) {
         MongoCollection<BsonDocument> coll = db.getCollection("insertTest", BsonDocument.class);
 
@@ -266,14 +260,12 @@ public class HelloWorldMongoDB {
         for (int i = 0; i < 8; i++) {
             coll.insertOne(new BsonDocument("_id", new BsonInt32(i)));
         }
-        
+
         coll.deleteOne(eq("_id", 4));
 
         return coll.find()
                 .into(new ArrayList<BsonDocument>());
     }
-
-
 
     private void testDocument() {
         Document document = new Document()
