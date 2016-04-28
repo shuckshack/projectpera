@@ -110,6 +110,8 @@ public class HelloWorldMongoDB {
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
+        
+        
 //        new HelloWorldMongoDB().testDocument();
     }
 
@@ -285,4 +287,5 @@ public class HelloWorldMongoDB {
         String str = document.getString("str");
         int i = document.getInteger("int");
     }
+    
 }
