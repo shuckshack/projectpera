@@ -16,6 +16,7 @@ import java.util.List;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.bson.BsonString;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 /**
@@ -30,6 +31,23 @@ public class HelloWorldMongoDBAggregate {
     private static final MongoCollection<BsonDocument> collection = db.getCollection("zipcodes", BsonDocument.class);
 
     public static void main(String[] args) {
+        
+        HelloWorldMongoDBAggregate demo = new HelloWorldMongoDBAggregate();
+
+        AggregateIterable<BsonDocument> cursor = collection.aggregate(demo.demoAggregate1());
+        
+        cursor.iterator().forEachRemaining((BsonDocument doc) -> {
+            JsonDocPrinter.printJson(doc);
+        });
+        
+        cursor = collection.aggregate(demo.demoAggregate2());
+        
+        cursor.iterator().forEachRemaining((BsonDocument doc) -> {
+            JsonDocPrinter.printJson(doc);
+        });
+    }
+    
+    private List<Bson> demoAggregate1() {
         BsonDocument match = new BsonDocument(
                 "$match",
                 new BsonDocument(
@@ -55,17 +73,20 @@ public class HelloWorldMongoDBAggregate {
                         )
                 );
         
-        List<BsonDocument> pipeLine = asList(
+        List<Bson> pipeLine = asList(
                 groupBy,
                 match
         );
-        
-        List<Bson> builderPipeLine = Aggregates.group("state", Accumulators.sum("totalPop", "$pop"));
-        
-        AggregateIterable<BsonDocument> cursor = collection.aggregate(pipeLine);
-        
-        cursor.iterator().forEachRemaining((BsonDocument doc) -> {
-            JsonDocPrinter.printJson(doc);
-        });
+        return pipeLine;
     }
+    
+    private List<Bson> demoAggregate2() {
+        List<Bson> builderPipeLine = asList(Aggregates.group("state", Accumulators.sum("totalPop", "$pop")));
+        
+        return builderPipeLine;
+    }
+    
+//    private List<Bson> demoAggregate3() {
+//        List<Bson> parserPipeLine = asList(Document.parse(json));
+//    }
 }
