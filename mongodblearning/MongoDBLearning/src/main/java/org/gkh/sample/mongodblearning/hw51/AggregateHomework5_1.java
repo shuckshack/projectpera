@@ -50,9 +50,17 @@ public class AggregateHomework5_1 {
                 unwind("$comments"),
                 group(
                         "$comments.author",
-                        sum("comments", 1)
+                        sum(
+                                "comments", 1
+                        )
                 ),
-                sort(orderBy(asList(descending("comments"))))
+                sort(
+                        orderBy(
+                                asList(
+                                        descending("comments")
+                                )
+                        )
+                )
         );
         
         return pipeline;
