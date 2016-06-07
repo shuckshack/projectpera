@@ -56,4 +56,23 @@ public class EmployeeCSVParser {
 		this.delimeter = delimeter;
 	}
 	
+	/**
+	 * For testing purposes only.
+	 */
+	public static void main(String[] args) {
+		String file = "src//main//resources//data//29APR16-DailyFILO.csv";
+		
+		LOGGER.debug(">>>>>>>>>>>>>>>");
+		
+		EmployeeCSVParser parser = new EmployeeCSVParser();
+		List<String[]> list = parser.parseFile(file);
+		
+		for (String[] details: list) {
+			
+			for (int i = 0, j = details.length; i < j; i++) {
+				LOGGER.debug(details[i]);
+			}
+		}
+	}
+	
 }
