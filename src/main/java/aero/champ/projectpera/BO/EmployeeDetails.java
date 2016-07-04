@@ -1,8 +1,8 @@
 package aero.champ.projectpera.BO;
 
 import java.util.Date;
+import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EmployeeDetails.
  */
@@ -24,10 +24,7 @@ public class EmployeeDetails {
 	private Date date;
 
 	/** The time in. */
-	private int timeIn;
-
-	/** The time out. */
-	private int timeOut;
+	private List<TimeInOut> timeInOutList;
 
 	/** The is late. */
 	private boolean isLate;
@@ -131,41 +128,7 @@ public class EmployeeDetails {
 		this.date = date;
 	}
 
-	/**
-	 * Gets the time in.
-	 *
-	 * @return the time in
-	 */
-	public int getTimeIn() {
-		return timeIn;
-	}
 
-	/**
-	 * Sets the time in.
-	 *
-	 * @param timeIn the new time in
-	 */
-	public void setTimeIn(int timeIn) {
-		this.timeIn = timeIn;
-	}
-
-	/**
-	 * Gets the time out.
-	 *
-	 * @return the time out
-	 */
-	public int getTimeOut() {
-		return timeOut;
-	}
-
-	/**
-	 * Sets the time out.
-	 *
-	 * @param timeOut the new time out
-	 */
-	public void setTimeOut(int timeOut) {
-		this.timeOut = timeOut;
-	}
 
 	/**
 	 * Checks if is late.
@@ -237,6 +200,20 @@ public class EmployeeDetails {
 	 */
 	public void setTotalRenderedHoursMins(int totalRenderedHoursMins) {
 		this.totalRenderedHoursMins = totalRenderedHoursMins;
+	}
+
+	/**
+	 * @return the timeInOutList
+	 */
+	public List<TimeInOut> getTimeInOutList() {
+		return timeInOutList;
+	}
+
+	/**
+	 * @param timeInOutList the timeInOutList to set
+	 */
+	public void setTimeInOutList(List<TimeInOut> timeInOutList) {
+		this.timeInOutList = timeInOutList;
 	}
 
 }
