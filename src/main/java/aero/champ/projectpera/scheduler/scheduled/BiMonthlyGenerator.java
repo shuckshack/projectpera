@@ -101,9 +101,15 @@ public class BiMonthlyGenerator implements ReportGenerator{
 		timeInOut2ndDay.setTimeIn(new Date());
 		timeInOut2ndDay.setTimeOut(new Date());
 		
+		TimeInOut timeInOut3rdDay = new TimeInOut();
+		timeInOut3rdDay.setTimeIn(new Date());
+		timeInOut3rdDay.setTimeOut(new Date());
+		
 		List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 		timeInOutList.add(timeInOut1stDay);
 		timeInOutList.add(timeInOut2ndDay);
+		timeInOutList.add(timeInOut3rdDay);
+		
 		
 		empDetails.setTimeInOutList(timeInOutList);
 		
