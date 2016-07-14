@@ -13,22 +13,22 @@ public class MongoDbConnector implements DatabaseConnector {
 	public static final String KEY_DB = "database";
 	
 	private MongoDatabase database;
+	private MongoClient mongoClient;
 
 	@Override
-	public void startConnection() throws Exception {
+	public void openConnection() throws Exception {
 		PropertyFile propertyFile = new PropertyFile(CONFIG_FILE);
 		String host = propertyFile.getValue(KEY_HOST);
 		Integer port = Integer.parseInt(propertyFile.getValue(KEY_PORT));
 		String databaseName = propertyFile.getValue(KEY_DB);
 		
-		MongoClient mongoClient = new MongoClient(host, port);
+		mongoClient = new MongoClient(host, port);
 		database = mongoClient.getDatabase(databaseName);
 	}
 
 	@Override
-	public void endConnection() {
-		// TODO Auto-generated method stub
-		
+	public void closeConnection() {
+		mongoClient.close();
 	}	
 	
 }
