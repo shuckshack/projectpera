@@ -7,6 +7,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Project PERA</name>
 	<url>http://maven.apache.org</url>
+	
+	<repositories>
+	  <repository>
+		<id>CHAMP nexus</id>
+		<url>http://vu01.champ.aero:8081/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -135,10 +143,18 @@
         	<artifactId>mongodb-driver</artifactId>
         	<version>3.2.2</version>
         </dependency>
+        <dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>${sqlserver.version}</version>
+		</dependency>
+
+        
 	</dependencies>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sqlserver.version>4.0.2206.100</sqlserver.version>
 	</properties>
 	
 	<build>
