@@ -126,6 +126,11 @@
             <version>1.2.1</version>
         </dependency>
         <dependency>
+        	<groupId>xml-apis</groupId>
+    		<artifactId>xml-apis</artifactId>
+    		<version>1.4.01</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.9</version>
@@ -139,6 +144,11 @@
         	<groupId>org.mongodb</groupId>
         	<artifactId>mongodb-driver</artifactId>
         	<version>3.2.2</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>1.8.5</version>
         </dependency>
 	</dependencies>
 	

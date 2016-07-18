@@ -6,5 +6,8 @@
 
 	<bean id="timesheetReportGenerator" class="aero.champ.projectpera.scheduler.scheduled.BiMonthlyGenerator">
 	</bean>
+	
+	<bean id="dailyTimeRetriever" class="aero.champ.projectpera.scheduler.scheduled.DailyTimeRetriever">
+	</bean>
 
 </beans>

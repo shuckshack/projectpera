@@ -7,7 +7,7 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="timesheetReportGeneratorBatchTrigger" />
+				<ref bean="dailyTimeRetrieverBatchTrigger" />
 			</list>
 		</property>
 	</bean>
@@ -20,7 +20,18 @@
     
     <bean id="timesheetReportGeneratorBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     	<property name="jobDetail"		ref="timesheetReportGeneratorJob"/>
-    	<property name="cronExpression"	value="* * * * * * *"/>
+    	<property name="cronExpression"	value="5 * * ? * * *"/>
+    </bean>
+    
+    <bean id="dailyTimeRetrieverJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject"	ref="dailyTimeRetriever"/>
+    	<property name="targetMethod"	value="saveTimeToday"/>
+    	<property name="concurrent"		value="true"/>
+    </bean>
+    
+    <bean id="dailyTimeRetrieverBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail"		ref="dailyTimeRetrieverJob"/>
+    	<property name="cronExpression"	value="5 * * ? * * *"/>
     </bean>
 
 </beans>
