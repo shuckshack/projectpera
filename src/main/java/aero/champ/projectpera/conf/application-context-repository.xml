@@ -5,9 +5,8 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="mongoClient" class="com.mongodb.MongoClient">
+    	<constructor-arg name="host" value="${db.mongo.host}"/>
+    	<constructor-arg name="port" value="${db.mongo.port}"/>
     </bean>
     
-    <bean id="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
-    </bean>
-
 </beans>

@@ -4,10 +4,10 @@
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="systemProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	<bean id="systemProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath*:mongodb.properties</value>
+				<value>classpath:mongodb.properties</value>
 			</list>
 		</property>
 	</bean>
