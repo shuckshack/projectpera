@@ -4,6 +4,10 @@
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- bean definitions here -->
+    <bean id="mongoClient" class="com.mongodb.MongoClient">
+    </bean>
+    
+    <bean id="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+    </bean>
 
 </beans>
