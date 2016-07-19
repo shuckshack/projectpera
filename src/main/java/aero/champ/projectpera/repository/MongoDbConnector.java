@@ -8,9 +8,9 @@ import aero.champ.projectpera.util.PropertyFile;
 public class MongoDbConnector implements DatabaseConnector {
 	
 	public static final String CONFIG_FILE = "mongodb.properties";
-	public static final String KEY_HOST = "host";
-	public static final String KEY_PORT = "port";
-	public static final String KEY_DB = "database";
+	public static final String KEY_HOST = "db.mongo.host";
+	public static final String KEY_PORT = "db.mongo.port";
+	public static final String KEY_DB = "db.mongo.database";
 	
 	private MongoDatabase database;
 	private MongoClient mongoClient;

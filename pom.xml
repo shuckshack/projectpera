@@ -181,7 +181,7 @@
 		<sqlserver.version>4.0.2206.100</sqlserver.version>
 	</properties>
 
-	<build>
+	<build>		
 		<finalName>projectpera</finalName>
 		<plugins>
 			<plugin>
