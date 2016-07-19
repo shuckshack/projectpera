@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="dailyTimeRetrieverBatchTrigger" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="timesheetReportGeneratorJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject"	ref="timesheetReportGenerator"/>
+    	<property name="targetMethod"	value="generateCutOffReport"/>
+    	<property name="concurrent"		value="true"/>
+    </bean>
+    
+    <bean id="timesheetReportGeneratorBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail"		ref="timesheetReportGeneratorJob"/>
+    	<property name="cronExpression"	value="5 * * ? * * *"/>
+    </bean>
+    
+    <bean id="dailyTimeRetrieverJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject"	ref="dailyTimeRetriever"/>
+    	<property name="targetMethod"	value="saveTimeToday"/>
+    	<property name="concurrent"		value="true"/>
+    </bean>
+    
+    <bean id="dailyTimeRetrieverBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail"		ref="dailyTimeRetrieverJob"/>
+    	<property name="cronExpression"	value="5 * * ? * * *"/>
+    </bean>
+
+</beans>
