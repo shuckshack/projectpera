@@ -60,17 +60,16 @@ public class EmployeeCSVParser {
 	 * For testing purposes only.
 	 */
 	public static void main(String[] args) {
+		
 		String file = "src//main//resources//data//29APR16-DailyFILO.csv";
 		
-		LOGGER.debug(">>>>>>>>>>>>>>>");
-		
-		EmployeeCSVParser parser = new EmployeeCSVParser();
+		EmployeeCSVParser parser = new EmployeeCSVParser('\n');
 		List<String[]> list = parser.parseFile(file);
 		
 		for (String[] details: list) {
 			
 			for (int i = 0, j = details.length; i < j; i++) {
-				LOGGER.debug(details[i]);
+				System.out.println(details[i]);
 			}
 		}
 	}
