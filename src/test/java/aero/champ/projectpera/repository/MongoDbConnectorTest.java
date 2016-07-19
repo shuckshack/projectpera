@@ -7,7 +7,8 @@ public class MongoDbConnectorTest {
 	@Test
 	public void testConnection() throws Exception {
 		MongoDbConnector connector = new MongoDbConnector();
-		connector.startConnection();
+		connector.openConnection();
+		connector.closeConnection();
 	}
 	
 }

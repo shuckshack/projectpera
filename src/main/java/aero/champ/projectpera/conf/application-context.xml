@@ -4,6 +4,14 @@
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="systemProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:mongodb.properties</value>
+			</list>
+		</property>
+	</bean>
+
     <import resource="classpath:aero/champ/projectpera/conf/application-context-service.xml"/>
     <import resource="classpath:aero/champ/projectpera/conf/application-context-repository.xml"/>
 	<import resource="classpath:aero/champ/projectpera/conf/application-context-batch.xml"/>

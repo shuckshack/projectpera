@@ -4,6 +4,9 @@
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- bean definitions here -->
-
+    <bean id="mongoClient" class="com.mongodb.MongoClient">
+    	<constructor-arg name="host" value="${db.mongo.host}"/>
+    	<constructor-arg name="port" value="${db.mongo.port}"/>
+    </bean>
+    
 </beans>
