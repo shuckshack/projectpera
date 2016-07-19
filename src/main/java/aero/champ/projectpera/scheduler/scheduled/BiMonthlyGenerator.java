@@ -11,6 +11,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
@@ -34,39 +35,46 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	public void generateCutOffReport() {
 		System.out.println(System.identityHashCode(this)+": Gets date and retrieves relevant range "+new Date());
 
-		JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
 		try {
 			
 			EmployeeDetails empDetails = getDummyEmployeeDetails();
-			String sourceFileName = "reports\\CurrentPayPeriod.jasper";
-			virtualizer.setReadOnly(true);
+			String excelTimesheet = "reports\\CurrentPayPeriod.jasper";
+			String pdfTimesheet = "reports\\Timesheet.jasper";
+			
 
 			TimeInOutDataSource timeInOutDS = new TimeInOutDataSource(empDetails.getTimeInOutList());
+
 			Map<String, Object> parameters = new HashMap<String, Object>();
 		    parameters.put("employeeName", empDetails.getFirstName()+" "+empDetails.getLastName());
 		    parameters.put("teamLeadName", empDetails.getTeamLeadName());
-		    parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+		    parameters.put("totalBillHours", String.valueOf((empDetails.getTimeInOutList().size())*8.0));
+
 		    
 		    
-		    JasperPrint jasperPrint = JasperFillManager.
-		    		fillReport(sourceFileName, parameters, timeInOutDS);
+		    JasperPrint excelJasperPrint = JasperFillManager.
+		    		fillReport(excelTimesheet, parameters, timeInOutDS);
+		    
+		    JasperPrint pdfJasperPrint = JasperFillManager.
+		    		fillReport(pdfTimesheet, parameters, new TimeInOutDataSource(empDetails.getTimeInOutList()));
 		    
 		   
             ByteArrayOutputStream excelReport = new ByteArrayOutputStream();
             JRXlsxExporter xlsxExporter = new JRXlsxExporter();
-            xlsxExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT,jasperPrint);
+            xlsxExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT,excelJasperPrint);
             xlsxExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, excelReport);
             xlsxExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);              
             xlsxExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE); 
             xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
             xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
             xlsxExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-
-            xlsxExporter.exportReport();			
- 	       	byte[] bytes = excelReport.toByteArray();
+           xlsxExporter.exportReport();			
+	       	byte[] bytes = excelReport.toByteArray();
 		    
  	       try {
+ 	    	 
  	    	   FileUtils.writeByteArrayToFile(new File("reports\\CurrentPayPeriod.xlsx"), bytes);
+ 	    	   JasperExportManager.exportReportToPdfFile(pdfJasperPrint, "reports\\Timesheet.pdf");
+ 	    	  
  	       } catch (IOException e) {
  	    	   e.printStackTrace();
  	       }
@@ -92,25 +100,16 @@ public class BiMonthlyGenerator implements ReportGenerator{
 		empDetails.setDate(new Date());
 		empDetails.setTeamLeadName("RODRIDO DUTS");
 		
-		
-		TimeInOut timeInOut1stDay = new TimeInOut();
-		timeInOut1stDay.setTimeIn(new Date());
-		timeInOut1stDay.setTimeOut(new Date());
-		
-		TimeInOut timeInOut2ndDay = new TimeInOut();
-		timeInOut2ndDay.setTimeIn(new Date());
-		timeInOut2ndDay.setTimeOut(new Date());
-		
-		TimeInOut timeInOut3rdDay = new TimeInOut();
-		timeInOut3rdDay.setTimeIn(new Date());
-		timeInOut3rdDay.setTimeOut(new Date());
-		
 		List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
-		timeInOutList.add(timeInOut1stDay);
-		timeInOutList.add(timeInOut2ndDay);
-		timeInOutList.add(timeInOut3rdDay);
 		
-		
+		for(int i = 0; i < 15; i++){
+			TimeInOut timeInOut1stDay = new TimeInOut();
+			timeInOut1stDay.setTimeIn(new Date());
+			timeInOut1stDay.setTimeOut(new Date());
+			timeInOut1stDay.setTotalTime(8.5);
+			timeInOutList.add(timeInOut1stDay);
+			
+		}
 		empDetails.setTimeInOutList(timeInOutList);
 		
 		return empDetails;

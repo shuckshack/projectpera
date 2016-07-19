@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CurrentPayPeriod" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d7426ff-f59d-4b4f-a400-b6ac29efd22e">
 	<property name="ireport.zoom" value="1.3310000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="33"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -96,8 +96,13 @@
 	<parameter name="projectName" class="java.lang.String"/>
 	<parameter name="periodCovered" class="java.lang.String"/>
 	<parameter name="position" class="java.lang.String"/>
+	<parameter name="totalBillHours" class="java.lang.String"/>
 	<field name="timeIn" class="java.util.Date"/>
 	<field name="timeOut" class="java.util.Date"/>
+	<field name="totalTime" class="java.lang.Double"/>
+	<variable name="TOTAL_REG_HOURS" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{totalTime}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -132,23 +137,6 @@
 	</title>
 	<pageHeader>
 		<band height="55" splitType="Stretch">
-			<textField>
-				<reportElement x="114" y="0" width="221" height="20" uuid="70107072-c5ff-4845-97fe-a82e37903960"/>
-				<box>
-					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{employeeName}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="0" width="114" height="20" uuid="4b1d3b7c-8a4e-4ec4-a76c-b72e98edc1d6"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Employee Name :]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="114" height="20" uuid="178bb15d-4830-432c-87da-c68d6d9c961d"/>
 				<textElement verticalAlignment="Middle">
@@ -181,7 +169,7 @@
 				</box>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="114" y="20" width="221" height="20" uuid="f36ea96a-368d-4126-9af7-07e6b8fe6158"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
@@ -191,7 +179,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{projectName}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="462" y="0" width="340" height="20" uuid="58dbaf64-9b97-45d0-8e57-0daf36fc53b5"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
@@ -201,7 +189,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{periodCovered}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="462" y="20" width="340" height="20" uuid="8581a979-7eed-42c7-8cac-ca5bced30732"/>
 				<box>
 					<pen lineWidth="0.0"/>
@@ -215,6 +203,23 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{position}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="114" y="0" width="221" height="20" uuid="00f706f9-e4dd-438d-bd79-3ad3355c2f48"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{employeeName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="114" height="20" uuid="4b1d3b7c-8a4e-4ec4-a76c-b72e98edc1d6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee Name :]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -459,6 +464,18 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="360" y="0" width="90" height="20" uuid="0c6f3ca7-7d5e-4664-bdfc-3899729d5bff"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalTime}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -646,12 +663,107 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="450" y="0" width="90" height="20" uuid="87fa9f55-2f72-47cc-bc2b-b5c3c44cfe14"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalBillHours}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="20" width="90" height="20" uuid="dbe0a714-b63b-45c5-9aa1-900f3a4ede25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalBillHours}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="0" width="88" height="20" uuid="578ba3bb-f481-4f2a-bceb-e4bb5606aafc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TOTAL_REG_HOURS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="76" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="424" y="36" width="195" height="20" uuid="903068fe-689f-4d93-8b9e-412204322ff7"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{teamLeadName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="220" height="20" uuid="cc72e641-4ef1-456b-9628-b657b2532017"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PREPARED BY:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="56" width="192" height="20" uuid="8ae908a3-393c-4217-a499-0a1f0ba5d9a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Signature over printed name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="56" width="169" height="20" uuid="e41cdfae-52b5-4224-89b8-7fbf190782dc"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="-1" y="36" width="193" height="20" uuid="2140cb10-0100-457a-b598-6be0bb64180b"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{employeeName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="424" y="56" width="195" height="20" uuid="e9bce80c-c564-491b-ac7b-7ed37c4c6cb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Signature over printed name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="0" width="195" height="20" uuid="4511d67b-0778-4603-aa38-b359015396fe"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APPROVED BY:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="651" y="56" width="151" height="20" uuid="6c26d0c7-6f30-4c6a-924a-0e6de5323944"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

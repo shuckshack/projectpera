@@ -4,6 +4,16 @@ import java.util.Date;
 
 public class TimeInOut {
 	
+	/** The time in. */
+	private Date timeIn;
+	
+	/** The time out. */
+	private Date timeOut;
+	
+
+	/** The total time. */
+	private double totalTime;
+	
 	/**
 	 * @return the timeIn
 	 */
@@ -32,11 +42,22 @@ public class TimeInOut {
 		this.timeOut = timeOut;
 	}
 
-	/** The time in. */
-	private Date timeIn;
-	
-	/** The time out. */
-	private Date timeOut;
+	/**
+	 * @return the totalTime
+	 */
+	public double getTotalTime() {
+		return totalTime;
+	}
+
+	/**
+	 * @param totalTime the totalTime to set
+	 */
+	public void setTotalTime(double totalTime) {
+		this.totalTime = totalTime;
+		
+	}
+
+
 	
 
 }
