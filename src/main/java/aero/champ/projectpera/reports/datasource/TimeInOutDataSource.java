@@ -29,6 +29,16 @@ public class TimeInOutDataSource  implements JRDataSource{
 			return item.getTimeOut();
 		}
 		
+		if(jrField.getName().equals("timeIn")){
+			return item.getTimeIn();
+		}
+		
+		if(jrField.getName().equals("totalTime")){
+			return  item.getTotalTime();
+		}
+
+
+		
 		return null;
 	}
 
