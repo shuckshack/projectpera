@@ -13,5 +13,7 @@ public class FalcoTransactionsDao {
 	
 	public void getTransactions(String startDate, String toDate) {
 		
+			
+		
 	}
 }
