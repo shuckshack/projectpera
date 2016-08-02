@@ -70,42 +70,40 @@ public class FalcoTransactionsDao {
 		return getTransactionsSql.toString();
 	}
 	
-	
 	public List<FalcoEmployee> getDetails(String dailyDate) {
 		
 		ResultSet dailyTransactions = getDailyTransactions(dailyDate);
 		
-		// check if CardNo is FFFFFFFFFF, if yes, then skip
-		// check if CardNo is a number, if yes, then take the last 5 digits, this is effectively the real card number
-		// group by card number
-		
 		FalcoEmployee employee;
 		List<FalcoEmployee> falcoEmployeeList = new ArrayList<FalcoEmployee>();
 		
+		final String UNKNOWN_CARD_NO = "FFFFFFFFFF";
 		
 		try {
 			while (dailyTransactions.next()) {
 				
-				employee = new FalcoEmployee();
-				
-				employee.setID(dailyTransactions.getInt(ID));
-				employee.setTrDate(dailyTransactions.getString(DATE));
-				employee.setTrTime(dailyTransactions.getString(TIME));
-				employee.setCardNo(dailyTransactions.getString(CARD_NO));
-				employee.setUnitNo(dailyTransactions.getString(UNIT_NO));
-				employee.setTransaction(dailyTransactions.getString(TRANSACTION));
-				employee.setTrCode(dailyTransactions.getString(CODE));
-				employee.setTrController(dailyTransactions.getString(CONTROLLER));
-				employee.setTrName(dailyTransactions.getString(NAME));
-				
-				falcoEmployeeList.add(employee);
+				if (!dailyTransactions.getString(CARD_NO).equals(UNKNOWN_CARD_NO)) {
+					
+					employee = new FalcoEmployee();
+					
+					employee.setID(dailyTransactions.getInt(ID));
+					employee.setTrDate(dailyTransactions.getString(DATE));
+					employee.setTrTime(dailyTransactions.getString(TIME));
+					employee.setCardNo(dailyTransactions.getString(CARD_NO));
+					employee.setUnitNo(dailyTransactions.getString(UNIT_NO));
+					employee.setTransaction(dailyTransactions.getString(TRANSACTION));
+					employee.setTrCode(dailyTransactions.getString(CODE));
+					employee.setTrController(dailyTransactions.getString(CONTROLLER));
+					employee.setTrName(dailyTransactions.getString(NAME));
+					
+					falcoEmployeeList.add(employee);
+				}
 				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		return falcoEmployeeList;
 	}
