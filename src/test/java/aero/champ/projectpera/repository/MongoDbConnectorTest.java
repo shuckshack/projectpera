@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import com.mongodb.MongoClient;
 
-import aero.champ.projectpera.util.PropertyFile;
-
 public class MongoDbConnectorTest {
 
 	@Test

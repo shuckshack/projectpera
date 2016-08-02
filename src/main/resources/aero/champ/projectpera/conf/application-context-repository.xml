@@ -9,9 +9,14 @@
     	<constructor-arg name="port" value="${db.mongo.port}"/>
     </bean>
     
-    <bean id="mongoDbConnector" class="aero.champ.projectpera.repository.MongoDbConnector">
+    <bean id="mongoDbConnector" init-method="openConnection" destroy-method="closeConnection"  
+    		class="aero.champ.projectpera.repository.MongoDbConnector">
     	<constructor-arg name="mongoClient"		ref="mongoClient"/>
     	<constructor-arg name="databaseName"	value="${db.mongo.database}"/>
+    </bean>
+    
+    <bean id="employeeRepository" class="aero.champ.projectpera.repository.MongoDbEmployeeRepository">
+    	<constructor-arg name="connector"	ref="mongoDbConnector"/>
     </bean>
     
 </beans>
