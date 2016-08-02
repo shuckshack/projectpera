@@ -1,5 +1,8 @@
 package aero.champ.projectpera.parser;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,25 +49,56 @@ public class EmployeeTimeRecorder {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		EmployeeTimeRecorder recorder = new EmployeeTimeRecorder();
-		List<List<FalcoEmployee>> list = recorder.getFirstInLastOut("2016/08/01");
 		
-		for (List<FalcoEmployee> oneEmployee: list) {
+		int startDay = 16;
+		int endDay = 31;
+
+		PrintStream writer = new PrintStream(new File("d:/testfile.txt"));
+		
+		// YYYY/MM/
+		String dateTemplate = "2016/07/";
+		
+		for (int day = startDay; day <= endDay; day++) {
 			
-			System.out.println("Employee: ");
+			String queryDate = dateTemplate + day;
 			
-			if (oneEmployee != null && oneEmployee.size() > 0) {
-				System.out.println(oneEmployee.get(0).getTrName());
-			}
+			System.out.println(queryDate);
 			
-			for (FalcoEmployee empDetails: oneEmployee) {
+			writer.println("===================================================================== \n\n");
+			writer.println(queryDate);
+			
+			List<List<FalcoEmployee>> list = recorder.getFirstInLastOut(queryDate);
+			
+			for (List<FalcoEmployee> oneEmployee: list) {
 				
-				System.out.println("CardNo: " + empDetails.getCardNo() + " | Time: " + empDetails.getTrTime());
+				System.out.println("Employee: ");
+				
+				if (oneEmployee != null && oneEmployee.size() > 0) {
+					System.out.println(oneEmployee.get(0).getTrName());
+					writer.println(oneEmployee.get(0).getTrName());
+				}
+				
+				for (int i = 0; i < oneEmployee.size(); i++) {
+					
+					FalcoEmployee empDetails = oneEmployee.get(i);
+					
+					if (i == 0 || i == oneEmployee.size()-1) {
+						System.out.println("CardNo: " + empDetails.getCardNo() + " | Date: " + empDetails.getTrDate() + " | Time: " + empDetails.getTrTime());
+						writer.println("CardNo: " + empDetails.getCardNo() + " | Date: " + empDetails.getTrDate() + " | Time: " + empDetails.getTrTime());
+					}
+					
+				}
 				
 			}
 			
 		}
+		
+		writer.flush();
+		writer.close();
+		writer = null;
+		
 	}
 }
