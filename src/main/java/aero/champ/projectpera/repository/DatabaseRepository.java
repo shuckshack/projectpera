@@ -31,5 +31,9 @@ public abstract class DatabaseRepository {
 		
 		return true;
 	}
+
+	public DatabaseConnector getConnector() {
+		return connector;
+	}
 	
 }
