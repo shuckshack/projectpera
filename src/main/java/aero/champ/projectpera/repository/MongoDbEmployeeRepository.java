@@ -1,9 +1,19 @@
 package aero.champ.projectpera.repository;
 
-public class MongoDbEmployeeRepository extends MongoDbRepository {
+import java.util.List;
 
-	public MongoDbEmployeeRepository(MongoDbConnector connector) {
-		super(connector);
+import aero.champ.projectpera.BO.EmployeeDetails;
+
+public class MongoDbEmployeeRepository extends MongoDbRepository implements EmployeeRepository {
+
+	public MongoDbEmployeeRepository(MongoDbConnector connector, String collectionName) {
+		super(connector, collectionName);
+	}
+
+	@Override
+	public void insertEmployeeList(List<EmployeeDetails> employeeDetails) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

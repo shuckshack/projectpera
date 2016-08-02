@@ -9,5 +9,9 @@
 	
 	<bean id="dailyTimeRetriever" class="aero.champ.projectpera.scheduler.scheduled.DailyTimeRetriever">
 	</bean>
+	
+	<bean id="employeeCsvParser" class="aero.champ.projectpera.parser.EmployeeCSVParser">
+		<property name="employeeRepository"	ref="employeeRepository" />
+	</bean>
 
 </beans>
