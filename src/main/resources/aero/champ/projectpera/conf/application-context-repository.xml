@@ -9,4 +9,9 @@
     	<constructor-arg name="port" value="${db.mongo.port}"/>
     </bean>
     
+    <bean id="mongoDbConnector" class="aero.champ.projectpera.repository.MongoDbConnector">
+    	<constructor-arg name="mongoClient"		ref="mongoClient"/>
+    	<constructor-arg name="databaseName"	value="${db.mongo.database}"/>
+    </bean>
+    
 </beans>
