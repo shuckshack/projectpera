@@ -82,9 +82,9 @@ public class SqlServerConnectionManager {
 			
 			//String queryString = "select * from sysobjects where type='u'";
 	         ResultSet rs = statement.executeQuery(getTestSelect());
-	         while (rs.next()) {
-	            System.out.println(rs.getString(1)+":"+rs.getString(9)+":"+rs.getString(2)+":"+rs.getString(3)+":"+rs.getString(4)+":"+rs.getString(5)+":"+rs.getString(6));
-	         }
+//	         while (rs.next()) {
+//	            System.out.println(rs.getString(1)+":"+rs.getString(9)+":"+rs.getString(2)+":"+rs.getString(3)+":"+rs.getString(4)+":"+rs.getString(5)+":"+rs.getString(6));
+//	         }
 	         rs = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

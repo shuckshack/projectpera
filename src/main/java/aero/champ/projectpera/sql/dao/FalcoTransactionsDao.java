@@ -34,7 +34,7 @@ public class FalcoTransactionsDao {
 		this.conn = sqlServer.getConn();
 	}
 	
-	public ResultSet getDailyTransactions(String dailyDate) {
+	private ResultSet getDailyTransactions(String dailyDate) {
 		
 		Statement statement;
 		
@@ -65,11 +65,17 @@ public class FalcoTransactionsDao {
 		getTransactionsSql.append("      ,[TrName] ");
 		getTransactionsSql.append("  FROM [DataDB].[dbo].[tblTransaction] ");
 		getTransactionsSql.append(" WHERE TrDate = '").append(dailyDate).append("' ");
-		getTransactionsSql.append(" ORDER BY ID ASC;");	
+		getTransactionsSql.append(" ORDER BY [CardNo],[ID] ASC;");	
 		
 		return getTransactionsSql.toString();
 	}
 	
+	/**
+	 * In this format '2016/08/01' YYYY-MM-DD
+	 * 
+	 * @param dailyDate
+	 * @return
+	 */
 	public List<FalcoEmployee> getDetails(String dailyDate) {
 		
 		ResultSet dailyTransactions = getDailyTransactions(dailyDate);
