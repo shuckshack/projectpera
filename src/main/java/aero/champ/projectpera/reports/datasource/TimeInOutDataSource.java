@@ -1,7 +1,9 @@
 package aero.champ.projectpera.reports.datasource;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import aero.champ.projectpera.BO.TimeInOut;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -11,6 +13,7 @@ import net.sf.jasperreports.engine.JRField;
 public class TimeInOutDataSource  implements JRDataSource{
 
 	private final Iterator<TimeInOut> iter;
+	private final DecimalFormat df = new DecimalFormat("#.00");
 	
 	private TimeInOut item;
 
@@ -29,15 +32,12 @@ public class TimeInOutDataSource  implements JRDataSource{
 			return item.getTimeOut();
 		}
 		
-		if(jrField.getName().equals("timeIn")){
-			return item.getTimeIn();
+		if(jrField.getName().equals("totalTime")){
+			return  df.format((item.getTimeOut().getTime() -
+						item.getTimeIn().getTime())/3600000.00);
 		}
 		
-		if(jrField.getName().equals("totalTime")){
-			return  item.getTotalTime();
-		}
-
-
+		
 		
 		return null;
 	}

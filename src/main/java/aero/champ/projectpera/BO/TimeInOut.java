@@ -10,9 +10,6 @@ public class TimeInOut {
 	/** The time out. */
 	private Date timeOut;
 	
-
-	/** The total time. */
-	private double totalTime;
 	
 	/**
 	 * @return the timeIn
@@ -41,23 +38,5 @@ public class TimeInOut {
 	public void setTimeOut(Date timeOut) {
 		this.timeOut = timeOut;
 	}
-
-	/**
-	 * @return the totalTime
-	 */
-	public double getTotalTime() {
-		return totalTime;
-	}
-
-	/**
-	 * @param totalTime the totalTime to set
-	 */
-	public void setTotalTime(double totalTime) {
-		this.totalTime = totalTime;
-		
-	}
-
-
-	
 
 }

@@ -9,7 +9,12 @@
 	<parameter name="position" class="java.lang.String"/>
 	<field name="timeIn" class="java.util.Date"/>
 	<field name="timeOut" class="java.util.Date"/>
-	<field name="totalTime" class="java.lang.Double"/>
+	<field name="totalTime" class="java.lang.String"/>
+	<variable name="totalTime" class="java.lang.String">
+		<variableExpression><![CDATA[Double.toString(
+    ($F{timeOut}.getTime()-$F{timeIn}.getTime())/3600000.00
+)]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -30,7 +35,7 @@
 				<text><![CDATA[CHAMP CARGOSYSTEMS PHILIPPINES INC.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="84" y="59" width="718" height="20" uuid="61fb3c5a-c527-4517-89f6-f63220e08e1f"/>
+				<reportElement mode="Opaque" x="84" y="58" width="718" height="20" uuid="61fb3c5a-c527-4517-89f6-f63220e08e1f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
@@ -231,8 +236,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{timeIn}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="673" y="0" width="129" height="20" uuid="3a85c02b-66d3-45c4-a0af-88a760065c57"/>
+			<textField>
+				<reportElement x="673" y="0" width="129" height="20" uuid="50b73e3e-ff45-416a-b0ac-3175d3dcd3da"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>

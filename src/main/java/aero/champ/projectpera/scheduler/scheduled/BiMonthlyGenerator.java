@@ -3,20 +3,20 @@ package aero.champ.projectpera.scheduler.scheduled;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.engine.fill.JRFileVirtualizer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -26,94 +26,163 @@ import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.BO.TimeInOut;
 import aero.champ.projectpera.reports.datasource.TimeInOutDataSource;
 
+/**
+ * The Class BiMonthlyGenerator.
+ */
 public class BiMonthlyGenerator implements ReportGenerator{
 
 	/** The log. */
 	private static final Log LOG = LogFactory.getLog(BiMonthlyGenerator.class);
 	
+	/** The Constant XLSX_FILE_TYPE. */
+	private static final String XLSX_FILE_TYPE = "xlsx";
+	
+	/** The Constant PDF_FILE_TYPE. */
+	private static final String PDF_FILE_TYPE = "pdf";
+	
+	/** The Constant FILENAME. */
+	private static final String FILENAME = "Timesheet";
+	
+	/** The Constant XLSX_JASPER_PATH. */
+	private static final String XLSX_JASPER_PATH = "reports\\CurrentPayPeriod.jasper";
+	
+	/** The Constant PDF_JASPER_PATH. */
+	private static final String PDF_JASPER_PATH = "reports\\Timesheet.jasper";
+	
+	/** The Constant dumpFolder. */
+	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
+	
+
+	/* (non-Javadoc)
+	 * @see aero.champ.projectpera.scheduler.scheduled.ReportGenerator#generateCutOffReport()
+	 */
 	@Override
 	public void generateCutOffReport() {
 		System.out.println(System.identityHashCode(this)+": Gets date and retrieves relevant range "+new Date());
-
-		try {
-			
-			EmployeeDetails empDetails = getDummyEmployeeDetails();
-			String excelTimesheet = "reports\\CurrentPayPeriod.jasper";
-			String pdfTimesheet = "reports\\Timesheet.jasper";
-			
-
-			TimeInOutDataSource timeInOutDS = new TimeInOutDataSource(empDetails.getTimeInOutList());
-
-			Map<String, Object> parameters = new HashMap<String, Object>();
-		    parameters.put("employeeName", empDetails.getFirstName()+" "+empDetails.getLastName());
-		    parameters.put("teamLeadName", empDetails.getTeamLeadName());
-		    parameters.put("totalBillHours", String.valueOf((empDetails.getTimeInOutList().size())*8.0));
-
-		    
-		    
-		    JasperPrint excelJasperPrint = JasperFillManager.
-		    		fillReport(excelTimesheet, parameters, timeInOutDS);
-		    
-		    JasperPrint pdfJasperPrint = JasperFillManager.
-		    		fillReport(pdfTimesheet, parameters, new TimeInOutDataSource(empDetails.getTimeInOutList()));
-		    
-		   
-            ByteArrayOutputStream excelReport = new ByteArrayOutputStream();
-            JRXlsxExporter xlsxExporter = new JRXlsxExporter();
-            xlsxExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT,excelJasperPrint);
-            xlsxExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, excelReport);
-            xlsxExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);              
-            xlsxExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE); 
-            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-            xlsxExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-           xlsxExporter.exportReport();			
-	       	byte[] bytes = excelReport.toByteArray();
-		    
- 	       try {
- 	    	 
- 	    	   FileUtils.writeByteArrayToFile(new File("reports\\CurrentPayPeriod.xlsx"), bytes);
- 	    	   JasperExportManager.exportReportToPdfFile(pdfJasperPrint, "reports\\Timesheet.pdf");
- 	    	  
- 	       } catch (IOException e) {
- 	    	   e.printStackTrace();
- 	       }
- 	       
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+			boolean isSuccess = true;
+			String today = new SimpleDateFormat("yyyyMMMdd").format(new Date());
+			dumpFolder = dumpFolder+"\\"+generateBiMonthlyFolderName();
+			List<EmployeeDetails> employeeDetails = getDummyEmployeeDetails();
+			for(EmployeeDetails empDetail: employeeDetails){
+				try {
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				
+			    parameters.put("employeeName", empDetail.getFirstName()+" "+empDetail.getLastName());
+			    parameters.put("teamLeadName", empDetail.getTeamLeadName());
+			    parameters.put("totalBillHours", String.valueOf((empDetail.getTimeInOutList().size())*8.0));
+			    
+			    JasperPrint excelJasperPrint = JasperFillManager.
+			    		fillReport(XLSX_JASPER_PATH, parameters, new TimeInOutDataSource(empDetail.getTimeInOutList()));
+			    		    
+			    JasperPrint pdfJasperPrint = JasperFillManager.
+			    		fillReport(PDF_JASPER_PATH, parameters, new TimeInOutDataSource(empDetail.getTimeInOutList()));
+			    
+	            ByteArrayOutputStream excelReport = new ByteArrayOutputStream();
+	            JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+	            xlsxExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT,excelJasperPrint);
+	            xlsxExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, excelReport);
+	            xlsxExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);              
+	            xlsxExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE); 
+	            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+	            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+	            xlsxExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+	            xlsxExporter.exportReport();			
+		       	byte[] bytes = excelReport.toByteArray();
+		       	String fullName = empDetail.getLastName()+"_"+empDetail.getFirstName();
+		       	
+	 	       FileUtils.writeByteArrayToFile(new File(
+	 	    		   		dumpFolder+"\\"+generateFileName(XLSX_FILE_TYPE, fullName,  today)), bytes);
+	 	       
+	 	       JasperExportManager.exportReportToPdfFile(
+	 	    		   		pdfJasperPrint, dumpFolder+"\\"+generateFileName(PDF_FILE_TYPE, fullName,  today));
+	 	       
+			}catch (JRException e) {
+				LOG.error(e);
+				isSuccess = false;
+			} catch (IOException e) {
+				LOG.error(e);
+				isSuccess = false;
+		    }   
+		} 
 	}		
 	
-
-	//FOR TESTING ONLY
-	public static void main(String[] args) throws Exception {
-		BiMonthlyGenerator biMonthlyGenerator = new BiMonthlyGenerator();
-		biMonthlyGenerator.generateCutOffReport();
-	}
-	
-	private static EmployeeDetails getDummyEmployeeDetails(){
-		EmployeeDetails empDetails = new EmployeeDetails();
-		empDetails.setFirstName("JUAN");
-		empDetails.setLastName("DELA CRUZ");
-		empDetails.setDate(new Date());
-		empDetails.setTeamLeadName("RODRIDO DUTS");
+	/**
+	 * Gets the dummy employee details.
+	 *
+	 * @return the dummy employee details
+	 */
+	private static List<EmployeeDetails> getDummyEmployeeDetails(){
+		List<EmployeeDetails> empDetails = new ArrayList<EmployeeDetails>();
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(dt); 
+		c.add(Calendar.HOUR, 8);
+		c.add(Calendar.MINUTE, 30);
+		dt = c.getTime();
+		
+		
+		EmployeeDetails empDetail = new EmployeeDetails();
+		empDetail.setFirstName("JUAN");
+		empDetail.setLastName("DELA CRUZ");
+		empDetail.setDate(new Date());
+		empDetail.setTeamLeadName("RODRIDO DUTS");
 		
 		List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 		
 		for(int i = 0; i < 15; i++){
 			TimeInOut timeInOut1stDay = new TimeInOut();
 			timeInOut1stDay.setTimeIn(new Date());
-			timeInOut1stDay.setTimeOut(new Date());
-			timeInOut1stDay.setTotalTime(8.5);
+			timeInOut1stDay.setTimeOut(dt);
 			timeInOutList.add(timeInOut1stDay);
 			
 		}
-		empDetails.setTimeInOutList(timeInOutList);
+		empDetail.setTimeInOutList(timeInOutList);
+		
+		
+		EmployeeDetails empDetail2 = new EmployeeDetails();
+		empDetail2.setFirstName("JOSE");
+		empDetail2.setLastName("RIZAL");
+		empDetail2.setDate(new Date());
+		empDetail2.setTeamLeadName("ANDRES BONIFACIO");
+		
+		List<TimeInOut> timeInOutList2 = new ArrayList<TimeInOut>();
+		
+		for(int i = 0; i < 15; i++){
+			TimeInOut timeInOut1stDay = new TimeInOut();
+			timeInOut1stDay.setTimeIn(new Date());
+			timeInOut1stDay.setTimeOut(dt);
+			timeInOutList2.add(timeInOut1stDay);
+			
+		}
+		empDetail2.setTimeInOutList(timeInOutList2);
+		
+		empDetails.add(empDetail);
+		empDetails.add(empDetail2);
 		
 		return empDetails;
 	}
+	
+	/**
+	 * Generate file name.
+	 *
+	 * @param fileType the file type
+	 * @param fullName the full name
+	 * @param dateStr the date str
+	 * @return the string
+	 */
+	private String generateFileName(String fileType, String fullName, String dateStr){
+		return FILENAME+"-"+fullName+"_"+dateStr+"."+fileType;
+	}
+	
 
+	/**
+	 * Generate bi monthly folder.
+	 *
+	 * @return the string
+	 */
+	private String generateBiMonthlyFolderName(){
+		String folder = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		return folder;
+	}
 
 }
