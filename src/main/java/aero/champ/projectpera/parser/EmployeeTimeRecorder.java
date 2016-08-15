@@ -318,7 +318,7 @@ public class EmployeeTimeRecorder {
 	public void testEmpDetailsList() {
 		List<EmployeeDetails> list = get();
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/DD HH:mm:ss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
 		
 		for (EmployeeDetails emp: list) {
 			if (emp.getTimeInOutList() != null && emp.getTimeInOutList().size() > 0) {
