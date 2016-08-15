@@ -9,7 +9,7 @@ public class ConfigurationTest {
 	@Test
 	public void testConfiguration() {
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
-		        "aero/champ/projectpera/conf/application-context.xml");
+		        "classpath:aero/champ/projectpera/conf/application-context.xml");
 	}
 	
 }

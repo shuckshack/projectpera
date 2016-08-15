@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.BO.TimeInOut;
+import aero.champ.projectpera.parser.EmployeeTimeRecorder;
 import aero.champ.projectpera.reports.datasource.TimeInOutDataSource;
 
 /**
@@ -51,6 +52,7 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	
 	/** The Constant dumpFolder. */
 	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
+
 	
 	@Override
 	public void generateCutOffReport(List<EmployeeDetails> employeeDetails) {
@@ -136,5 +138,6 @@ public class BiMonthlyGenerator implements ReportGenerator{
 		//TODO: ADD JODA/15th, 31st, 30th
 		return "";
 	}
+
 
 }

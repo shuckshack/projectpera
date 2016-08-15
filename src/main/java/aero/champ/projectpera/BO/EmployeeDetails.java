@@ -8,6 +8,9 @@ import java.util.List;
  */
 public class EmployeeDetails {
 
+	/** The card number. */
+	private int cardNumber;
+	
 	/** The first name. */
 	private String firstName;
 
@@ -250,4 +253,19 @@ public class EmployeeDetails {
 		this.project = project;
 	}
 
+	/**
+	 * @return the cardNumber
+	 */
+	public int getCardNumber() {
+		return cardNumber;
+	}
+
+	/**
+	 * @param cardNumber the cardNumber to set
+	 */
+	public void setCardNumber(int cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
 }
+

@@ -8,6 +8,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import aero.champ.projectpera.BO.EmployeeDetails;
+import aero.champ.projectpera.repository.EmployeeRepository;
+
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
 
@@ -16,6 +19,8 @@ public class EmployeeCSVParser {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeCSVParser.class);
 	
 	private char delimeter;
+	
+	private EmployeeRepository employeeRepository;
 	
 	public EmployeeCSVParser() {
 		this.delimeter = CSVParser.DEFAULT_SEPARATOR;
@@ -43,7 +48,12 @@ public class EmployeeCSVParser {
 			LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		}
+		
+		//transformation logic for converting List<String[]> to List<EmployeeDetails>
      
+		List<EmployeeDetails> employeeList = new ArrayList<>();
+		employeeRepository.insertEmployeeList(employeeList);
+		
 		return employeeTimeDetailslist;
 	
 	}
@@ -72,6 +82,10 @@ public class EmployeeCSVParser {
 				System.out.println(details[i]);
 			}
 		}
+	}
+
+	public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
 	}
 	
 }
