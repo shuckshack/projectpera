@@ -33,8 +33,14 @@ public class TimeInOutDataSource  implements JRDataSource{
 		}
 		
 		if(jrField.getName().equals("totalTime")){
-			return  df.format((item.getTimeOut().getTime() -
-						item.getTimeIn().getTime())/3600000.00);
+			String totalTime = "0";
+			
+			if(null != item.getTimeOut() && null != item.getTimeOut()){
+				totalTime =   df.format(((item.getTimeOut().getTime() -
+						item.getTimeIn().getTime())/3600000.00)-1.0);
+			}
+			
+			return totalTime;
 		}
 		
 		

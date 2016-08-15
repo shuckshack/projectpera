@@ -363,7 +363,7 @@
 	</columnHeader>
 	<detail>
 		<band height="14" splitType="Stretch">
-			<textField pattern="HH.mm">
+			<textField pattern="HH.mm.ss">
 				<reportElement x="80" y="0" width="70" height="14" uuid="e6e65c28-9b07-49ac-98a9-a38370fcb79e"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -462,7 +462,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalTime}]]></textFieldExpression>
 			</textField>
-			<textField pattern="HH.mm">
+			<textField pattern="HH.mm.ss">
 				<reportElement x="290" y="0" width="70" height="14" uuid="f07b7eca-7bb3-4b63-8ba6-aa260e8a5a67"/>
 				<box>
 					<pen lineWidth="0.5"/>
