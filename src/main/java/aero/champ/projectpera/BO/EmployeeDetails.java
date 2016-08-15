@@ -37,6 +37,12 @@ public class EmployeeDetails {
 
 	/** The total rendered hours mins. */
 	private int totalRenderedHoursMins;
+	
+	/** The position. */
+	private String position;
+	
+	/** The project. */
+	private String project;
 
 	/**
 	 * Gets the first name.
@@ -214,6 +220,34 @@ public class EmployeeDetails {
 	 */
 	public void setTimeInOutList(List<TimeInOut> timeInOutList) {
 		this.timeInOutList = timeInOutList;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public String getPosition() {
+		return position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	/**
+	 * @return the project
+	 */
+	public String getProject() {
+		return project;
+	}
+
+	/**
+	 * @param project the project to set
+	 */
+	public void setProject(String project) {
+		this.project = project;
 	}
 
 }

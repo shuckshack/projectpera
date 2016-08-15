@@ -1,5 +1,6 @@
 package aero.champ.projectpera.scheduler.config;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
+import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.scheduler.scheduled.BiMonthlyGenerator;
 import aero.champ.projectpera.scheduler.scheduled.DailyTimeRetriever;
 import aero.champ.projectpera.scheduler.scheduled.ReportGenerator;
@@ -54,13 +56,13 @@ public class ScheduleConfig implements SchedulingConfigurer{
         
         //16th
         taskRegistrar.addTriggerTask(
-            new Runnable() { public void run() { biMonthlyGenerator().generateCutOffReport(); } },
+            new Runnable() { public void run() { biMonthlyGenerator().generateCutOffReport(new ArrayList<EmployeeDetails>()); } },
             biMonthlyFirstHalf()
         );
         
         //1st
         taskRegistrar.addTriggerTask(
-            new Runnable() { public void run() { biMonthlyGenerator().generateCutOffReport(); } },
+            new Runnable() { public void run() { biMonthlyGenerator().generateCutOffReport(new ArrayList<EmployeeDetails>()); } },
             biMonthlySecondHalf()
         );
 	}

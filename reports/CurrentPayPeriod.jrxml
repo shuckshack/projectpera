@@ -97,6 +97,8 @@
 	<parameter name="periodCovered" class="java.lang.String"/>
 	<parameter name="position" class="java.lang.String"/>
 	<parameter name="totalBillHours" class="java.lang.String"/>
+	<parameter name="department" class="java.lang.String"/>
+	<parameter name="department_position" class="java.lang.String"/>
 	<field name="timeIn" class="java.util.Date"/>
 	<field name="timeOut" class="java.util.Date"/>
 	<field name="totalTime" class="java.lang.String"/>
@@ -143,21 +145,21 @@
 			<staticText>
 				<reportElement x="0" y="20" width="114" height="20" uuid="178bb15d-4830-432c-87da-c68d6d9c961d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Project Name :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="0" width="127" height="20" uuid="5e9d79c7-bee0-4e17-947e-d01496869cfe"/>
+				<reportElement x="325" y="0" width="112" height="20" uuid="5e9d79c7-bee0-4e17-947e-d01496869cfe"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Period Covered :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="20" width="127" height="20" uuid="ec5dcc88-4267-4f3e-bc57-35b76156f548"/>
+				<reportElement x="325" y="20" width="112" height="20" uuid="ec5dcc88-4267-4f3e-bc57-35b76156f548"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dept. / Position :]]></text>
 			</staticText>
@@ -173,56 +175,49 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="114" y="20" width="221" height="20" uuid="f36ea96a-368d-4126-9af7-07e6b8fe6158"/>
+				<reportElement x="114" y="20" width="211" height="20" uuid="f36ea96a-368d-4126-9af7-07e6b8fe6158"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Arial" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{projectName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="462" y="0" width="340" height="20" uuid="58dbaf64-9b97-45d0-8e57-0daf36fc53b5"/>
+				<reportElement x="437" y="0" width="365" height="20" uuid="58dbaf64-9b97-45d0-8e57-0daf36fc53b5"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{periodCovered}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="462" y="20" width="340" height="20" uuid="8581a979-7eed-42c7-8cac-ca5bced30732"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{position}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="114" y="0" width="221" height="20" uuid="00f706f9-e4dd-438d-bd79-3ad3355c2f48"/>
+				<reportElement x="114" y="0" width="211" height="20" uuid="00f706f9-e4dd-438d-bd79-3ad3355c2f48"/>
 				<box>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{employeeName}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="0" width="114" height="20" uuid="4b1d3b7c-8a4e-4ec4-a76c-b72e98edc1d6"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Employee Name :]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="437" y="20" width="364" height="20" uuid="e6abff59-ecc3-4701-8887-9e18823e4465"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{department_position}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -360,7 +355,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REMARKS]]></text>
 			</staticText>

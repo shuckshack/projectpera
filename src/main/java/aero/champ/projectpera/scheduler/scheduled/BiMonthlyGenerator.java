@@ -52,17 +52,13 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	/** The Constant dumpFolder. */
 	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
 	
-
-	/* (non-Javadoc)
-	 * @see aero.champ.projectpera.scheduler.scheduled.ReportGenerator#generateCutOffReport()
-	 */
 	@Override
-	public void generateCutOffReport() {
+	public void generateCutOffReport(List<EmployeeDetails> employeeDetails) {
 		System.out.println(System.identityHashCode(this)+": Gets date and retrieves relevant range "+new Date());
 			boolean isSuccess = true;
 			String today = new SimpleDateFormat("yyyyMMMdd").format(new Date());
 			dumpFolder = dumpFolder+"\\"+generateBiMonthlyFolderName();
-			List<EmployeeDetails> employeeDetails = getDummyEmployeeDetails();
+			
 			for(EmployeeDetails empDetail: employeeDetails){
 				try {
 				Map<String, Object> parameters = new HashMap<String, Object>();
@@ -70,6 +66,8 @@ public class BiMonthlyGenerator implements ReportGenerator{
 			    parameters.put("employeeName", empDetail.getFirstName()+" "+empDetail.getLastName());
 			    parameters.put("teamLeadName", empDetail.getTeamLeadName());
 			    parameters.put("totalBillHours", String.valueOf((empDetail.getTimeInOutList().size())*8.0));
+			    parameters.put("department_position", empDetail.getDepartment()+"/"+empDetail.getPosition());
+			    parameters.put("projectName", empDetail.getProject());
 			    
 			    JasperPrint excelJasperPrint = JasperFillManager.
 			    		fillReport(XLSX_JASPER_PATH, parameters, new TimeInOutDataSource(empDetail.getTimeInOutList()));
@@ -107,62 +105,6 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	}		
 	
 	/**
-	 * Gets the dummy employee details.
-	 *
-	 * @return the dummy employee details
-	 */
-	private static List<EmployeeDetails> getDummyEmployeeDetails(){
-		List<EmployeeDetails> empDetails = new ArrayList<EmployeeDetails>();
-		Date dt = new Date();
-		Calendar c = Calendar.getInstance(); 
-		c.setTime(dt); 
-		c.add(Calendar.HOUR, 8);
-		c.add(Calendar.MINUTE, 30);
-		dt = c.getTime();
-		
-		
-		EmployeeDetails empDetail = new EmployeeDetails();
-		empDetail.setFirstName("JUAN");
-		empDetail.setLastName("DELA CRUZ");
-		empDetail.setDate(new Date());
-		empDetail.setTeamLeadName("RODRIDO DUTS");
-		
-		List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
-		
-		for(int i = 0; i < 15; i++){
-			TimeInOut timeInOut1stDay = new TimeInOut();
-			timeInOut1stDay.setTimeIn(new Date());
-			timeInOut1stDay.setTimeOut(dt);
-			timeInOutList.add(timeInOut1stDay);
-			
-		}
-		empDetail.setTimeInOutList(timeInOutList);
-		
-		
-		EmployeeDetails empDetail2 = new EmployeeDetails();
-		empDetail2.setFirstName("JOSE");
-		empDetail2.setLastName("RIZAL");
-		empDetail2.setDate(new Date());
-		empDetail2.setTeamLeadName("ANDRES BONIFACIO");
-		
-		List<TimeInOut> timeInOutList2 = new ArrayList<TimeInOut>();
-		
-		for(int i = 0; i < 15; i++){
-			TimeInOut timeInOut1stDay = new TimeInOut();
-			timeInOut1stDay.setTimeIn(new Date());
-			timeInOut1stDay.setTimeOut(dt);
-			timeInOutList2.add(timeInOut1stDay);
-			
-		}
-		empDetail2.setTimeInOutList(timeInOutList2);
-		
-		empDetails.add(empDetail);
-		empDetails.add(empDetail2);
-		
-		return empDetails;
-	}
-	
-	/**
 	 * Generate file name.
 	 *
 	 * @param fileType the file type
@@ -183,6 +125,16 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	private String generateBiMonthlyFolderName(){
 		String folder = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		return folder;
+	}
+	
+	/**
+	 * Gets the current cut off date str.
+	 *
+	 * @return the current cut off date str
+	 */
+	private String getCurrentCutOffDateStr(){
+		//TODO: ADD JODA/15th, 31st, 30th
+		return "";
 	}
 
 }
