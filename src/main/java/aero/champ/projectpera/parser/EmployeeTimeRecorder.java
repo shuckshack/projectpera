@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class EmployeeTimeRecorder {
 		String dateTemplate = "2016_08_";
 		String directory = "D:/timesheet/20160816/";
 		
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/DD HH:mm:ss");
 		
 		try {
 			
@@ -107,6 +108,8 @@ public class EmployeeTimeRecorder {
 					
 					String filename = filenameTemplate + fileNameDate;
 					
+					String dateStringForEmpDetailsList = fileNameDate.replaceAll("_", "/");
+					
 					BufferedReader reader = new BufferedReader(new FileReader(directory + filename + ".txt"));
 					
 					String line;
@@ -115,12 +118,94 @@ public class EmployeeTimeRecorder {
 				    	if (line.contains(cardNo)) {
 				    		String[] empTimeDetails = line.split("\\|");
 				    		
-				    		Date timeIn = new Date();
-				    		Date timeOut = new Date();
+				    		Date timeIn = null;
+				    		Date timeOut = null;
+				    		
+//				    		System.out.println("dateStringForEmpDetailsList: " + dateStringForEmpDetailsList);
+				    		
+//				    		String timeInString = dateStringForEmpDetailsList + " " + empTimeDetails[2];
+//				    		String timeOutString = dateStringForEmpDetailsList + " " + empTimeDetails[3];
+				    		
+//				    		System.out.println("timeInStringL " + timeInString);
+//				    		System.out.println("timeOutString: " + timeOutString);
 				    		
 				    		try {
-					    		timeIn = simpleDateFormat.parse(empTimeDetails[2]);
-					    		timeOut = simpleDateFormat.parse(empTimeDetails[3]);
+//					    		timeIn = simpleDateFormat.parse(timeInString);
+//					    		timeOut = simpleDateFormat.parse(timeOutString);
+					    		if (empTimeDetails.length == 4) {
+					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
+						    		Calendar calIn = Calendar.getInstance();
+						    		calIn.set(Calendar.YEAR,2016);
+						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.DAY_OF_MONTH,day);
+						    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
+						    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
+						    		calIn.set(Calendar.SECOND,Integer.parseInt(timeInComponents[2]));
+
+						    		timeIn = calIn.getTime();
+						    		
+						    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
+						    		Calendar calOut = Calendar.getInstance();
+						    		calOut.set(Calendar.YEAR,2016);
+						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.DAY_OF_MONTH,day);
+						    		calOut.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeOutComponents[0]));
+						    		calOut.set(Calendar.MINUTE,Integer.parseInt(timeOutComponents[1]));
+						    		calOut.set(Calendar.SECOND,Integer.parseInt(timeOutComponents[2]));
+
+						    		timeOut = calOut.getTime();
+						    		
+					    		} else if (empTimeDetails.length == 3) {
+					    			if (empTimeDetails.length == 4) {
+						    			String[] timeInComponents = empTimeDetails[2].split(":"); 
+							    		Calendar calIn = Calendar.getInstance();
+							    		calIn.set(Calendar.YEAR,2016);
+							    		calIn.set(Calendar.MONTH,7);
+							    		calIn.set(Calendar.DAY_OF_MONTH,day);
+							    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
+							    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
+							    		calIn.set(Calendar.SECOND,Integer.parseInt(timeInComponents[2]));
+
+							    		timeIn = calIn.getTime();
+							    		
+							    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
+							    		Calendar calOut = Calendar.getInstance();
+							    		calOut.set(Calendar.YEAR,2016);
+							    		calOut.set(Calendar.MONTH,7);
+							    		calOut.set(Calendar.DAY_OF_MONTH,day);
+							    		calOut.set(Calendar.HOUR_OF_DAY,0);
+							    		calOut.set(Calendar.MINUTE,0);
+							    		calOut.set(Calendar.SECOND,0);
+
+							    		timeOut = calOut.getTime();
+							    		
+						    		}
+					    		} else {
+					    			
+					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
+						    		Calendar calIn = Calendar.getInstance();
+						    		calIn.set(Calendar.YEAR,2016);
+						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.DAY_OF_MONTH,day);
+						    		calIn.set(Calendar.HOUR_OF_DAY,0);
+						    		calIn.set(Calendar.MINUTE,0);
+						    		calIn.set(Calendar.SECOND,0);
+
+						    		timeIn = calIn.getTime();
+						    		
+						    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
+						    		Calendar calOut = Calendar.getInstance();
+						    		calOut.set(Calendar.YEAR,2016);
+						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.DAY_OF_MONTH,day);
+						    		calOut.set(Calendar.HOUR_OF_DAY,0);
+						    		calOut.set(Calendar.MINUTE,0);
+						    		calOut.set(Calendar.SECOND,0);
+
+						    		timeOut = calOut.getTime();
+					    		}
+				    			
+					    		
 				    		} catch (ArrayIndexOutOfBoundsException e) {
 				    			System.out.println(line);
 				    			e.printStackTrace();
@@ -129,6 +214,9 @@ public class EmployeeTimeRecorder {
 				    		TimeInOut timeInOut = new TimeInOut();
 				    		timeInOut.setTimeIn(timeIn);
 				    		timeInOut.setTimeOut(timeOut);
+				    		
+//				    		System.out.println("timeIn " + timeIn);
+//				    		System.out.println("timeOut: " + timeOut);
 				    		
 				    		timeInOutList.add(timeInOut);
 				    		
@@ -151,10 +239,11 @@ public class EmployeeTimeRecorder {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
+//		catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return empList;
 	}
@@ -229,7 +318,7 @@ public class EmployeeTimeRecorder {
 	public void testEmpDetailsList() {
 		List<EmployeeDetails> list = get();
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/DD HH:mm:ss");
 		
 		for (EmployeeDetails emp: list) {
 			if (emp.getTimeInOutList() != null && emp.getTimeInOutList().size() > 0) {
@@ -248,7 +337,7 @@ public class EmployeeTimeRecorder {
 		
 		EmployeeTimeRecorder recorder = new EmployeeTimeRecorder();
 
-		// recorder.queryTimes();
+		//recorder.queryTimes();
 		recorder.testEmpDetailsList();
 		
 	}
