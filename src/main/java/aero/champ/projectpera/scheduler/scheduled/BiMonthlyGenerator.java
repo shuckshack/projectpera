@@ -52,6 +52,7 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	
 	/** The Constant dumpFolder. */
 	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
+	//private static String dumpFolder = "reports\\";
 
 	
 	@Override

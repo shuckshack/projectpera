@@ -102,12 +102,16 @@
 	<field name="timeIn" class="java.util.Date"/>
 	<field name="timeOut" class="java.util.Date"/>
 	<field name="totalTime" class="java.lang.String"/>
+	<field name="timeInStr" class="java.lang.String"/>
+	<field name="timeOutStr" class="java.lang.String"/>
+	<field name="billableTime" class="java.lang.String"/>
 	<variable name="total_reg_hours" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[Double.parseDouble($F{totalTime})]]></variableExpression>
 	</variable>
 	<variable name="TOTAL_REGULAR_HRS" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[Double.parseDouble($F{totalTime})]]></variableExpression>
 	</variable>
+	<variable name="total_bill_hours" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -363,20 +367,6 @@
 	</columnHeader>
 	<detail>
 		<band height="14" splitType="Stretch">
-			<textField pattern="HH.mm.ss">
-				<reportElement x="80" y="0" width="70" height="14" uuid="e6e65c28-9b07-49ac-98a9-a38370fcb79e"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{timeIn}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="150" y="0" width="70" height="14" uuid="6c8881cb-2b91-4050-a134-cd1a078949f4"/>
 				<box>
@@ -416,18 +406,6 @@
 				<textFieldExpression><![CDATA[$F{timeIn}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="450" y="0" width="90" height="14" uuid="48de0e79-f396-435f-b526-4c7578f6b489"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[8.00]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="540" y="0" width="12" height="14" uuid="fad40b39-8412-49f1-8356-15b45c9394f7"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -462,8 +440,8 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalTime}]]></textFieldExpression>
 			</textField>
-			<textField pattern="HH.mm.ss">
-				<reportElement x="290" y="0" width="70" height="14" uuid="f07b7eca-7bb3-4b63-8ba6-aa260e8a5a67"/>
+			<textField>
+				<reportElement x="80" y="0" width="70" height="14" uuid="bb2832e8-2289-4165-ae80-c3515ee685cc"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -472,9 +450,37 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" isBold="false"/>
+					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{timeOut}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{timeInStr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="70" height="14" uuid="f47e9ba7-b0ed-440c-90f6-3e535944a3fc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{timeOutStr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="90" height="14" uuid="7881a131-4e8a-491c-8314-69b8481bee89"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billableTime}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

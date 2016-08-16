@@ -1,6 +1,8 @@
 package aero.champ.projectpera.reports.datasource;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +25,6 @@ public class TimeInOutDataSource  implements JRDataSource{
 	
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
-
 		if(jrField.getName().equals("timeIn")){
 			return item.getTimeIn();
 		}
@@ -32,15 +33,59 @@ public class TimeInOutDataSource  implements JRDataSource{
 			return item.getTimeOut();
 		}
 		
+		if(jrField.getName().equals("timeInStr")){
+			String timeInStr = "";
+			if(null != item.getTimeIn()){
+				timeInStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeIn());
+
+				if(timeInStr.equals("00:00:00")){
+					timeInStr = "";
+				}
+			}
+			return timeInStr;
+		}
+		
+		if(jrField.getName().equals("timeOutStr")){
+			String timeOutStr = "";
+			if(null != item.getTimeOut()){
+				timeOutStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeOut());
+
+				if(timeOutStr.equals("00:00:00")){
+					timeOutStr = "";
+				}
+			}
+			return timeOutStr;
+		}
+				
 		if(jrField.getName().equals("totalTime")){
 			String totalTime = "0";
 			
 			if(null != item.getTimeOut() && null != item.getTimeOut()){
-				totalTime =   df.format(((item.getTimeOut().getTime() -
-						item.getTimeIn().getTime())/3600000.00)-1.0);
+				String timeInStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeIn());
+				String timeOutStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeOut());
+				
+				if((!timeInStr.equals("00:00:00")) 
+						&& (!timeOutStr.equals("00:00:00"))){
+					totalTime =   df.format(((item.getTimeOut().getTime() -
+							item.getTimeIn().getTime())/3600000.00)-1.0);
+				}
 			}
-			
 			return totalTime;
+		}
+		
+		if(jrField.getName().equals("billableTime")){
+			String billableTime = "";
+			
+			if(null != item.getTimeOut() && null != item.getTimeOut()){
+				String timeInStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeIn());
+				String timeOutStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeOut());
+				
+				if((!timeInStr.equals("00:00:00")) 
+						&& (!timeOutStr.equals("00:00:00"))){
+					billableTime =  "8.0";
+				}
+			}
+			return billableTime;
 		}
 		
 		
