@@ -113,18 +113,20 @@ public class EmployeeTimeRecorder {
 					
 					String filename = filenameTemplate + fileNameDate;
 					
-					String dateStringForEmpDetailsList = fileNameDate.replaceAll("_", "/");
-					
 					BufferedReader reader = new BufferedReader(new FileReader(directory + filename + ".txt"));
+					
+					boolean userHasRecord = false;
+					
+					Date timeIn = null;
+		    		Date timeOut = null;
 					
 					String line;
 				    while ((line = reader.readLine()) != null) {
 
 				    	if (line.contains(cardNo)) {
-				    		String[] empTimeDetails = line.split("\\|");
 				    		
-				    		Date timeIn = null;
-				    		Date timeOut = null;
+				    		userHasRecord = true;
+				    		String[] empTimeDetails = line.split("\\|");
 				    		
 //				    		System.out.println("dateStringForEmpDetailsList: " + dateStringForEmpDetailsList);
 				    		
@@ -228,6 +230,35 @@ public class EmployeeTimeRecorder {
 				    		break;
 				    	}
 				    	
+				    }
+				    
+				    if (!userHasRecord) {
+				    	
+				    	Calendar calIn = Calendar.getInstance();
+			    		calIn.set(Calendar.YEAR,2016);
+			    		calIn.set(Calendar.MONTH,7);
+			    		calIn.set(Calendar.DAY_OF_MONTH,day);
+			    		calIn.set(Calendar.HOUR_OF_DAY,0);
+			    		calIn.set(Calendar.MINUTE,0);
+			    		calIn.set(Calendar.SECOND,0);
+				    	
+			    		timeIn = calIn.getTime();
+			    		
+			    		Calendar calOut = Calendar.getInstance();
+			    		calOut.set(Calendar.YEAR,2016);
+			    		calOut.set(Calendar.MONTH,7);
+			    		calOut.set(Calendar.DAY_OF_MONTH,day);
+			    		calOut.set(Calendar.HOUR_OF_DAY,0);
+			    		calOut.set(Calendar.MINUTE,0);
+			    		calOut.set(Calendar.SECOND,0);
+
+			    		timeOut = calOut.getTime();
+			    		
+			    		TimeInOut timeInOut = new TimeInOut();
+			    		timeInOut.setTimeIn(timeIn);
+			    		timeInOut.setTimeOut(timeOut);
+			    		
+			    		timeInOutList.add(timeInOut);
 				    }
 				    
 				    reader.close();
@@ -343,9 +374,9 @@ public class EmployeeTimeRecorder {
 		EmployeeTimeRecorder recorder = new EmployeeTimeRecorder();
 
 		//recorder.queryTimes();
-//		recorder.testEmpDetailsList();
-		BiMonthlyGenerator timesheetReportGenerator = new BiMonthlyGenerator();
-		timesheetReportGenerator.generateCutOffReport(recorder.get());
+		recorder.testEmpDetailsList();
+		//BiMonthlyGenerator timesheetReportGenerator = new BiMonthlyGenerator();
+		//timesheetReportGenerator.generateCutOffReport(recorder.get());
 		
 	}
 }
