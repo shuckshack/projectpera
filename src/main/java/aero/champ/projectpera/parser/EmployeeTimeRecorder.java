@@ -7,22 +7,26 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.BO.TimeInOut;
-import aero.champ.projectpera.scheduler.scheduled.BiMonthlyGenerator;
+import aero.champ.projectpera.scheduler.scheduled.ReportGenerator;
 import aero.champ.projectpera.sql.bean.FalcoEmployee;
 import aero.champ.projectpera.sql.dao.FalcoTransactionsDao;
 
 public class EmployeeTimeRecorder {
 
 	private FalcoTransactionsDao dao;
+	
+	private static ReportGenerator timesheetReportGenerator;
+	private static ClassPathXmlApplicationContext appContext;
 	
 	public EmployeeTimeRecorder() {
 		this.dao = new FalcoTransactionsDao();
@@ -340,13 +344,26 @@ public class EmployeeTimeRecorder {
 	
 	public static void main(String[] args) throws IOException {
 		
-		EmployeeTimeRecorder recorder = new EmployeeTimeRecorder();
-
-		//recorder.queryTimes();
-//		recorder.testEmpDetailsList();
-		BiMonthlyGenerator timesheetReportGenerator = new BiMonthlyGenerator();
-		timesheetReportGenerator.generateCutOffReport(recorder.get());
+		appContext  = new ClassPathXmlApplicationContext("classpath:aero/champ/projectpera/conf/application-context.xml");
+		timesheetReportGenerator = (ReportGenerator) appContext.getBean("timesheetReportGenerator");
 		
+		EmployeeTimeRecorder recorder = new EmployeeTimeRecorder();
+		recorder.run();
 	}
+	
+	public void run(){
+//		queryTimes();
+//		testEmpDetailsList();
+		timesheetReportGenerator.generateCutOffReport(get());
+	}
+
+	/**
+	 * @param timesheetReportGenerator the timesheetReportGenerator to set
+	 */
+	public void setTimesheetReportGenerator(ReportGenerator timesheetReportGenerator) {
+		this.timesheetReportGenerator = timesheetReportGenerator;
+	}
+
+
 }
 

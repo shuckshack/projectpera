@@ -15,8 +15,9 @@
     	<constructor-arg name="databaseName"	value="${db.mongo.database}"/>
     </bean>
     
-<!--     <bean id="employeeRepository" class="aero.champ.projectpera.repository.MongoDbEmployeeRepository"> -->
-<!--     	<constructor-arg name="connector"	ref="mongoDbConnector"/> -->
-<!--     </bean> -->
+    <bean id="employeeRepository" class="aero.champ.projectpera.repository.MongoDbEmployeeRepository">
+    	<constructor-arg name="connector"	ref="mongoDbConnector"/>
+    	<constructor-arg name="collectionName" value="test"/>
+    </bean>
     
 </beans>
