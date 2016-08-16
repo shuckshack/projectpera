@@ -1,6 +1,5 @@
 package aero.champ.projectpera.scheduler.scheduled;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
