@@ -14,7 +14,11 @@ public abstract class MongoDbRepository extends DatabaseRepository {
 	}
 	
 	public void initializeCollection() {
-		collection = ((MongoDbConnector) getConnector()).getDatabase().getCollection("");
+		collection = ((MongoDbConnector) getConnector()).getDatabase().getCollection(collectionName);
+	}
+	
+	public MongoCollection<Document> getCollection() {
+		return this.collection;
 	}
 	
 }
