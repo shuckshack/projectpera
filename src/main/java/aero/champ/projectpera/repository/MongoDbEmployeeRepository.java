@@ -2,6 +2,10 @@ package aero.champ.projectpera.repository;
 
 import org.bson.Document;
 
+import com.google.gson.Gson;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+
 import java.util.List;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
@@ -13,11 +17,12 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 	}
 
 	@Override
-	public void insertEmployeeList(List<EmployeeDetails> employeeDetails) {
+	public void insertEmployeeList(List<EmployeeDetails> employeeDetails) {				
+		Gson gson = new Gson();
 		
-		for (EmployeeDetails employeeDetail : employeeDetails) {
-			Document employeeDocument = new Document();
-			employeeDocument.put("firstName", employeeDetail.getFirstName());
+		for (EmployeeDetails employeeDetail : employeeDetails) {			
+			String employeeJson = gson.toJson(employeeDetail);
+			Document employeeDocument = Document.parse(employeeJson);
 			getCollection().insertOne(employeeDocument);
 		}
 		
