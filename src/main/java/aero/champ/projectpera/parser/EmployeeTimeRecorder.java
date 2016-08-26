@@ -28,6 +28,8 @@ public class EmployeeTimeRecorder {
 	private static ReportGenerator timesheetReportGenerator;
 	private static ClassPathXmlApplicationContext appContext;
 	
+	private static final String DATE_FORMAT = "YYYY/MM/DD HH:mm:ss";
+	
 	public EmployeeTimeRecorder() {
 		this.dao = new FalcoTransactionsDao();
 	}
@@ -64,7 +66,7 @@ public class EmployeeTimeRecorder {
 		
 	}
 	
-	public List<EmployeeDetails> get() {
+	public List<EmployeeDetails> generateEmployeeListFromTempFiles() {
 		
 		List<EmployeeDetails> empList = new ArrayList<EmployeeDetails>();
 		
@@ -74,9 +76,9 @@ public class EmployeeTimeRecorder {
 		
 		String filenameTemplate = "testfile";
 		String dateTemplate = "2016_08_";
-		String directory = "D:/timesheet/20160816/";
+		String directory = "D:/timesheet/20160831/";
 		
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/DD HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		
 		try {
 			
@@ -85,7 +87,6 @@ public class EmployeeTimeRecorder {
 			BufferedReader userReader = new BufferedReader(new FileReader("D:/timesheet/ALL_USERS.txt"));
 			String userLine;
 		    while ((userLine = userReader.readLine()) != null) {
-//			    System.out.println(userLine);
 		    	userList.add(userLine);
 			}
 		    userReader.close();
@@ -108,8 +109,8 @@ public class EmployeeTimeRecorder {
 				
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 				
-				int startDay = 1;
-				int endDay = 15;
+				int startDay = 16;
+				int endDay = 31;
 				
 				for (int day = startDay; day <= endDay; day++) {
 					
@@ -132,17 +133,7 @@ public class EmployeeTimeRecorder {
 				    		userHasRecord = true;
 				    		String[] empTimeDetails = line.split("\\|");
 				    		
-//				    		System.out.println("dateStringForEmpDetailsList: " + dateStringForEmpDetailsList);
-				    		
-//				    		String timeInString = dateStringForEmpDetailsList + " " + empTimeDetails[2];
-//				    		String timeOutString = dateStringForEmpDetailsList + " " + empTimeDetails[3];
-				    		
-//				    		System.out.println("timeInStringL " + timeInString);
-//				    		System.out.println("timeOutString: " + timeOutString);
-				    		
 				    		try {
-//					    		timeIn = simpleDateFormat.parse(timeInString);
-//					    		timeOut = simpleDateFormat.parse(timeOutString);
 					    		if (empTimeDetails.length == 4) {
 					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 						    		Calendar calIn = Calendar.getInstance();
@@ -179,7 +170,6 @@ public class EmployeeTimeRecorder {
 
 							    		timeIn = calIn.getTime();
 							    		
-							    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
 							    		Calendar calOut = Calendar.getInstance();
 							    		calOut.set(Calendar.YEAR,2016);
 							    		calOut.set(Calendar.MONTH,7);
@@ -193,7 +183,6 @@ public class EmployeeTimeRecorder {
 						    		}
 					    		} else {
 					    			
-					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 						    		Calendar calIn = Calendar.getInstance();
 						    		calIn.set(Calendar.YEAR,2016);
 						    		calIn.set(Calendar.MONTH,7);
@@ -204,7 +193,6 @@ public class EmployeeTimeRecorder {
 
 						    		timeIn = calIn.getTime();
 						    		
-						    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
 						    		Calendar calOut = Calendar.getInstance();
 						    		calOut.set(Calendar.YEAR,2016);
 						    		calOut.set(Calendar.MONTH,7);
@@ -225,9 +213,6 @@ public class EmployeeTimeRecorder {
 				    		TimeInOut timeInOut = new TimeInOut();
 				    		timeInOut.setTimeIn(timeIn);
 				    		timeInOut.setTimeOut(timeOut);
-				    		
-//				    		System.out.println("timeIn " + timeIn);
-//				    		System.out.println("timeOut: " + timeOut);
 				    		
 				    		timeInOutList.add(timeInOut);
 				    		
@@ -280,18 +265,14 @@ public class EmployeeTimeRecorder {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-//		catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
 		return empList;
 	}
 	
-	public void test() throws Exception {
+	public void createTemporaryDailyTimeRecordFiles() throws Exception {
 		
-		int startDay = 1;
-		int endDay = 15;
+		int startDay = 16;
+		int endDay = 31;
 
 		PrintStream writer;
 		
@@ -304,7 +285,7 @@ public class EmployeeTimeRecorder {
 			
 			String filenameDate = queryDate.replaceAll("/", "_");
 			
-			writer = new PrintStream(new File("d:/timesheet/20160816/testfile"+filenameDate+".txt"));
+			writer = new PrintStream(new File("d:/timesheet/20160831/testfile"+filenameDate+".txt"));
 			
 			System.out.println(queryDate);
 			
@@ -348,7 +329,7 @@ public class EmployeeTimeRecorder {
 	
 	public void queryTimes() {
 		try {
-			test();
+			createTemporaryDailyTimeRecordFiles();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -356,9 +337,9 @@ public class EmployeeTimeRecorder {
 	}
 	
 	public void testEmpDetailsList() {
-		List<EmployeeDetails> list = get();
+		List<EmployeeDetails> list = generateEmployeeListFromTempFiles();
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		
 		for (EmployeeDetails emp: list) {
 			if (emp.getTimeInOutList() != null && emp.getTimeInOutList().size() > 0) {
@@ -385,7 +366,7 @@ public class EmployeeTimeRecorder {
 	public void run(){
 //		queryTimes();
 //		testEmpDetailsList();
-		timesheetReportGenerator.generateCutOffReport(get());
+		timesheetReportGenerator.generateCutOffReport(generateEmployeeListFromTempFiles());
 	}
 
 	/**
