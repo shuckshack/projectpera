@@ -15,8 +15,12 @@ import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.mongodb.MongoClient;
+
 import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.BO.TimeInOut;
+import aero.champ.projectpera.repository.MongoDbConnector;
+import aero.champ.projectpera.repository.MongoDbEmployeeRepository;
 import aero.champ.projectpera.scheduler.scheduled.ReportGenerator;
 import aero.champ.projectpera.sql.bean.FalcoEmployee;
 import aero.champ.projectpera.sql.dao.FalcoTransactionsDao;
@@ -346,15 +350,15 @@ public class EmployeeTimeRecorder {
 				System.out.println(emp.getLastName() + " " + emp.getCardNumber() + " ");
 				for (TimeInOut timeInOut: emp.getTimeInOutList()) {
 					
-					System.out.print(simpleDateFormat.format(timeInOut.getTimeIn()) + " ");
-					System.out.println(simpleDateFormat.format(timeInOut.getTimeOut()));
+//					System.out.print(simpleDateFormat.format(timeInOut.getTimeIn()) + " ");
+//					System.out.println(simpleDateFormat.format(timeInOut.getTimeOut()));
 				}
 			}
 			
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		
 		appContext  = new ClassPathXmlApplicationContext("classpath:aero/champ/projectpera/conf/application-context.xml");
 		timesheetReportGenerator = (ReportGenerator) appContext.getBean("timesheetReportGenerator");
@@ -366,7 +370,22 @@ public class EmployeeTimeRecorder {
 	public void run(){
 //		queryTimes();
 //		testEmpDetailsList();
-		timesheetReportGenerator.generateCutOffReport(generateEmployeeListFromTempFiles());
+		MongoClient mongoClient = new MongoClient("vl29.champ.aero", 27017);
+		  
+		  MongoDbConnector connector = new MongoDbConnector(mongoClient, "hrdb");
+		  try {
+			connector.openConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
+		  MongoDbEmployeeRepository employeeRepository = new MongoDbEmployeeRepository(connector, "staff");
+		  ((MongoDbEmployeeRepository) employeeRepository).initiateRepository();
+		  ((MongoDbEmployeeRepository) employeeRepository).initializeCollection();
+		  
+		  List<EmployeeDetails> empDetais = generateEmployeeListFromTempFiles();
+		  employeeRepository.insertEmployeeList(empDetais);
+		timesheetReportGenerator.generateCutOffReport(empDetais);
 	}
 
 	/**
