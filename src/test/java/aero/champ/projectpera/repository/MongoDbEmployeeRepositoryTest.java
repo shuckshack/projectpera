@@ -37,6 +37,7 @@ public class MongoDbEmployeeRepositoryTest {
 		EmployeeDetails napoleonBonaparte = new EmployeeDetails();
 		napoleonBonaparte.setFirstName("Napoleon");
 		napoleonBonaparte.setLastName("Bonaparte");
+		napoleonBonaparte.setCardNumber(370118);
 		
 		List<EmployeeDetails> employeeDetailList = new ArrayList<EmployeeDetails>();
 		employeeDetailList.add(napoleonBonaparte);

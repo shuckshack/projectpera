@@ -33,5 +33,11 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateEmployee(EmployeeDetails employeeDetails) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

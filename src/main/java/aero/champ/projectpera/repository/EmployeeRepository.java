@@ -10,4 +10,6 @@ public interface EmployeeRepository {
 	
 	List<EmployeeDetails> getEmployeeList();
 	
+	void updateEmployee(EmployeeDetails employeeDetails);
+	
 }
