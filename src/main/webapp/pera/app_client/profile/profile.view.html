@@ -1,0 +1,48 @@
+<navigation></navigation>
+
+<div class="container">
+  <page-header content="vm.pageHeader"></page-header>
+
+<form id="profile" class="form-horizontal" role="form">
+  <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{ vm.formError }}</div>
+  <div class="form-group">
+    <label for="employeeName" class="col-sm-2 control-label">Employee Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Employee Name" required="required" disabled="true">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="projectName" class="col-sm-2 control-label">Project Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Project Name" required="required">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="department" class="col-sm-2 control-label">Department</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Department" required="required">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="position" class="col-sm-2 control-label">Position</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Position" required="required">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="teamLeadName" class="col-sm-2 control-label">Team Lead Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Team Lead Name" required="required">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ng-show="true" ng-click="vm.modal.cancel()" type="button" class="btn btn-default">Back</button>
+    <button ng-show="true" ng-click="vm.modal.cancel()" type="button" class="btn btn-default">Cancel</button>
+    <button ng-show="true" ng-click="vm.modal.load()" type="button" class="btn btn-default">Load from PET</button>
+    <button ng-show="true" ng-click="vm.modal.edit()" class="btn btn-primary">Edit</button>
+    <button ng-show="true" type="submit" class="btn btn-primary">Update</button>
+  </div>
+</form>
+
+  <footer-generic></footer-generic>
+</div>
