@@ -42,3 +42,4 @@ process.on('SIGTERM', function() {
 });
 
 require('./staff');
+require('./users');

@@ -4,22 +4,23 @@
       <div style="padding: 20px;" class="form-auth">
         <img class="center-block" src="/images/logo.svg" style="width: 70px; height: 70px;">
         <h3 class="text-center lead" style="border-bottom: 1px solid #c5c5c5;"></h3>
-        <form role="form">
+        <form id="loginForm" name="loginForm" role="form" ng-submit="vm.onSubmit()" class="form-horizontal">
+          <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{ vm.formError }}</div>
           <fieldset>
             <div class="form-group input-group">
               <span class="input-group-addon">
                 <i class="glyphicon glyphicon-user"></i>
               </span>
-              <input class="form-control" placeholder="Username" name="username" type="text" ng-model='vm.credentials.username' id="username" autofocus>
+              <input class="form-control" placeholder="Username" name="username" type="text" ng-model='vm.credentials.username' id="username" required autofocus>
             </div>
             <div class="form-group input-group">
               <span class="input-group-addon">
                 <i class="glyphicon glyphicon-lock"></i>
               </span>
-              <input class="form-control" placeholder="Password" name="password" type="password" ng-model='vm.credentials.password' id="password">
+              <input class="form-control" placeholder="Password" name="password" type="password" ng-model='vm.credentials.password' id="password" required>
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-primary btn-block" ng-click="vm.doLogin()">Login</button>
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
           </fieldset>
         </form>
