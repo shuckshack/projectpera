@@ -41,4 +41,4 @@ process.on('SIGTERM', function() {
   });
 });
 
-require('./staffs');
+require('./staff');

@@ -7,14 +7,21 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var uglifyJs = require("uglify-js");
 var fs = require('fs');
+var passport = require('passport');
 
 require('./app_api/models/db');
+require('./app_api/config/passport');
+
+var routesApi = require('./app_api/routes/index');
 
 var app = express();
 
 var appClientFiles = [
   'app_client/app.js',
+  'app_client/login/login.controller.js',
   'app_client/profile/profile.controller.js',
+  'app_client/common/services/authentication.service.js',
+  'app_client/common/services/staffData.service.js',
   'app_client/common/directives/footerGeneric/footerGeneric.directive.js',
   'app_client/common/directives/navigation/navigation.directive.js',
   'app_client/common/directives/pageHeader/pageHeader.directive.js'
@@ -36,6 +43,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app_client')));
+
+app.use(passport.initialize());
+app.use('/api', routesApi);
 
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, 'app_client', 'index.html'));

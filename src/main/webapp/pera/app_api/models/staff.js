@@ -12,9 +12,11 @@ var timeInOutSchema = new mongoose.Schema({
 var staffSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
     },
     lastName: {
+        type: String,
+    },
+    employeeName: {
         type: String,
         required: true
     },
@@ -26,7 +28,7 @@ var staffSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    project: {
+    projectName: {
         type: String,
         required: true
     },
@@ -38,7 +40,11 @@ var staffSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    emailAddress: {
+        type: String,
+        required: true
+    },
     timeInOutList: [timeInOutSchema]
-});
+}, { collection: 'staff' });
 
 mongoose.model('Staff', staffSchema);
