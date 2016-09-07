@@ -39,14 +39,15 @@ public class MongoDbEmployeeRepositoryTest {
 	@AfterClass
 	public static void tearDown() throws Exception {
             LOG.info("=============AfterClass============");
-                ((MongoDbEmployeeRepository) employeeRepository).getCollection()
-                        .deleteMany(
-                                and(
-                                        eq("firstName", "Napoleon"),
-                                        eq("lastName","Bonaparte"),
-                                        eq("cardNumber",370118)
-                                )
-                        );
+            ((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                    .deleteMany(
+                            and(
+                                    eq("firstName", "Napoleon"),
+                                    eq("lastName", "Bonaparte"),
+                                    eq("cardNumber", 370118)
+                            )
+                    )
+            ;
 		((MongoDbEmployeeRepository) employeeRepository).closeRepository();
 	}
 	
@@ -64,7 +65,11 @@ public class MongoDbEmployeeRepositoryTest {
 		employeeRepository.insertEmployeeList(employeeDetailList);
                 List<Document> napoleonEmployee = ((MongoDbEmployeeRepository) employeeRepository).getCollection()
                         .find(
-                                eq("cardNumber", 370118)
+                                and(
+                                        eq("firstName", "Napoleon"),
+                                        eq("lastName", "Bonaparte"),
+                                        eq("cardNumber", 370118)
+                                )
                         )
                         .into(new ArrayList<Document>());
                 assertTrue(napoleonEmployee.size() == 1);
