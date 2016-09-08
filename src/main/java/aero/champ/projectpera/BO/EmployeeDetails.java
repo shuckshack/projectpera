@@ -266,6 +266,5 @@ public class EmployeeDetails {
 	public void setCardNumber(int cardNumber) {
 		this.cardNumber = cardNumber;
 	}
-
 }
 

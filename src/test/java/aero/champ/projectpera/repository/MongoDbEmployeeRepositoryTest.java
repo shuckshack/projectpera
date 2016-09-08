@@ -6,20 +6,28 @@ import java.util.List;
 import org.junit.Test;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
+import com.google.gson.Gson;
 
 import com.mongodb.MongoClient;
 import org.apache.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import com.rits.cloning.Cloner;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public class MongoDbEmployeeRepositoryTest {
 
 	private static EmployeeRepository employeeRepository;
+        
+        private static final EmployeeDetails NAPOLEON_BONAPARTE = new EmployeeDetails();
+	
+        private static Bson napoleonFilter;
         
         private static final Logger LOG = Logger.getLogger(MongoDbEmployeeRepositoryTest.class);
 	
@@ -34,43 +42,38 @@ public class MongoDbEmployeeRepositoryTest {
 		employeeRepository = new MongoDbEmployeeRepository(connector, "staff");
 		((MongoDbEmployeeRepository) employeeRepository).initiateRepository();
 		((MongoDbEmployeeRepository) employeeRepository).initializeCollection();
+                
+                NAPOLEON_BONAPARTE.setFirstName("Napoleon");
+		NAPOLEON_BONAPARTE.setLastName("Bonaparte");
+		NAPOLEON_BONAPARTE.setCardNumber(370118);
+                NAPOLEON_BONAPARTE.setEmpCode(370118);
+                
+                napoleonFilter = and(
+                        eq("firstName", NAPOLEON_BONAPARTE.getFirstName()),
+                        eq("lastName", NAPOLEON_BONAPARTE.getLastName()),
+                        eq("cardNumber", NAPOLEON_BONAPARTE.getCardNumber()),
+                        eq("empCode", NAPOLEON_BONAPARTE.getEmpCode())
+                );
+                
+                List<EmployeeDetails> employeeDetailList = new ArrayList<EmployeeDetails>();
+		employeeDetailList.add(NAPOLEON_BONAPARTE);
+		
+		employeeRepository.insertEmployeeList(employeeDetailList);
 	}
 	
 	@AfterClass
 	public static void tearDown() throws Exception {
-            LOG.info("=============AfterClass============");
-            ((MongoDbEmployeeRepository) employeeRepository).getCollection()
-                    .deleteMany(
-                            and(
-                                    eq("firstName", "Napoleon"),
-                                    eq("lastName", "Bonaparte"),
-                                    eq("cardNumber", 370118)
-                            )
-                    )
-            ;
-		((MongoDbEmployeeRepository) employeeRepository).closeRepository();
+                LOG.info("=============AfterClass============");
+                ((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                        .deleteMany(napoleonFilter);
+                ((MongoDbEmployeeRepository) employeeRepository).closeRepository();
 	}
 	
 	@Test
 	public void testInsertEmployeeList() {
             LOG.info("=============testInsertEmployeeList============");
-		EmployeeDetails napoleonBonaparte = new EmployeeDetails();
-		napoleonBonaparte.setFirstName("Napoleon");
-		napoleonBonaparte.setLastName("Bonaparte");
-		napoleonBonaparte.setCardNumber(370118);
-		
-		List<EmployeeDetails> employeeDetailList = new ArrayList<EmployeeDetails>();
-		employeeDetailList.add(napoleonBonaparte);
-		
-		employeeRepository.insertEmployeeList(employeeDetailList);
                 List<Document> napoleonEmployee = ((MongoDbEmployeeRepository) employeeRepository).getCollection()
-                        .find(
-                                and(
-                                        eq("firstName", "Napoleon"),
-                                        eq("lastName", "Bonaparte"),
-                                        eq("cardNumber", 370118)
-                                )
-                        )
+                        .find(napoleonFilter)
                         .into(new ArrayList<Document>());
                 assertTrue(napoleonEmployee.size() == 1);
 	}
@@ -88,6 +91,25 @@ public class MongoDbEmployeeRepositoryTest {
             logInfo.append("|last name: ").append(empDetails.getLastName());
             LOG.info(logInfo.toString());
         }
+    }
+    
+    @Test
+    public void testUpdateEmployee() {
+        LOG.info("=============testUpdateEmployee============");
+        if (((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                        .find(napoleonFilter).first() == null) {
+            fail("Napoleon Employee not inserted!");
+        } else {
+            EmployeeDetails napoleonClone = new Cloner().deepClone(NAPOLEON_BONAPARTE);
+            napoleonClone.setPosition("CLONE");
+            employeeRepository.updateEmployee(napoleonClone);
+            Document updatedDoc = ((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                        .find(napoleonFilter).first();
+            EmployeeDetails updatedNapoleon = new Gson().fromJson(updatedDoc.toJson(), EmployeeDetails.class);
+            
+            assertTrue(updatedNapoleon.getPosition().equals("CLONE"));
+        }
+        
     }
 	
 }
