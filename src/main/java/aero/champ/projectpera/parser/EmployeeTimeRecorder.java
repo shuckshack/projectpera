@@ -30,6 +30,16 @@ public class EmployeeTimeRecorder {
 	
 	private static final String DATE_FORMAT = "YYYY/MM/DD HH:mm:ss";
 	
+	private String year;
+
+	private String month;
+	
+	private String payPeriodDay;
+	
+	private int startDay;
+	
+	private int endDay;
+	
 	public EmployeeTimeRecorder() {
 		this.dao = new FalcoTransactionsDao();
 	}
@@ -75,8 +85,8 @@ public class EmployeeTimeRecorder {
 		// Users: CARD_NO,NAME 
 		
 		String filenameTemplate = "testfile";
-		String dateTemplate = "2016_08_";
-		String directory = "D:/timesheet/20160831/";
+		String dateTemplate = "2016_09_";
+		String directory = "D:/timesheet/20160916/";
 		
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		
@@ -109,8 +119,8 @@ public class EmployeeTimeRecorder {
 				
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 				
-				int startDay = 16;
-				int endDay = 31;
+				int startDay = 1;
+				int endDay = 15;
 				
 				for (int day = startDay; day <= endDay; day++) {
 					
@@ -138,7 +148,7 @@ public class EmployeeTimeRecorder {
 					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 						    		Calendar calIn = Calendar.getInstance();
 						    		calIn.set(Calendar.YEAR,2016);
-						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.MONTH,8);
 						    		calIn.set(Calendar.DAY_OF_MONTH,day);
 						    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
 						    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
@@ -149,7 +159,7 @@ public class EmployeeTimeRecorder {
 						    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
 						    		Calendar calOut = Calendar.getInstance();
 						    		calOut.set(Calendar.YEAR,2016);
-						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.MONTH,8);
 						    		calOut.set(Calendar.DAY_OF_MONTH,day);
 						    		calOut.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeOutComponents[0]));
 						    		calOut.set(Calendar.MINUTE,Integer.parseInt(timeOutComponents[1]));
@@ -162,7 +172,7 @@ public class EmployeeTimeRecorder {
 						    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 							    		Calendar calIn = Calendar.getInstance();
 							    		calIn.set(Calendar.YEAR,2016);
-							    		calIn.set(Calendar.MONTH,7);
+							    		calIn.set(Calendar.MONTH,8);
 							    		calIn.set(Calendar.DAY_OF_MONTH,day);
 							    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
 							    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
@@ -172,7 +182,7 @@ public class EmployeeTimeRecorder {
 							    		
 							    		Calendar calOut = Calendar.getInstance();
 							    		calOut.set(Calendar.YEAR,2016);
-							    		calOut.set(Calendar.MONTH,7);
+							    		calOut.set(Calendar.MONTH,8);
 							    		calOut.set(Calendar.DAY_OF_MONTH,day);
 							    		calOut.set(Calendar.HOUR_OF_DAY,0);
 							    		calOut.set(Calendar.MINUTE,0);
@@ -185,7 +195,7 @@ public class EmployeeTimeRecorder {
 					    			
 						    		Calendar calIn = Calendar.getInstance();
 						    		calIn.set(Calendar.YEAR,2016);
-						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.MONTH,8);
 						    		calIn.set(Calendar.DAY_OF_MONTH,day);
 						    		calIn.set(Calendar.HOUR_OF_DAY,0);
 						    		calIn.set(Calendar.MINUTE,0);
@@ -195,7 +205,7 @@ public class EmployeeTimeRecorder {
 						    		
 						    		Calendar calOut = Calendar.getInstance();
 						    		calOut.set(Calendar.YEAR,2016);
-						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.MONTH,8);
 						    		calOut.set(Calendar.DAY_OF_MONTH,day);
 						    		calOut.set(Calendar.HOUR_OF_DAY,0);
 						    		calOut.set(Calendar.MINUTE,0);
@@ -271,13 +281,13 @@ public class EmployeeTimeRecorder {
 	
 	public void createTemporaryDailyTimeRecordFiles() throws Exception {
 		
-		int startDay = 16;
-		int endDay = 31;
+		int startDay = 1;
+		int endDay = 15;
 
 		PrintStream writer;
 		
 		// YYYY/MM/
-		String dateTemplate = "2016/08/";
+		String dateTemplate = "2016/09/";
 		
 		for (int day = startDay; day <= endDay; day++) {
 			
@@ -285,7 +295,7 @@ public class EmployeeTimeRecorder {
 			
 			String filenameDate = queryDate.replaceAll("/", "_");
 			
-			writer = new PrintStream(new File("d:/timesheet/20160831/testfile"+filenameDate+".txt"));
+			writer = new PrintStream(new File("d:/timesheet/20160916/testfile"+filenameDate+".txt"));
 			
 			System.out.println(queryDate);
 			
@@ -354,6 +364,48 @@ public class EmployeeTimeRecorder {
 		}
 	}
 	
+	
+	
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getPayPeriodDay() {
+		return payPeriodDay;
+	}
+
+	public void setPayPeriodDay(String payPeriodDay) {
+		this.payPeriodDay = payPeriodDay;
+	}
+
+	public int getStartDay() {
+		return startDay;
+	}
+
+	public void setStartDay(int startDay) {
+		this.startDay = startDay;
+	}
+
+	public int getEndDay() {
+		return endDay;
+	}
+
+	public void setEndDay(int endDay) {
+		this.endDay = endDay;
+	}
+
 	public static void main(String[] args) throws IOException {
 		
 		appContext  = new ClassPathXmlApplicationContext("classpath:aero/champ/projectpera/conf/application-context.xml");
