@@ -86,7 +86,7 @@ public class EmployeeTimeRecorder {
 		
 		String filenameTemplate = "testfile";
 		String dateTemplate = "2016_09_";
-		String directory = "D:/timesheet/20160916/";
+		String directory = "D:/timesheet/20160930/";
 		
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		
@@ -119,8 +119,8 @@ public class EmployeeTimeRecorder {
 				
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 				
-				int startDay = 1;
-				int endDay = 15;
+				int startDay = 16;
+				int endDay = 30;
 				
 				for (int day = startDay; day <= endDay; day++) {
 					
@@ -235,7 +235,7 @@ public class EmployeeTimeRecorder {
 				    	
 				    	Calendar calIn = Calendar.getInstance();
 			    		calIn.set(Calendar.YEAR,2016);
-			    		calIn.set(Calendar.MONTH,7);
+			    		calIn.set(Calendar.MONTH,8);
 			    		calIn.set(Calendar.DAY_OF_MONTH,day);
 			    		calIn.set(Calendar.HOUR_OF_DAY,0);
 			    		calIn.set(Calendar.MINUTE,0);
@@ -245,7 +245,7 @@ public class EmployeeTimeRecorder {
 			    		
 			    		Calendar calOut = Calendar.getInstance();
 			    		calOut.set(Calendar.YEAR,2016);
-			    		calOut.set(Calendar.MONTH,7);
+			    		calOut.set(Calendar.MONTH,8);
 			    		calOut.set(Calendar.DAY_OF_MONTH,day);
 			    		calOut.set(Calendar.HOUR_OF_DAY,0);
 			    		calOut.set(Calendar.MINUTE,0);
@@ -281,8 +281,8 @@ public class EmployeeTimeRecorder {
 	
 	public void createTemporaryDailyTimeRecordFiles() throws Exception {
 		
-		int startDay = 1;
-		int endDay = 15;
+		int startDay = 16;
+		int endDay = 30;
 
 		PrintStream writer;
 		
@@ -295,7 +295,7 @@ public class EmployeeTimeRecorder {
 			
 			String filenameDate = queryDate.replaceAll("/", "_");
 			
-			writer = new PrintStream(new File("d:/timesheet/20160916/testfile"+filenameDate+".txt"));
+			writer = new PrintStream(new File("d:/timesheet/20160930/testfile"+filenameDate+".txt"));
 			
 			System.out.println(queryDate);
 			
