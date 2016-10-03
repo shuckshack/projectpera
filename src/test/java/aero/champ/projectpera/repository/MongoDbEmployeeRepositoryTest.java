@@ -42,7 +42,7 @@ public class MongoDbEmployeeRepositoryTest {
 		List<EmployeeDetails> employeeDetailList = new ArrayList<EmployeeDetails>();
 		employeeDetailList.add(napoleonBonaparte);
 		
-		employeeRepository.insertEmployeeList(employeeDetailList);
+		employeeRepository.insertUpdateEmployeeList(employeeDetailList);
 	}
 	
 }

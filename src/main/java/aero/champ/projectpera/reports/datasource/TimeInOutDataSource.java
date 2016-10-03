@@ -5,12 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import aero.champ.projectpera.BO.TimeInOut;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+
+import org.joda.time.DateTime;
+
+import aero.champ.projectpera.BO.TimeInOut;
 
 public class TimeInOutDataSource  implements JRDataSource{
 
@@ -58,8 +60,8 @@ public class TimeInOutDataSource  implements JRDataSource{
 		}
 				
 		if(jrField.getName().equals("totalTime")){
-			String totalTime = "0";
-			
+			String totalTime = "0.0";
+			double totalTimeInt = 0;
 			if(null != item.getTimeOut() && null != item.getTimeOut()){
 				String timeInStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeIn());
 				String timeOutStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeOut());
@@ -67,23 +69,24 @@ public class TimeInOutDataSource  implements JRDataSource{
 				if((!timeInStr.equals("00:00:00")) 
 						&& (!timeOutStr.equals("00:00:00"))){
 					totalTime =   df.format(((item.getTimeOut().getTime() -
-							item.getTimeIn().getTime())/3600000.00)-1.0);
+							item.getTimeIn().getTime())/3600000.00));
+					
+					totalTimeInt = Double.parseDouble(totalTime);
+					
+					if(totalTimeInt > 5){
+						totalTime = String.valueOf(totalTimeInt - 1.0);
+					}
+					
 				}
 			}
 			return totalTime;
 		}
 		
 		if(jrField.getName().equals("billableTime")){
-			String billableTime = "";
+			String billableTime = "0.0";
 			
-			if(null != item.getTimeOut() && null != item.getTimeOut()){
-				String timeInStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeIn());
-				String timeOutStr = new SimpleDateFormat("HH:mm:ss").format((Date)item.getTimeOut());
-				
-				if((!timeInStr.equals("00:00:00")) 
-						&& (!timeOutStr.equals("00:00:00"))){
+			if(null != item.getTimeIn() && !isWeekend(item.getTimeIn())){ 
 					billableTime =  "8.0";
-				}
 			}
 			return billableTime;
 		}
@@ -102,6 +105,16 @@ public class TimeInOutDataSource  implements JRDataSource{
 		}
 		
 		return hasNext;
+	}
+	
+	
+	private boolean isWeekend(Date date){
+		DateTime dateTime = new DateTime(date);
+		boolean isWeekend = false;
+		if(dateTime.getDayOfWeek() > 5){
+			isWeekend = true;
+		}
+		return isWeekend;
 	}
 
 }

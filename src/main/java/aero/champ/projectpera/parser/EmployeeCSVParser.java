@@ -52,7 +52,7 @@ public class EmployeeCSVParser {
 		//transformation logic for converting List<String[]> to List<EmployeeDetails>
      
 		List<EmployeeDetails> employeeList = new ArrayList<>();
-		employeeRepository.insertEmployeeList(employeeList);
+		employeeRepository.insertUpdateEmployeeList(employeeList);
 		
 		return employeeTimeDetailslist;
 	

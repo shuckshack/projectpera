@@ -79,8 +79,8 @@ public class EmployeeTimeRecorder {
 		// Users: CARD_NO,NAME 
 		
 		String filenameTemplate = "testfile";
-		String dateTemplate = "2016_08_";
-		String directory = "D:/timesheet/20160831/";
+		String dateTemplate = "2016_09_";
+		String directory = "D:/timesheet/20160930/";
 		
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		
@@ -99,8 +99,9 @@ public class EmployeeTimeRecorder {
 			for (String user: userList) {
 				
 				String[] userDetails = user.split("\\|");
-				
 				String cardNo = userDetails[0].trim();
+				
+				System.out.println("CARD NO: "+cardNo);
 				String name = userDetails[1].trim();
 				
 				EmployeeDetails employee = new EmployeeDetails();
@@ -114,7 +115,7 @@ public class EmployeeTimeRecorder {
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 				
 				int startDay = 16;
-				int endDay = 31;
+				int endDay = 30;
 				
 				for (int day = startDay; day <= endDay; day++) {
 					
@@ -142,7 +143,7 @@ public class EmployeeTimeRecorder {
 					    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 						    		Calendar calIn = Calendar.getInstance();
 						    		calIn.set(Calendar.YEAR,2016);
-						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.MONTH,8);
 						    		calIn.set(Calendar.DAY_OF_MONTH,day);
 						    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
 						    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
@@ -153,7 +154,7 @@ public class EmployeeTimeRecorder {
 						    		String[] timeOutComponents = empTimeDetails[3].split(":"); 
 						    		Calendar calOut = Calendar.getInstance();
 						    		calOut.set(Calendar.YEAR,2016);
-						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.MONTH,8);
 						    		calOut.set(Calendar.DAY_OF_MONTH,day);
 						    		calOut.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeOutComponents[0]));
 						    		calOut.set(Calendar.MINUTE,Integer.parseInt(timeOutComponents[1]));
@@ -166,7 +167,7 @@ public class EmployeeTimeRecorder {
 						    			String[] timeInComponents = empTimeDetails[2].split(":"); 
 							    		Calendar calIn = Calendar.getInstance();
 							    		calIn.set(Calendar.YEAR,2016);
-							    		calIn.set(Calendar.MONTH,7);
+							    		calIn.set(Calendar.MONTH,8);
 							    		calIn.set(Calendar.DAY_OF_MONTH,day);
 							    		calIn.set(Calendar.HOUR_OF_DAY,Integer.parseInt(timeInComponents[0]));
 							    		calIn.set(Calendar.MINUTE,Integer.parseInt(timeInComponents[1]));
@@ -176,7 +177,7 @@ public class EmployeeTimeRecorder {
 							    		
 							    		Calendar calOut = Calendar.getInstance();
 							    		calOut.set(Calendar.YEAR,2016);
-							    		calOut.set(Calendar.MONTH,7);
+							    		calOut.set(Calendar.MONTH,8);
 							    		calOut.set(Calendar.DAY_OF_MONTH,day);
 							    		calOut.set(Calendar.HOUR_OF_DAY,0);
 							    		calOut.set(Calendar.MINUTE,0);
@@ -189,7 +190,7 @@ public class EmployeeTimeRecorder {
 					    			
 						    		Calendar calIn = Calendar.getInstance();
 						    		calIn.set(Calendar.YEAR,2016);
-						    		calIn.set(Calendar.MONTH,7);
+						    		calIn.set(Calendar.MONTH,8);
 						    		calIn.set(Calendar.DAY_OF_MONTH,day);
 						    		calIn.set(Calendar.HOUR_OF_DAY,0);
 						    		calIn.set(Calendar.MINUTE,0);
@@ -199,7 +200,7 @@ public class EmployeeTimeRecorder {
 						    		
 						    		Calendar calOut = Calendar.getInstance();
 						    		calOut.set(Calendar.YEAR,2016);
-						    		calOut.set(Calendar.MONTH,7);
+						    		calOut.set(Calendar.MONTH,8);
 						    		calOut.set(Calendar.DAY_OF_MONTH,day);
 						    		calOut.set(Calendar.HOUR_OF_DAY,0);
 						    		calOut.set(Calendar.MINUTE,0);
@@ -229,7 +230,7 @@ public class EmployeeTimeRecorder {
 				    	
 				    	Calendar calIn = Calendar.getInstance();
 			    		calIn.set(Calendar.YEAR,2016);
-			    		calIn.set(Calendar.MONTH,7);
+			    		calIn.set(Calendar.MONTH,8);
 			    		calIn.set(Calendar.DAY_OF_MONTH,day);
 			    		calIn.set(Calendar.HOUR_OF_DAY,0);
 			    		calIn.set(Calendar.MINUTE,0);
@@ -239,7 +240,7 @@ public class EmployeeTimeRecorder {
 			    		
 			    		Calendar calOut = Calendar.getInstance();
 			    		calOut.set(Calendar.YEAR,2016);
-			    		calOut.set(Calendar.MONTH,7);
+			    		calOut.set(Calendar.MONTH,8);
 			    		calOut.set(Calendar.DAY_OF_MONTH,day);
 			    		calOut.set(Calendar.HOUR_OF_DAY,0);
 			    		calOut.set(Calendar.MINUTE,0);
@@ -276,12 +277,12 @@ public class EmployeeTimeRecorder {
 	public void createTemporaryDailyTimeRecordFiles() throws Exception {
 		
 		int startDay = 16;
-		int endDay = 31;
+		int endDay = 30;
 
 		PrintStream writer;
 		
 		// YYYY/MM/
-		String dateTemplate = "2016/08/";
+		String dateTemplate = "2016/09/";
 		
 		for (int day = startDay; day <= endDay; day++) {
 			
@@ -289,7 +290,7 @@ public class EmployeeTimeRecorder {
 			
 			String filenameDate = queryDate.replaceAll("/", "_");
 			
-			writer = new PrintStream(new File("d:/timesheet/20160831/testfile"+filenameDate+".txt"));
+			writer = new PrintStream(new File("d:/timesheet/20160930/testfile"+filenameDate+".txt"));
 			
 			System.out.println(queryDate);
 			
@@ -306,7 +307,7 @@ public class EmployeeTimeRecorder {
 				// NAME,CARD_NO,FIRST_IN,LAST_OUT
 				String empDetailsCsv = empName;
 				
-				for (int i = 0; i < oneEmployee.size(); i++) {
+				for (int i = 0; i < oneEmployee.size(); i++) { 
 					
 					FalcoEmployee empDetails = oneEmployee.get(i);
 					
@@ -368,7 +369,7 @@ public class EmployeeTimeRecorder {
 	}
 	
 	public void run(){
-//		queryTimes();
+		queryTimes();
 //		testEmpDetailsList();
 		MongoClient mongoClient = new MongoClient("vl29.champ.aero", 27017);
 		  
@@ -384,7 +385,7 @@ public class EmployeeTimeRecorder {
 		  ((MongoDbEmployeeRepository) employeeRepository).initializeCollection();
 		  
 		  List<EmployeeDetails> empDetais = generateEmployeeListFromTempFiles();
-		  employeeRepository.insertEmployeeList(empDetais);
+		  employeeRepository.insertUpdateEmployeeList(empDetais);
 		timesheetReportGenerator.generateCutOffReport(empDetais);
 	}
 

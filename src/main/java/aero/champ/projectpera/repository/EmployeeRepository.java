@@ -6,7 +6,7 @@ import aero.champ.projectpera.BO.EmployeeDetails;
 
 public interface EmployeeRepository {
 
-	void insertEmployeeList(List<EmployeeDetails> employeeDetails);
+	void insertUpdateEmployeeList(List<EmployeeDetails> employeeDetails);
 	
 	List<EmployeeDetails> getEmployeeList();
 	

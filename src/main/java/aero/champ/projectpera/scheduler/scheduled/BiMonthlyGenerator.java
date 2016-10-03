@@ -51,8 +51,8 @@ public class BiMonthlyGenerator implements ReportGenerator{
 	private static final String PDF_JASPER_PATH = "reports\\Timesheet.jasper";
 	
 	/** The Constant dumpFolder. */
-	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
-	//private static String dumpFolder = "reports\\";
+//	private static String dumpFolder = "////csfsmnl.champ.aero/GROUP_MNL/COMMON/CHAMP_Timesheet";
+	private static String dumpFolder = "reports\\";
 
 	
 	@Override
@@ -68,7 +68,7 @@ public class BiMonthlyGenerator implements ReportGenerator{
 				
 			    parameters.put("employeeName", empDetail.getFirstName()+" "+empDetail.getLastName());
 			    parameters.put("teamLeadName", empDetail.getTeamLeadName());
-			    parameters.put("totalBillHours", String.valueOf((empDetail.getTimeInOutList().size())*8.0));
+			    parameters.put("totalBillHours", "88.0");
 			    parameters.put("department_position", empDetail.getDepartment()+"/"+empDetail.getPosition());
 			    parameters.put("projectName", empDetail.getProject());
 			    
