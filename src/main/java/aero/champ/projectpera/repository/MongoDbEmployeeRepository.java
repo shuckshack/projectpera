@@ -37,7 +37,6 @@ import java.util.List;
 public class MongoDbEmployeeRepository extends MongoDbRepository implements EmployeeRepository
 {
 	//~ Constructors -----------------------------
-
 	/**
 	 * Creates a new MongoDbEmployeeRepository object.
 	 *
@@ -49,7 +48,6 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 		super(connector, collectionName);
 	}
 	//~ Methods ----------------------------------
-
 	/**
 	 * DOCUMENT ME!
 	 *
