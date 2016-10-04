@@ -62,7 +62,7 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 
 		for (EmployeeDetails employeeDetail : employeeDetails)
 		{
-			if (empDetails.contains(employeeDetail.getCardNumber()))
+			if (empDetails.contains(String.valueOf(employeeDetail.getCardNumber())))
 			{
 				updateEmployeeTimeInOut(employeeDetail);
 			}
@@ -86,6 +86,19 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 		Bson set = set("timeInOutList", employeeDetails.getTimeInOutList());
 
 		getCollection().updateOne(filter, set);
+
+		// Mongo mongo = new Mongo("vl29.champ.aero", 27017);
+		// DB db = mongo.getDB("hrdb");
+		//
+		// DBCollection collection = db.getCollection("staff");
+		//
+		// BasicDBObject query = new BasicDBObject();
+		// BasicDBObject update = new BasicDBObject();
+		//
+		// query.put("cardNumber", employeeDetails.getCardNumber());
+		// update.put("timeInOutList", employeeDetails.getTimeInOutList());
+		//
+		// collection.update(query, update);
 	}
 	
 	/**

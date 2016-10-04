@@ -17,7 +17,7 @@
     
     <bean id="employeeRepository" class="aero.champ.projectpera.repository.MongoDbEmployeeRepository">
     	<constructor-arg name="connector"	ref="mongoDbConnector"/>
-    	<constructor-arg name="collectionName" value="test"/>
+    	<constructor-arg name="collectionName" value="staff"/>
     </bean>
     
 </beans>
