@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>aero.champ</groupId>
 	<artifactId>projectpera</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Project PERA</name>
 	<url>http://maven.apache.org</url>

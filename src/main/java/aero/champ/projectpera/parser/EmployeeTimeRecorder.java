@@ -120,7 +120,10 @@ public class EmployeeTimeRecorder {
 				
 				employee.setFirstName("");
 				employee.setLastName(name);
-				employee.setCardNumber(Integer.parseInt(cardNo));
+				employee.setCardNumber(
+						Integer.parseInt(
+								cardNo.substring(
+										cardNo.length() - 10)));
 				employee.setPosition("");
 				employee.setDepartment("");
 				
