@@ -1,4 +1,7 @@
 
+
+
+
 package aero.champ.projectpera.parser;
 
 import java.io.BufferedReader;
@@ -33,6 +36,16 @@ public class EmployeeTimeRecorder {
 	private static ClassPathXmlApplicationContext appContext;
 	
 	private static final String DATE_FORMAT = "YYYY/MM/DD HH:mm:ss";
+	
+	private String year;
+
+	private String month;
+	
+	private String payPeriodDay;
+	
+	private int startDay;
+	
+	private int endDay;
 	
 	public EmployeeTimeRecorder() {
 		this.dao = new FalcoTransactionsDao();
@@ -99,9 +112,8 @@ public class EmployeeTimeRecorder {
 			for (String user: userList) {
 				
 				String[] userDetails = user.split("\\|");
-				String cardNo = userDetails[0].trim();
 				
-				System.out.println("CARD NO: "+cardNo);
+				String cardNo = userDetails[0].trim();
 				String name = userDetails[1].trim();
 				
 				EmployeeDetails employee = new EmployeeDetails();
@@ -307,7 +319,7 @@ public class EmployeeTimeRecorder {
 				// NAME,CARD_NO,FIRST_IN,LAST_OUT
 				String empDetailsCsv = empName;
 				
-				for (int i = 0; i < oneEmployee.size(); i++) { 
+				for (int i = 0; i < oneEmployee.size(); i++) {
 					
 					FalcoEmployee empDetails = oneEmployee.get(i);
 					
@@ -351,15 +363,57 @@ public class EmployeeTimeRecorder {
 				System.out.println(emp.getLastName() + " " + emp.getCardNumber() + " ");
 				for (TimeInOut timeInOut: emp.getTimeInOutList()) {
 					
-//					System.out.print(simpleDateFormat.format(timeInOut.getTimeIn()) + " ");
-//					System.out.println(simpleDateFormat.format(timeInOut.getTimeOut()));
+					System.out.print(simpleDateFormat.format(timeInOut.getTimeIn()) + " ");
+					System.out.println(simpleDateFormat.format(timeInOut.getTimeOut()));
 				}
 			}
 			
 		}
 	}
 	
-	public static void main(String[] args){
+	
+	
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public String getPayPeriodDay() {
+		return payPeriodDay;
+	}
+
+	public void setPayPeriodDay(String payPeriodDay) {
+		this.payPeriodDay = payPeriodDay;
+	}
+
+	public int getStartDay() {
+		return startDay;
+	}
+
+	public void setStartDay(int startDay) {
+		this.startDay = startDay;
+	}
+
+	public int getEndDay() {
+		return endDay;
+	}
+
+	public void setEndDay(int endDay) {
+		this.endDay = endDay;
+	}
+
+	public static void main(String[] args) throws IOException {
 		
 		appContext  = new ClassPathXmlApplicationContext("classpath:aero/champ/projectpera/conf/application-context.xml");
 		timesheetReportGenerator = (ReportGenerator) appContext.getBean("timesheetReportGenerator");

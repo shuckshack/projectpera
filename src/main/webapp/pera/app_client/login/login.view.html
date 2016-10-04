@@ -1,0 +1,48 @@
+<div class="container vertical-center">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div style="padding: 20px;" class="form-auth">
+        <img class="center-block" src="/images/logo.svg" style="width: 70px; height: 70px;">
+        <h3 class="text-center lead" style="border-bottom: 1px solid #c5c5c5;"></h3>
+        <form id="loginForm" name="loginForm" role="form" ng-submit="vm.onSubmit()" class="form-horizontal">
+          <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{ vm.formError }}</div>
+          <fieldset>
+            <div class="form-group input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-user"></i>
+              </span>
+              <input class="form-control" placeholder="Username" name="username" type="text" ng-model='vm.credentials.username' id="username" required autofocus>
+            </div>
+            <div class="form-group input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-lock"></i>
+              </span>
+              <input class="form-control" placeholder="Password" name="password" type="password" ng-model='vm.credentials.password' id="password" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <footer-generic class="text-center"></footer-generic>
+  </div>
+</div>
+<!--
+<hr/>
+<h3 class="text-center">Or Login with</h3>
+<div class="row">
+  <div class="col-md-8 col-md-offset-3">
+    <div class="col-md-3">
+      <button class="btn btn-lg btn-primary btn-block bottom10" ng-click="login('facebook');">Facebook</button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-lg btn-info btn-block bottom10" ng-click="login('twitter');">Twitter</button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-lg btn-danger btn-block bottom10" ng-click="login('google');">Google</button>
+    </div>
+  </div>
+</div>
+-->
