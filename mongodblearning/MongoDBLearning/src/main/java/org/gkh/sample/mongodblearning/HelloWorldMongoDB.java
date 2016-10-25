@@ -33,6 +33,8 @@ import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Indexes.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.BsonArray;
+import org.bson.BsonValue;
 import org.bson.conversions.Bson;
 import static org.gkh.sample.mongodblearning.JsonDocPrinter.printJson;
 
@@ -52,7 +54,7 @@ public class HelloWorldMongoDB {
         Bson filter = eq("scores.type", "exam");
 
         List<Document> all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
-        all.forEach((doc) -> printJson(doc));
+//        all.forEach((doc) -> printJson(doc));
 //        MongoCursor<Document> cursor = coll.find(filter)
 //                                .sort(ascending("student_id", "scores.score")).iterator();
 
@@ -83,36 +85,62 @@ public class HelloWorldMongoDB {
         }
 
         all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
-        all.forEach((doc) -> printJson(doc));
+//        all.forEach((doc) -> printJson(doc));
 //        new HelloWorldMongoDB().testDocument();
 
 //        MongoDatabase db = client.getDatabase("course").withReadPreference(ReadPreference.secondary());
         List<BsonDocument> list;
 //        insertTest(db);
-        findTest(db);
+//        findTest(db);
+        list = findArrayTest(db);
+        System.out.println("=====findArrayTest=====");
+        list.stream().forEach((oneDoc) -> {
+            printJson(oneDoc);
+        });
+        list = findInArrayTest(db);
+        System.out.println("=====findInArrayTest=====");
+        list.stream().forEach((oneDoc) -> {
+            printJson(oneDoc);
+        });
+        list = findInArrayIndexTest(db);
+        System.out.println("=====findInArrayIndexTest=====");
+        list.stream().forEach((oneDoc) -> {
+            printJson(oneDoc);
+        });
         list = findWithFilterTest(db);
+        System.out.println("=====findWithFilterTest=====");
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
         list = findWithProjectionTest(db);
+        System.out.println("=====findWithProjectionTest=====");
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
         list = findWithSortSipLimitTest(db);
+        System.out.println("=====findWithSortSipLimitTest=====");
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
         list = updateTest(db);
+        System.out.println("=====updateTest=====");
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
         list = deleteTest(db);
+        System.out.println("=====deleteTest=====");
         list.stream().forEach((oneDoc) -> {
             printJson(oneDoc);
         });
-        
-        
+
 //        new HelloWorldMongoDB().testDocument();
+    }
+
+    private static void findInArray(MongoDatabase db) {
+        MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
+
+        coll.drop();
+
     }
 
     private static void updateScores(Document doc) {
@@ -165,6 +193,75 @@ public class HelloWorldMongoDB {
         long count = coll.count();
         System.out.println("count:" + count);
 
+    }
+    
+    private static List<BsonDocument> findArrayTest(MongoDatabase db) {
+        MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
+
+        coll.drop();
+
+        List<BsonValue> values;
+
+        for (int i = 0; i < 30; i += 3) {
+
+            values = new ArrayList<>();
+
+            values.add(new BsonInt32(i));
+            values.add(new BsonInt32(i + 1));
+            values.add(new BsonInt32(i + 2));
+
+            coll.insertOne(new BsonDocument("x", new BsonArray(values)));
+        }
+
+        Bson filter = eq("x", new BsonArray(Arrays.asList(new BsonInt32(0),new BsonInt32(1),new BsonInt32(2))));
+
+        return coll.find(filter).into(new ArrayList<BsonDocument>());
+    }
+
+    private static List<BsonDocument> findInArrayTest(MongoDatabase db) {
+        MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
+
+        coll.drop();
+
+        List<BsonValue> values;
+
+        for (int i = 0; i < 30; i += 3) {
+
+            values = new ArrayList<>();
+
+            values.add(new BsonInt32(i));
+            values.add(new BsonInt32(i + 1));
+            values.add(new BsonInt32(i + 2));
+
+            coll.insertOne(new BsonDocument("x", new BsonArray(values)));
+        }
+
+        Bson filter = eq("x", 3);
+
+        return coll.find(filter).into(new ArrayList<BsonDocument>());
+    }
+    
+        private static List<BsonDocument> findInArrayIndexTest(MongoDatabase db) {
+        MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
+
+        coll.drop();
+
+        List<BsonValue> values;
+
+        for (int i = 0; i < 30; i += 3) {
+
+            values = new ArrayList<>();
+
+            values.add(new BsonInt32(i));
+            values.add(new BsonInt32(i + 1));
+            values.add(new BsonInt32(i + 2));
+
+            coll.insertOne(new BsonDocument("x", new BsonArray(values)));
+        }
+
+        Bson filter = eq("x.2", 8);
+
+        return coll.find(filter).into(new ArrayList<BsonDocument>());
     }
 
     private static List<BsonDocument> findWithFilterTest(MongoDatabase db) {
@@ -287,5 +384,5 @@ public class HelloWorldMongoDB {
         String str = document.getString("str");
         int i = document.getInteger("int");
     }
-    
+
 }

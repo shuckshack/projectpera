@@ -1,0 +1,63 @@
+<navigation></navigation>
+
+<div class="container">
+  <page-header content="vm.pageHeader"></page-header>
+  
+  <h3 class="error">{{ vm.message }}</h3>
+  
+  <form editable-form name="profileForm" id="profileForm" class="form-horizontal" role="form" onaftersave="updateProfile()" ng-show="vm.message == ''">
+    <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{ vm.formError }}</div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Employee Name</label>
+      <div class="col-sm-10">
+        <label class="control-label" editable-text="vm.data.staff.employeeName" e-name="name" e-required>{{ vm.data.staff.employeeName || 'Employee Name' }}</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Project Name</label>
+      <div class="col-sm-10">
+        <label class="control-label" e-style="width: 100%" editable-text="vm.data.staff.projectName" e-name="projectName" e-required>{{ vm.data.staff.projectName || 'Project Name' }}</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Department</label>
+      <div class="col-sm-10">
+        <label class="control-label" e-style="width: 100%" editable-text="vm.data.staff.department" e-name="department" e-required>{{ vm.data.staff.department || 'Department' }}</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Position</label>
+      <div class="col-sm-10">
+        <label class="control-label" e-style="width: 100%" editable-text="vm.data.staff.position" e-name="position" e-required>{{ vm.data.staff.position || 'Position' }}</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Team Lead Name</label>
+      <div class="col-sm-10">
+        <label class="control-label" e-style="width: 100%" editable-text="vm.data.staff.teamLeadName" e-name="teamLeadName" e-required>{{ vm.data.staff.teamLeadName || 'Team Lead Name' }}</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Email Address</label>
+      <div class="col-sm-10">
+        <label class="control-label" e-style="width: 100%" editable-email="vm.data.staff.emailAddress" e-name="emailAddress" e-required>{{ vm.data.staff.emailAddress || 'Email Address' }}</label>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="profileForm.$show()" ng-show="!profileForm.$visible">Edit</button>
+      <span ng-show="profileForm.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="profileForm.$waiting">Save</button>
+        <button type="button" class="btn btn-default" ng-disabled="profileForm.$waiting" ng-click="profileForm.$cancel()">Cancel</button>
+      </span>
+    </div>
+  </form>
+  
+  <footer-generic></footer-generic>
+</div>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="mongoClient" class="com.mongodb.MongoClient">
+    	<constructor-arg name="host" value="${db.mongo.host}"/>
+    	<constructor-arg name="port" value="${db.mongo.port}"/>
+    </bean>
+    
+    <bean id="mongoDbConnector" init-method="openConnection" destroy-method="closeConnection"  
+    		class="aero.champ.projectpera.repository.MongoDbConnector">
+    	<constructor-arg name="mongoClient"		ref="mongoClient"/>
+    	<constructor-arg name="databaseName"	value="${db.mongo.database}"/>
+    </bean>
+    
+    <bean id="employeeRepository" class="aero.champ.projectpera.repository.MongoDbEmployeeRepository">
+    	<constructor-arg name="connector"	ref="mongoDbConnector"/>
+    	<constructor-arg name="collectionName" value="staff"/>
+    </bean>
+    
+</beans>

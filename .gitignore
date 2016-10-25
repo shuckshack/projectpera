@@ -5,3 +5,9 @@
 /mongodblearning/MongoDBLearning/nb-configuration.xml
 /blog_accepting_posts_and_comments/target/
 /JavaSpringLearning/target/
+/target
+/out
+/.settings
+.project
+.classpath
+*.swp
