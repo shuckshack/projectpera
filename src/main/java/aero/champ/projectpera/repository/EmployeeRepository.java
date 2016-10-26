@@ -12,4 +12,5 @@ public interface EmployeeRepository {
 	
 	void updateEmployee(EmployeeDetails employeeDetails);
 	
+        public void updateEmployeeTimeInOut(EmployeeDetails employeeDetails);
 }

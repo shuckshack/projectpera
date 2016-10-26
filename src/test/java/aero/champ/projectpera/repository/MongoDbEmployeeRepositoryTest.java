@@ -6,9 +6,11 @@ import java.util.List;
 import org.junit.Test;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
+import aero.champ.projectpera.BO.TimeInOut;
 import com.google.gson.Gson;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import org.apache.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
@@ -16,6 +18,7 @@ import static org.junit.Assert.fail;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.rits.cloning.Cloner;
+import java.util.Calendar;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.junit.AfterClass;
@@ -34,7 +37,9 @@ public class MongoDbEmployeeRepositoryTest {
 	@BeforeClass
 	public static void setUp() throws Exception {
             LOG.info("=============BeforeClass============");
-		MongoClient mongoClient = new MongoClient("vl29.champ.aero", 27017);
+            MongoClientOptions settings = MongoClientOptions.builder().codecRegistry(com.mongodb.MongoClient.getDefaultCodecRegistry()).build();
+            
+		MongoClient mongoClient = new MongoClient("vl29.champ.aero", settings);
 		
 		MongoDbConnector connector = new MongoDbConnector(mongoClient, "hrdb");
 		connector.openConnection();
@@ -110,6 +115,23 @@ public class MongoDbEmployeeRepositoryTest {
             assertTrue(updatedNapoleon.getPosition().equals("CLONE"));
         }
         
+    }
+    
+    @Test
+    public void testUpdateEmployeeTimeInOutList() {
+        LOG.info("=============testUpdateEmployeeTimeInOutList============");
+        List<TimeInOut> timeInOutList = new ArrayList<>();
+        TimeInOut timeInOut = new TimeInOut();
+        timeInOut.setTimeIn(Calendar.getInstance().getTime());
+        timeInOut.setTimeOut(Calendar.getInstance().getTime());
+        timeInOutList.add(timeInOut);
+        EmployeeDetails napoleonClone = new Cloner().deepClone(NAPOLEON_BONAPARTE);
+        napoleonClone.setTimeInOutList(timeInOutList);
+        employeeRepository.updateEmployeeTimeInOut(napoleonClone);
+        Document updatedDoc = ((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                        .find(napoleonFilter).first();
+        EmployeeDetails updatedNapoleon = new Gson().fromJson(updatedDoc.toJson(), EmployeeDetails.class);
+        assertTrue(updatedNapoleon.getTimeInOutList() != null && updatedNapoleon.getTimeInOutList().size() > 0);
     }
 	
 }

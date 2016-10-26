@@ -9,8 +9,10 @@ import static com.mongodb.client.model.Updates.combine;
 import static com.mongodb.client.model.Updates.set;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
+import aero.champ.projectpera.BO.TimeInOut;
 
 import com.google.gson.Gson;
+import com.mongodb.BasicDBList;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -20,6 +22,7 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
 import com.mongodb.client.MongoCursor;
+import java.text.SimpleDateFormat;
 
 import org.bson.Document;
 
@@ -27,6 +30,9 @@ import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.BsonArray;
+import org.bson.BsonDocument;
+import org.bson.BsonString;
 
 
 /**
@@ -75,31 +81,39 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 		}
 	}
 	
-	/**
-	 * DOCUMENT ME!
-	 *
-	 * @param  employeeDetails
-	 */
-	public void updateEmployeeTimeInOut(EmployeeDetails employeeDetails)
-	{
-		Bson filter = eq("cardNumber", employeeDetails.getCardNumber());
-		Bson set = set("timeInOutList", employeeDetails.getTimeInOutList());
+    /**
+     * DOCUMENT ME!
+     *
+     * @param employeeDetails
+     */
+        @Override
+    public void updateEmployeeTimeInOut(EmployeeDetails employeeDetails) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
+        Bson filter = eq("cardNumber", employeeDetails.getCardNumber());
+        BsonArray timeInOutList = new BsonArray();
+        for (TimeInOut timeInOut : employeeDetails.getTimeInOutList()) {
+            BsonDocument timeInOutDoc = new BsonDocument("timeIn", new BsonString(sdf.format(timeInOut.getTimeIn())));
+            timeInOutDoc.append("timeOut", new BsonString(sdf.format(timeInOut.getTimeOut())));
+            timeInOutList.add(timeInOutDoc);
+        }
 
-		getCollection().updateOne(filter, set);
+        Bson set = set("timeInOutList", timeInOutList);
 
-		// Mongo mongo = new Mongo("vl29.champ.aero", 27017);
-		// DB db = mongo.getDB("hrdb");
-		//
-		// DBCollection collection = db.getCollection("staff");
-		//
-		// BasicDBObject query = new BasicDBObject();
-		// BasicDBObject update = new BasicDBObject();
-		//
-		// query.put("cardNumber", employeeDetails.getCardNumber());
-		// update.put("timeInOutList", employeeDetails.getTimeInOutList());
-		//
-		// collection.update(query, update);
-	}
+        getCollection().updateOne(filter, set);
+
+        // Mongo mongo = new Mongo("vl29.champ.aero", 27017);
+        // DB db = mongo.getDB("hrdb");
+        //
+        // DBCollection collection = db.getCollection("staff");
+        //
+        // BasicDBObject query = new BasicDBObject();
+        // BasicDBObject update = new BasicDBObject();
+        //
+        // query.put("cardNumber", employeeDetails.getCardNumber());
+        // update.put("timeInOutList", employeeDetails.getTimeInOutList());
+        //
+        // collection.update(query, update);
+    }
 	
 	/**
 	 * DOCUMENT ME!
