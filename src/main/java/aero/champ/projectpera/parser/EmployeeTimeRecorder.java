@@ -120,7 +120,7 @@ public class EmployeeTimeRecorder
 
 		String filenameTemplate = "testfile";
 		String dateTemplate = "2016_10_";
-		String directory = "D:/timesheet/20161015/";
+		String directory = "D:/timesheet/20161031/";
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
@@ -155,8 +155,8 @@ public class EmployeeTimeRecorder
 
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 
-				int startDay = 1;
-				int endDay = 15;
+				int startDay = 16;
+				int endDay = 31;
 
 				for (int day = startDay; day <= endDay; day++)
 				{
@@ -328,8 +328,8 @@ public class EmployeeTimeRecorder
 	 */
 	public void createTemporaryDailyTimeRecordFiles() throws Exception
 	{
-		int startDay = 1;
-		int endDay = 15;
+		int startDay = 16;
+		int endDay = 31;
 
 		PrintStream writer;
 
