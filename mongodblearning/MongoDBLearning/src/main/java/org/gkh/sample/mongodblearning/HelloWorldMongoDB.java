@@ -54,11 +54,14 @@ public class HelloWorldMongoDB {
         Bson filter = eq("scores.type", "exam");
 
         List<Document> all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
-//        all.forEach((doc) -> printJson(doc));
-//        MongoCursor<Document> cursor = coll.find(filter)
-//                                .sort(ascending("student_id", "scores.score")).iterator();
-
-//        cursor.forEach((doc) -> printJson(doc));
+        all.forEach((doc) -> printJson(doc));
+        MongoCursor<Document> cursor2 = coll.find(filter)
+                                .sort(ascending("student_id", "scores.score")).iterator();
+        List<String> ids = new ArrayList<>();
+        cursor2.forEachRemaining((doc) -> {
+            String id = doc.getString("student_id");
+            ids.add(id);
+        });
         try (MongoCursor<Document> cursor = coll.find(filter)
                 .sort(ascending("student_id")).iterator();) {
             while (cursor.hasNext()) {
