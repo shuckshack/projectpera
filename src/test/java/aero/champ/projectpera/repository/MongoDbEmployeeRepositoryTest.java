@@ -10,8 +10,8 @@ import aero.champ.projectpera.BO.TimeInOut;
 import com.google.gson.Gson;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,17 +32,15 @@ public class MongoDbEmployeeRepositoryTest {
 	
         private static Bson napoleonFilter;
         
-        private static final Logger LOG = Logger.getLogger(MongoDbEmployeeRepositoryTest.class);
+        private static final Logger LOG = LogManager.getLogger(MongoDbEmployeeRepositoryTest.class);
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
             LOG.info("=============BeforeClass============");
-            MongoClientOptions settings = MongoClientOptions.builder().codecRegistry(com.mongodb.MongoClient.getDefaultCodecRegistry()).build();
             
-		MongoClient mongoClient = new MongoClient("vl29.champ.aero", settings);
+		MongoClient mongoClient = new MongoClient("vl29.champ.aero");
 		
 		MongoDbConnector connector = new MongoDbConnector(mongoClient, "hrdb");
-		connector.openConnection();
 		
 		employeeRepository = new MongoDbEmployeeRepository(connector, "staff");
 		((MongoDbEmployeeRepository) employeeRepository).initiateRepository();
@@ -114,7 +112,6 @@ public class MongoDbEmployeeRepositoryTest {
             
             assertTrue(updatedNapoleon.getPosition().equals("CLONE"));
         }
-        
     }
     
     @Test
@@ -132,6 +129,13 @@ public class MongoDbEmployeeRepositoryTest {
                         .find(napoleonFilter).first();
         EmployeeDetails updatedNapoleon = new Gson().fromJson(updatedDoc.toJson(), EmployeeDetails.class);
         assertTrue(updatedNapoleon.getTimeInOutList() != null && updatedNapoleon.getTimeInOutList().size() > 0);
+    }
+    
+    @Test
+    public void testGetEmployeeCardNumFrMongo() {
+        LOG.info("=============testGetEmployeeCardNumFrMongo============");
+        List<String> empCardNumbers = employeeRepository.getEmployeeCardNumFrMongo();
+        assertTrue(empCardNumbers.contains(String.valueOf(NAPOLEON_BONAPARTE.getCardNumber())));
     }
 	
 }

@@ -3,6 +3,7 @@ package aero.champ.projectpera.repository;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Sorts.orderBy;
 import static com.mongodb.client.model.Updates.combine;
@@ -12,14 +13,6 @@ import aero.champ.projectpera.BO.EmployeeDetails;
 import aero.champ.projectpera.BO.TimeInOut;
 
 import com.google.gson.Gson;
-import com.mongodb.BasicDBList;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 
 import com.mongodb.client.MongoCursor;
 import java.text.SimpleDateFormat;
@@ -30,6 +23,8 @@ import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
@@ -42,6 +37,7 @@ import org.bson.BsonString;
  */
 public class MongoDbEmployeeRepository extends MongoDbRepository implements EmployeeRepository
 {
+    private static final Logger LOG = LogManager.getLogger(MongoDbEmployeeRepository.class);
 	//~ Constructors -----------------------------
 	/**
 	 * Creates a new MongoDbEmployeeRepository object.
@@ -62,6 +58,7 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 	@Override
 	public void insertEmployeeList(List<EmployeeDetails> employeeDetails)
 	{
+            LOG.debug("start insertEmployeeList");
 		Gson gson = new Gson();
 
 		List<String> empDetails = getEmployeeCardNumFrMongo();
@@ -88,11 +85,13 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
      */
         @Override
     public void updateEmployeeTimeInOut(EmployeeDetails employeeDetails) {
+        LOG.debug("start updateEmployeeTimeInOut");
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
         Bson filter = eq("cardNumber", employeeDetails.getCardNumber());
         BsonArray timeInOutList = new BsonArray();
+        BsonDocument timeInOutDoc;
         for (TimeInOut timeInOut : employeeDetails.getTimeInOutList()) {
-            BsonDocument timeInOutDoc = new BsonDocument("timeIn", new BsonString(sdf.format(timeInOut.getTimeIn())));
+            timeInOutDoc = new BsonDocument("timeIn", new BsonString(sdf.format(timeInOut.getTimeIn())));
             timeInOutDoc.append("timeOut", new BsonString(sdf.format(timeInOut.getTimeOut())));
             timeInOutList.add(timeInOutDoc);
         }
@@ -100,19 +99,6 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
         Bson set = set("timeInOutList", timeInOutList);
 
         getCollection().updateOne(filter, set);
-
-        // Mongo mongo = new Mongo("vl29.champ.aero", 27017);
-        // DB db = mongo.getDB("hrdb");
-        //
-        // DBCollection collection = db.getCollection("staff");
-        //
-        // BasicDBObject query = new BasicDBObject();
-        // BasicDBObject update = new BasicDBObject();
-        //
-        // query.put("cardNumber", employeeDetails.getCardNumber());
-        // update.put("timeInOutList", employeeDetails.getTimeInOutList());
-        //
-        // collection.update(query, update);
     }
 	
 	/**
@@ -120,28 +106,26 @@ public class MongoDbEmployeeRepository extends MongoDbRepository implements Empl
 	 *
 	 * @return
 	 */
+    @Override
 	public List<String> getEmployeeCardNumFrMongo()
 	{
-		Mongo mongo = new Mongo("vl29.champ.aero", 27017);
-		DB db = mongo.getDB("hrdb");
-
-		DBCollection collection = db.getCollection("staff");
-
-		BasicDBObject fields = new BasicDBObject();
-		// fields.put("cardNumber", 34072);
-		BasicDBObject filterResult = new BasicDBObject();
-		filterResult.put("cardNumber", 1);
-		filterResult.put("_id", 0);
+		Bson filterResult = fields(excludeId(), include("cardNumber"));
 
 		List<String> empDetails = new ArrayList<>();
-
-		DBCursor cursor = collection.find(fields, filterResult);
-		while (cursor.hasNext())
-		{
-			DBObject cur = cursor.next();
-			String id = cur.get("cardNumber").toString();
-			empDetails.add(id);
-		}
+                
+                
+                try (MongoCursor<Document> cursor = getCollection().find().projection(filterResult).iterator()) {
+                        while (cursor.hasNext())
+                        {
+                                Document cur = cursor.next();
+                                String id = cur.getString("cardNumber");
+                                empDetails.add(id);
+                        }
+                }
+//        cursor.forEachRemaining((doc) -> {
+//            empDetails.add(doc.getString("cardNumber"));
+//        });
+                
 
 		return empDetails;
 	}
