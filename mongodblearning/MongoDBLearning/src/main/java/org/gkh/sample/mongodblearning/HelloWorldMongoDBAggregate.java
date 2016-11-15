@@ -58,7 +58,11 @@ public class HelloWorldMongoDBAggregate {
                         )
                 )
         );
-        
+//        db.products.aggregate([{"$group":{"_id":"$category","num_products":{"$sum":1}}}])
+//db.zips.aggregate([{"$group":{"_id":"$state","population":{"$sum":"$pop"}}}])
+//db.zips.aggregate([{"$group":{"_id":"$state","average_pop":{"$avg":"$pop"}}}])
+//db.zips.aggregate([{"$group":{"_id":"$city","postal_codes":{"$addToSet":"$_id"}}}])
+//db.zips.aggregate([{"$group":{"_id":"$state","pop":{"$max":"$pop"}}}])
         BsonDocument groupBy = new BsonDocument(
                         "$group", 
                         new BsonDocument(

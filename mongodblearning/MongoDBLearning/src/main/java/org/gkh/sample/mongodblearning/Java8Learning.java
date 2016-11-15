@@ -6,8 +6,9 @@
 package org.gkh.sample.mongodblearning;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -16,16 +17,20 @@ import java.util.List;
 public class Java8Learning {
     
     public static void main(String[] args) {
-        List<String> numbers = new ArrayList<>();
-        numbers.add("4");
-        numbers.add("7");
-        numbers.set(1,"5");
-        numbers.add("8");
-        numbers.remove(0);
-        for (Iterator<String> it = numbers.iterator(); it.hasNext();) {
-            String number = it.next();
-            System.err.println(number);
-        }
+        Set<Integer> numSet1 = new HashSet<>();
+        List<Integer> numList1 = new ArrayList<>();
+        
+        numList1.add(1);
+        numList1.add(2);
+        numList1.add(3);
+        numList1.add(2);
+        numList1.add(1);
+        
+        numSet1.addAll(numList1);
+        
+        numSet1.forEach((num) -> System.out.println(num));
+        System.out.println("======");
+        numList1.forEach((num) -> System.out.println(num));
     }
     
     
