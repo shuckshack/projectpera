@@ -119,8 +119,8 @@ public class EmployeeTimeRecorder
 		// Users: CARD_NO,NAME
 
 		String filenameTemplate = "testfile";
-		String dateTemplate = "2016_10_";
-		String directory = "D:/timesheet/20161031/";
+		String dateTemplate = "2016_11_";
+		String directory = "D:/timesheet/20161116/";
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 
@@ -155,8 +155,8 @@ public class EmployeeTimeRecorder
 
 				List<TimeInOut> timeInOutList = new ArrayList<TimeInOut>();
 
-				int startDay = 16;
-				int endDay = 31;
+				int startDay = 1;
+				int endDay = 15;
 
 				for (int day = startDay; day <= endDay; day++)
 				{
@@ -186,7 +186,7 @@ public class EmployeeTimeRecorder
 									String[] timeInComponents = empTimeDetails[2].split(":");
 									Calendar calIn = Calendar.getInstance();
 									calIn.set(Calendar.YEAR, 2016);
-									calIn.set(Calendar.MONTH, 9);
+									calIn.set(Calendar.MONTH, 10);
 									calIn.set(Calendar.DAY_OF_MONTH, day);
 									calIn.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeInComponents[0]));
 									calIn.set(Calendar.MINUTE, Integer.parseInt(timeInComponents[1]));
@@ -197,7 +197,7 @@ public class EmployeeTimeRecorder
 									String[] timeOutComponents = empTimeDetails[3].split(":");
 									Calendar calOut = Calendar.getInstance();
 									calOut.set(Calendar.YEAR, 2016);
-									calOut.set(Calendar.MONTH, 9);
+									calOut.set(Calendar.MONTH, 10);
 									calOut.set(Calendar.DAY_OF_MONTH, day);
 									calOut.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeOutComponents[0]));
 									calOut.set(Calendar.MINUTE, Integer.parseInt(timeOutComponents[1]));
@@ -212,7 +212,7 @@ public class EmployeeTimeRecorder
 										String[] timeInComponents = empTimeDetails[2].split(":");
 										Calendar calIn = Calendar.getInstance();
 										calIn.set(Calendar.YEAR, 2016);
-										calIn.set(Calendar.MONTH, 9);
+										calIn.set(Calendar.MONTH, 10);
 										calIn.set(Calendar.DAY_OF_MONTH, day);
 										calIn.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeInComponents[0]));
 										calIn.set(Calendar.MINUTE, Integer.parseInt(timeInComponents[1]));
@@ -222,7 +222,7 @@ public class EmployeeTimeRecorder
 
 										Calendar calOut = Calendar.getInstance();
 										calOut.set(Calendar.YEAR, 2016);
-										calOut.set(Calendar.MONTH, 9);
+										calOut.set(Calendar.MONTH, 10);
 										calOut.set(Calendar.DAY_OF_MONTH, day);
 										calOut.set(Calendar.HOUR_OF_DAY, 0);
 										calOut.set(Calendar.MINUTE, 0);
@@ -235,7 +235,7 @@ public class EmployeeTimeRecorder
 								{
 									Calendar calIn = Calendar.getInstance();
 									calIn.set(Calendar.YEAR, 2016);
-									calIn.set(Calendar.MONTH, 9);
+									calIn.set(Calendar.MONTH, 10);
 									calIn.set(Calendar.DAY_OF_MONTH, day);
 									calIn.set(Calendar.HOUR_OF_DAY, 0);
 									calIn.set(Calendar.MINUTE, 0);
@@ -245,7 +245,7 @@ public class EmployeeTimeRecorder
 
 									Calendar calOut = Calendar.getInstance();
 									calOut.set(Calendar.YEAR, 2016);
-									calOut.set(Calendar.MONTH, 9);
+									calOut.set(Calendar.MONTH, 10);
 									calOut.set(Calendar.DAY_OF_MONTH, day);
 									calOut.set(Calendar.HOUR_OF_DAY, 0);
 									calOut.set(Calendar.MINUTE, 0);
@@ -274,7 +274,7 @@ public class EmployeeTimeRecorder
 					{
 						Calendar calIn = Calendar.getInstance();
 						calIn.set(Calendar.YEAR, 2016);
-						calIn.set(Calendar.MONTH, 9);
+						calIn.set(Calendar.MONTH, 10);
 						calIn.set(Calendar.DAY_OF_MONTH, day);
 						calIn.set(Calendar.HOUR_OF_DAY, 0);
 						calIn.set(Calendar.MINUTE, 0);
@@ -284,7 +284,7 @@ public class EmployeeTimeRecorder
 
 						Calendar calOut = Calendar.getInstance();
 						calOut.set(Calendar.YEAR, 2016);
-						calOut.set(Calendar.MONTH, 9);
+						calOut.set(Calendar.MONTH, 10);
 						calOut.set(Calendar.DAY_OF_MONTH, day);
 						calOut.set(Calendar.HOUR_OF_DAY, 0);
 						calOut.set(Calendar.MINUTE, 0);
@@ -328,13 +328,13 @@ public class EmployeeTimeRecorder
 	 */
 	public void createTemporaryDailyTimeRecordFiles() throws Exception
 	{
-		int startDay = 16;
-		int endDay = 31;
+		int startDay = 1;
+		int endDay = 15;
 
 		PrintStream writer;
 
 		// YYYY/MM/
-		String dateTemplate = "2016/10/";
+		String dateTemplate = "2016/11/";
 
 		for (int day = startDay; day <= endDay; day++)
 		{
@@ -342,7 +342,7 @@ public class EmployeeTimeRecorder
 
 			String filenameDate = queryDate.replaceAll("/", "_");
 
-			writer = new PrintStream(new File("d:/timesheet/20161015/testfile" + filenameDate + ".txt"));
+			writer = new PrintStream(new File("d:/timesheet/20161116/testfile" + filenameDate + ".txt"));
 
 			System.out.println(queryDate);
 
