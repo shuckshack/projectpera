@@ -6,16 +6,19 @@ import java.util.List;
 import org.junit.Test;
 
 import aero.champ.projectpera.BO.EmployeeDetails;
+import aero.champ.projectpera.BO.TimeInOut;
 import com.google.gson.Gson;
 
 import com.mongodb.MongoClient;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.rits.cloning.Cloner;
+import java.util.Calendar;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.junit.AfterClass;
@@ -29,15 +32,15 @@ public class MongoDbEmployeeRepositoryTest {
 	
         private static Bson napoleonFilter;
         
-        private static final Logger LOG = Logger.getLogger(MongoDbEmployeeRepositoryTest.class);
+        private static final Logger LOG = LogManager.getLogger(MongoDbEmployeeRepositoryTest.class);
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
             LOG.info("=============BeforeClass============");
-		MongoClient mongoClient = new MongoClient("vl29.champ.aero", 27017);
+            
+		MongoClient mongoClient = new MongoClient("vl29.champ.aero");
 		
 		MongoDbConnector connector = new MongoDbConnector(mongoClient, "hrdb");
-		connector.openConnection();
 		
 		employeeRepository = new MongoDbEmployeeRepository(connector, "staff");
 		((MongoDbEmployeeRepository) employeeRepository).initiateRepository();
@@ -109,7 +112,30 @@ public class MongoDbEmployeeRepositoryTest {
             
             assertTrue(updatedNapoleon.getPosition().equals("CLONE"));
         }
-        
+    }
+    
+    @Test
+    public void testUpdateEmployeeTimeInOutList() {
+        LOG.info("=============testUpdateEmployeeTimeInOutList============");
+        List<TimeInOut> timeInOutList = new ArrayList<>();
+        TimeInOut timeInOut = new TimeInOut();
+        timeInOut.setTimeIn(Calendar.getInstance().getTime());
+        timeInOut.setTimeOut(Calendar.getInstance().getTime());
+        timeInOutList.add(timeInOut);
+        EmployeeDetails napoleonClone = new Cloner().deepClone(NAPOLEON_BONAPARTE);
+        napoleonClone.setTimeInOutList(timeInOutList);
+        employeeRepository.updateEmployeeTimeInOut(napoleonClone);
+        Document updatedDoc = ((MongoDbEmployeeRepository) employeeRepository).getCollection()
+                        .find(napoleonFilter).first();
+        EmployeeDetails updatedNapoleon = new Gson().fromJson(updatedDoc.toJson(), EmployeeDetails.class);
+        assertTrue(updatedNapoleon.getTimeInOutList() != null && updatedNapoleon.getTimeInOutList().size() > 0);
+    }
+    
+    @Test
+    public void testGetEmployeeCardNumFrMongo() {
+        LOG.info("=============testGetEmployeeCardNumFrMongo============");
+        List<String> empCardNumbers = employeeRepository.getEmployeeCardNumFrMongo();
+        assertTrue(empCardNumbers.contains(String.valueOf(NAPOLEON_BONAPARTE.getCardNumber())));
     }
 	
 }

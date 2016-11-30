@@ -12,4 +12,7 @@ public interface EmployeeRepository {
 	
 	void updateEmployee(EmployeeDetails employeeDetails);
 	
+        void updateEmployeeTimeInOut(EmployeeDetails employeeDetails);
+        
+        List<String> getEmployeeCardNumFrMongo();
 }
