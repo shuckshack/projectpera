@@ -12,7 +12,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
         <style>
-            
+
             body {
                 padding: 30px;
             }
@@ -28,14 +28,86 @@ and open the template in the editor.
                 Change the text
             </button>
         </div>
-        
-        
+
+
         <script>
             const header = document.querySelector('h1');
-            
+
             function changeText() {
                 header.innerText = 'my new text!';
             }
+            // strings
+            'this is a string';
+            'this is a second string';
+            "this is also a string";
+            // numbers
+            1;
+            10;
+            3.14;
+            // boolean
+            true;
+            false;
+
+            console.log(Boolean("")); // return false
+            console.log(Boolean("this is a string")); // return true
+
+            // specials
+            undefined;
+            let user = "chris";
+            console.log(user);
+
+            let nullVar = null;
+            console.log(nullVar);
+
+            let nanVar = NaN;
+            console.log(nanVar);
+
+            // objects
+            const userConst = {
+                name: "Chris",
+                username: "chrisusername"
+            };
+            console.log(userConst);
+            console.log(userConst.name);
+            console.log(userConst.username);
+            
+            // array
+            const users = ["chris","nick","holly"];
+            console.log(users);
+            console.log(users[0]);
+            console.log(users[1]);
+            console.log(users[2]);
+            
+            const luckyNums = [1, 7, 42, 3.14];
+            console.log(luckyNums);
+            console.log(luckyNums[3]);
+            
+            const multiVarArray = [nullVar, "chris", 3.14, userConst];
+            console.log(multiVarArray);
+            console.log(multiVarArray[3].username);
+            
+            const superUsers = [{ name: "Chris"},{ name: "Nick"},{ name: "Holly"}];
+            console.log(superUsers);
+            console.log(superUsers[1]['name']);
+            console.log(superUsers[2].name);
+            
+            // declare variables
+            var variable = "aString"; //ES 5, old
+            
+            let thirdVar = "anotherNewString"; // new
+            const anotherVar = "anotherString"; // const var
+            
+            const anObject = { name: "Gene" };
+            console.log(anObject.name);
+            
+            anObject.name = "Nikka";
+            console.log(anObject.name);
+            
+            let undefinedVar;
+            console.log(undefinedVar);
+            
+            undefinedVar = "now defined";
+            console.log(undefinedVar);
         </script>
     </body>
 </html>
