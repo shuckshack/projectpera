@@ -48,10 +48,13 @@ and open the template in the editor.
             true;
             false;
 
+            console.groupCollapsed("Truthy vs Falsy");
             console.log(Boolean("")); // return false
             console.log(Boolean("this is a string")); // return true
-
+            console.groupEnd();
+            
             // specials
+            console.groupCollapsed("Specials");
             undefined;
             let user = "chris";
             console.log(user);
@@ -61,8 +64,10 @@ and open the template in the editor.
 
             let nanVar = NaN;
             console.log(nanVar);
+            console.groupEnd();
 
             // objects
+            console.groupCollapsed("Objects");
             const userConst = {
                 name: "Chris",
                 username: "chrisusername"
@@ -70,8 +75,10 @@ and open the template in the editor.
             console.log(userConst);
             console.log(userConst.name);
             console.log(userConst.username);
+            console.groupEnd();
             
             // array
+            console.groupCollapsed("Arrays");
             const users = ["chris","nick","holly"];
             console.log(users);
             console.log(users[0]);
@@ -90,8 +97,10 @@ and open the template in the editor.
             console.log(superUsers);
             console.log(superUsers[1]['name']);
             console.log(superUsers[2].name);
+            console.groupEnd();
             
             // declare variables
+            console.groupCollapsed("Declarations");
             var variable = "aString"; //ES 5, old
             
             let thirdVar = "anotherNewString"; // new
@@ -108,6 +117,49 @@ and open the template in the editor.
             
             undefinedVar = "now defined";
             console.log(undefinedVar);
+            console.groupEnd();
+            //OPERATORS
+            const a = 10; b = 3, c = 15;
+            const d = "5";
+            const e = "Gene";
+            const f = " is my name";
+            
+            let aVar = 10;
+            let bVar = 3;
+            let cVar = 15;
+            let eVar = "Gene";
+            let fVar = "is my name";
+            
+            console.groupCollapsed("Addition");
+            console.log(a + b);
+            console.log(a + c);
+            console.log(e + f);
+            console.log(d + " " + e + f);
+            console.log(a + d);
+            console.log(typeof(a));
+            console.log(typeof(d));
+            console.log("Batman" + f);
+            console.groupEnd();
+            
+            console.groupCollapsed("Multiplication");
+            console.log(a * b);
+            console.log(b * c);
+            console.groupEnd();
+            
+            console.group("Incrementing");
+            console.log(a + 1);
+//            console.log(a++); // cannot increment constant
+            console.log("aVar = " + aVar);
+            console.log("aVar++ = " + aVar++);
+            console.log("++aVar = " + ++aVar);
+            
+            console.log("bVar = " + bVar + ", cVar = " + cVar);
+            console.log("bVar += cVar = " + (bVar += cVar));
+            
+            console.log("eVar = " + eVar + ", fVar = " + fVar);
+            console.log("eVar += \" \" = " + (eVar += " "));
+            console.log("eVar += fVar = " + (eVar += fVar));
+            console.groupEnd();
         </script>
     </body>
 </html>
