@@ -9,8 +9,33 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <style>
+            
+            body {
+                padding: 30px;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="jumbotron text-center">
+            <h1>This is my site</h1>
+            <button 
+                type="button" 
+                class="btn btn-primary" 
+                onclick="changeText()">
+                Change the text
+            </button>
+        </div>
+        
+        
+        <script>
+            const header = document.querySelector('h1');
+            
+            function changeText() {
+                header.innerText = 'my new text!';
+            }
+        </script>
     </body>
 </html>
