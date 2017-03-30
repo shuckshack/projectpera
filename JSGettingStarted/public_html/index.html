@@ -28,8 +28,26 @@ and open the template in the editor.
                 Change the text
             </button>
         </div>
-
-
+        <ul>
+            <li>
+                <button type="button" class="btn" onclick="truthyVsFalsy()">
+                    Truthy vs Falsy
+                </button>
+                <p id="truthyVsFalsy"></p>
+                <p id="booleanFalsy"></p>
+                <p id="booleanTruthy"></p>
+            </li>
+            <li>
+                <button type="button" class="btn" onclick="specials()">
+                    Specials
+                </button>
+            </li>
+            <li>
+                <button type="button" class="btn" onclick="objects()">
+                    Objects
+                </button>
+            </li>
+        </ul>
         <script>
             const header = document.querySelector('h1');
 
@@ -48,117 +66,173 @@ and open the template in the editor.
             true;
             false;
 
-            console.groupCollapsed("Truthy vs Falsy");
-            console.log(Boolean("")); // return false
-            console.log(Boolean("this is a string")); // return true
-            console.groupEnd();
-            
+            let truthyVsFalsyDisplayed = false;
+            function truthyVsFalsy() {
+                truthyVsFalsyDisplayed = !truthyVsFalsyDisplayed;
+                const p = document.querySelector("p#truthyVsFalsy");
+                const falsy = document.querySelector("p#booleanFalsy");
+                const truthy = document.querySelector("p#booleanTruthy");
+                if (truthyVsFalsyDisplayed) {
+                    p.textContent = "";
+                    falsy.textContent = "";
+                    truthy.textContent = "";
+                } else {
+                    p.textContent = "Truthy vs Falsy";
+                    falsy.textContent = "Boolean(\"\") == " + Boolean("");
+                    truthy.textContent = "Bolean(\"this is a string\") == " + Boolean("this is a string");
+                }
+            }
+
             // specials
-            console.groupCollapsed("Specials");
-            undefined;
-            let user = "chris";
-            console.log(user);
+            function specials() {
+                console.groupCollapsed("Specials");
+                undefined;
+                let user = "chris";
+                console.log(user);
 
-            let nullVar = null;
-            console.log(nullVar);
+                let nullVar = null;
+                console.log(nullVar);
 
-            let nanVar = NaN;
-            console.log(nanVar);
-            console.groupEnd();
+                let nanVar = NaN;
+                console.log(nanVar);
+                console.groupEnd();
+            }
+
 
             // objects
-            console.groupCollapsed("Objects");
-            const userConst = {
-                name: "Chris",
-                username: "chrisusername"
-            };
-            console.log(userConst);
-            console.log(userConst.name);
-            console.log(userConst.username);
-            console.groupEnd();
-            
+            function objects() {
+                console.groupCollapsed("Objects");
+                const userConst = {
+                    name: "Chris",
+                    username: "chrisusername"
+                };
+                console.log(userConst);
+                console.log(userConst.name);
+                console.log(userConst.username);
+                console.groupEnd();
+            }
+
+
             // array
-            console.groupCollapsed("Arrays");
-            const users = ["chris","nick","holly"];
-            console.log(users);
-            console.log(users[0]);
-            console.log(users[1]);
-            console.log(users[2]);
-            
-            const luckyNums = [1, 7, 42, 3.14];
-            console.log(luckyNums);
-            console.log(luckyNums[3]);
-            
-            const multiVarArray = [nullVar, "chris", 3.14, userConst];
-            console.log(multiVarArray);
-            console.log(multiVarArray[3].username);
-            
-            const superUsers = [{ name: "Chris"},{ name: "Nick"},{ name: "Holly"}];
-            console.log(superUsers);
-            console.log(superUsers[1]['name']);
-            console.log(superUsers[2].name);
-            console.groupEnd();
-            
+            function arrays() {
+                console.groupCollapsed("Arrays");
+                const users = ["chris", "nick", "holly"];
+                console.log(users);
+                console.log(users[0]);
+                console.log(users[1]);
+                console.log(users[2]);
+
+                const luckyNums = [1, 7, 42, 3.14];
+                console.log(luckyNums);
+                console.log(luckyNums[3]);
+
+                const multiVarArray = [nullVar, "chris", 3.14, userConst];
+                console.log(multiVarArray);
+                console.log(multiVarArray[3].username);
+
+                const superUsers = [{name: "Chris"}, {name: "Nick"}, {name: "Holly"}];
+                console.log(superUsers);
+                console.log(superUsers[1]['name']);
+                console.log(superUsers[2].name);
+                console.groupEnd();
+            }
+
+
             // declare variables
-            console.groupCollapsed("Declarations");
-            var variable = "aString"; //ES 5, old
-            
-            let thirdVar = "anotherNewString"; // new
-            const anotherVar = "anotherString"; // const var
-            
-            const anObject = { name: "Gene" };
-            console.log(anObject.name);
-            
-            anObject.name = "Nikka";
-            console.log(anObject.name);
-            
-            let undefinedVar;
-            console.log(undefinedVar);
-            
-            undefinedVar = "now defined";
-            console.log(undefinedVar);
-            console.groupEnd();
+            function declarations() {
+                console.groupCollapsed("Declarations");
+                var variable = "aString"; //ES 5, old
+
+                let thirdVar = "anotherNewString"; // new
+                const anotherVar = "anotherString"; // const var
+
+                const anObject = {name: "Gene"};
+                console.log(anObject.name);
+
+                anObject.name = "Nikka";
+                console.log(anObject.name);
+
+                let undefinedVar;
+                console.log(undefinedVar);
+
+                undefinedVar = "now defined";
+                console.log(undefinedVar);
+                console.groupEnd();
+            }
             //OPERATORS
-            const a = 10; b = 3, c = 15;
+            const a = 10;
+            b = 3, c = 15;
             const d = "5";
             const e = "Gene";
             const f = " is my name";
-            
+
             let aVar = 10;
             let bVar = 3;
             let cVar = 15;
             let eVar = "Gene";
             let fVar = "is my name";
-            
-            console.groupCollapsed("Addition");
-            console.log(a + b);
-            console.log(a + c);
-            console.log(e + f);
-            console.log(d + " " + e + f);
-            console.log(a + d);
-            console.log(typeof(a));
-            console.log(typeof(d));
-            console.log("Batman" + f);
-            console.groupEnd();
-            
-            console.groupCollapsed("Multiplication");
-            console.log(a * b);
-            console.log(b * c);
-            console.groupEnd();
-            
-            console.group("Incrementing");
-            console.log(a + 1);
+
+            function addition() {
+                console.groupCollapsed("Addition");
+                console.log(a + b);
+                console.log(a + c);
+                console.log(e + f);
+                console.log(d + " " + e + f);
+                console.log(a + d);
+                console.log(typeof (a));
+                console.log(typeof (d));
+                console.log("Batman" + f);
+                console.groupEnd();
+            }
+
+            function multiplication() {
+                console.groupCollapsed("Multiplication");
+                console.log(a * b);
+                console.log(b * c);
+                console.groupEnd();
+            }
+
+            function incrementing() {
+                console.groupCollapsed("Incrementing");
+                console.log(a + 1);
 //            console.log(a++); // cannot increment constant
-            console.log("aVar = " + aVar);
-            console.log("aVar++ = " + aVar++);
-            console.log("++aVar = " + ++aVar);
-            
-            console.log("bVar = " + bVar + ", cVar = " + cVar);
-            console.log("bVar += cVar = " + (bVar += cVar));
-            
-            console.log("eVar = " + eVar + ", fVar = " + fVar);
-            console.log("eVar += \" \" = " + (eVar += " "));
-            console.log("eVar += fVar = " + (eVar += fVar));
+                console.log("aVar = " + aVar);
+                console.log("aVar++ = " + aVar++);
+                console.log("++aVar = " + ++aVar);
+
+                console.log("bVar = " + bVar + ", cVar = " + cVar);
+                console.log("bVar += cVar = " + (bVar += cVar));
+
+                console.log("eVar = " + eVar + ", fVar = " + fVar);
+                console.log("eVar += \" \" = " + (eVar += " "));
+                console.log("eVar += fVar = " + (eVar += fVar));
+                console.groupEnd();
+            }
+
+            console.group("Comparisons");
+            console.log(" == is compare with coercion(data type is not strict), === is compare without coercion(data type IS strict)");
+            console.group("String");
+
+            const original = "chris";
+            const clone = "CHRIS";
+            console.log("original = " + original);
+            console.log("clone = " + clone);
+            console.log("original == clone is " + (original == clone)); //false
+            console.log("original == \"chris\" is " + (original == 'chris')); //true
+            console.log("clone == \'CHRIS\' is " + (clone == 'CHRIS')); // true
+            console.log("original == clone.toLowerCase() is " + (original == clone.toLowerCase())); // true
+            console.groupEnd();
+
+            console.group("Numbers");
+            const num1 = 10;
+            const num2 = "10";
+            console.log("num1 = " + num1);
+            console.log("num2 = \"" + num2 + "\"");
+            console.log("num1 == num2 is " + (num1 == num2)); //true
+            console.log("num1 === num2 is " + (num1 === num2)); //false
+            console.log("num1 != num2 is " + (num1 != num2)); //false
+            console.log("num1 !== num2 is " + (num1 !== num2)); //true
+
             console.groupEnd();
         </script>
     </body>
