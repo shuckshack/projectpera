@@ -56,7 +56,7 @@ public class HelloWorldMongoDB {
         List<Document> all = coll.find(filter).sort(ascending("_id")).into(new ArrayList<Document>());
         all.forEach((doc) -> printJson(doc));
         MongoCursor<Document> cursor2 = coll.find(filter)
-                                .sort(ascending("student_id", "scores.score")).iterator();
+                .sort(ascending("student_id", "scores.score")).iterator();
         List<String> ids = new ArrayList<>();
         cursor2.forEachRemaining((doc) -> {
             String id = doc.getString("student_id");
@@ -197,7 +197,7 @@ public class HelloWorldMongoDB {
         System.out.println("count:" + count);
 
     }
-    
+
     private static List<BsonDocument> findArrayTest(MongoDatabase db) {
         MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
 
@@ -216,11 +216,16 @@ public class HelloWorldMongoDB {
             coll.insertOne(new BsonDocument("x", new BsonArray(values)));
         }
 
-        Bson filter = eq("x", new BsonArray(Arrays.asList(new BsonInt32(0),new BsonInt32(1),new BsonInt32(2))));
+        Bson filter = eq("x", new BsonArray(Arrays.asList(new BsonInt32(0), new BsonInt32(1), new BsonInt32(2))));
 
         return coll.find(filter).into(new ArrayList<BsonDocument>());
     }
 
+    /**
+     * db.movieDetails.find({"countries.1":"Sweden"}).pretty(); find doc with Sweden in countries[1] 
+    * @param db
+     * @return 
+     */
     private static List<BsonDocument> findInArrayTest(MongoDatabase db) {
         MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
 
@@ -243,8 +248,8 @@ public class HelloWorldMongoDB {
 
         return coll.find(filter).into(new ArrayList<BsonDocument>());
     }
-    
-        private static List<BsonDocument> findInArrayIndexTest(MongoDatabase db) {
+
+    private static List<BsonDocument> findInArrayIndexTest(MongoDatabase db) {
         MongoCollection<BsonDocument> coll = db.getCollection("findInArrayTest", BsonDocument.class);
 
         coll.drop();
