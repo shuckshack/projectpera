@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /simplewebapp/target/
 /simplewebapp/*.log
 /simplewebapp/logs/main.log
@@ -11,4 +12,6 @@
 .project
 .classpath
 *.swp
+=======
+>>>>>>> 6003ee260763f232183137213b20308f73f51777
 /JSGettingStarted/nbproject/private/

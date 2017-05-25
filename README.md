@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 # projectpera
 Timesheet automation application
+=======
+>>>>>>> 6003ee260763f232183137213b20308f73f51777
 # README #
 
 This README would normally document whatever steps are necessary to get your application up and running.
@@ -30,4 +33,8 @@ Initial commit
 ### Who do I talk to? ###
 
 * Repo owner or admin
+<<<<<<< HEAD
 * Other community or team contact
+=======
+* Other community or team contact
+>>>>>>> 6003ee260763f232183137213b20308f73f51777
