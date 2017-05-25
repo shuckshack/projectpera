@@ -30,7 +30,7 @@ public class myutils {
     private static final String FWB_START = "FWB/14\n";
 
     private static final String FWB_BODY = "HKGLHR/T500K45MC0.01\n"
-            + "FLT/CX4202/24\n"
+            + "FLT/CX4202/26\n"
             + "RTG/LHRCX\n"
             + "SHP\n"
             + "/SUPER GENE CASS\n"
@@ -53,15 +53,16 @@ public class myutils {
             + "/P/MYC45.00\n"
             + "PPD/WT2979.00\n"
             + "/OC90.00/CT3069.00\n"
-            + "ISU/24APR17/HKG\n"
-            + "REF/EZYFRHT";
+            + "ISU/25APR17/HKG\n"
+            + "REF/EZYFRHT\n"
+            + "SPH/AVI";
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int awbNumber = 730533;
-        int maxAwbNumber = 730534;
+        int awbNumber = 733499;
+        int maxAwbNumber = 734097;
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("ddMMMyy-HHmmss");
         String mqMsgFileDirPath = MQ_MSG_FILE_DIR + format.format(cal.getTime()) + File.separatorChar;
@@ -70,7 +71,7 @@ public class myutils {
         if (!mqMsgFileDir.exists()) {
             mqMsgFileDir.mkdirs();
         }
-        
+
         File mqMsgFile;
         StringBuilder fileNameBuilder;
         String awbSerial;
